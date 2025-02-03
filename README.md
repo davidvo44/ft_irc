@@ -7,7 +7,7 @@ To Do list:
       : -Join (deja commence)
         -PART (quitter channel)
         -Quit
-        -Nick
+        -Nick   
         -User
         -Topic
         -List
