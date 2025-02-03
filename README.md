@@ -1,9 +1,9 @@
 To Do list:
 
--Parse Message
--Mieux Organiser les classes
--Formes canonique
--Mise en places des commandes
+- Mieux Organiser les classes
+- Formes canonique
+
+- Mise en places des commandes (et implementer la gestion des canaux de maniere generale)
       : -Join (deja commence)
         -PART (quitter channel)
         -Quit
@@ -14,4 +14,12 @@ To Do list:
         -Mode
         -Kick
         -Pong
--Gerer les droits.
+- Gerer les droits
+
+- Relier l'affichage a hexchat en implementant le protocole IRC (aled)
+
+- Replication server client
+
+Done :
+
+- Communication client server
