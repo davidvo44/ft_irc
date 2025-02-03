@@ -14,7 +14,7 @@ To Do list:
         -Mode
         -Kick
         -Pong
-- Gerer les droits
+- Gerer les droits   
 
 - Relier l'affichage a hexchat en implementant le protocole IRC (aled)
 
