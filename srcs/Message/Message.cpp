@@ -7,11 +7,61 @@ Message::Message(std::string buffer)
 	std::istringstream iss(buffer);
     std::string StrCut;
 
-    while (iss >> StrCut)
-        _words.push_back(StrCut);
+	while (iss >> StrCut)
+		_words.push_back(StrCut);
+	Message::parse();
 }
 
-void Message::Check_CMD()
+void Message::parse()
 {
-	
+	unsigned long i = 0;
+	if (_words[0][0] == ':')
+	{
+		_prefix = _words[i];
+		i++;
+	}
+	if (i == _words.size())
+	{
+		_command = "WRONG INPUT";
+		return ;
+	}
+	_command = _words[i];
+	i++;
+	if (i == _words.size())
+	{
+		_command = "WRONG INPUT";
+		return ;
+	}
+	if (_command == "PRIVMSG")
+	{
+		_to = _words[i];
+		i++;
+	}
+		if (i == _words.size())
+	{
+		_command = "WRONG INPUT";
+		return ;
+	}
+	_content = _words[i];
+
+}
+
+std::string Message::getPrefix()
+{
+	return _prefix;
+}
+
+std::string Message::getCommand()
+{
+	return _command;
+}
+
+std::string Message::getTo()
+{
+	return _to;
+}
+
+std::string Message::getContent()
+{
+	return _content;
 }

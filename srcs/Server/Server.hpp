@@ -6,22 +6,22 @@
 class Client;
 class Channel;
 
-class Server //-> class for server
+class Server
 {
 private:
 	int _Port;
 	int _SerSocketFd;
-	std::map<int, Client> _Clients;
+	std::map<int, Client*> _Clients;
 	std::map<std::string, Channel> _Channel;
 	struct sockaddr_in _ServerAddr;
 public:
 	Server();
 	int getFD();
 	Client getIdxClients(int idx);
-	std::map<int, Client> &getClients();
+	std::map<int, Client*> &getClients();
 	sockaddr_in getServerAddr();
 	void ServerInit();
-	void AcceptNewClient(pollfd tmp);
+	void AcceptNewClient(pollfd &tmp);
 	void CloseFds();
 	void ClearClients(int fd);
 	void JoinChannel(Client client, std::string ChName);

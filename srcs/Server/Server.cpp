@@ -31,10 +31,10 @@ void Server::ServerInit()
 
 Client Server::getIdxClients(int idx)
 {
-	return (_Clients[idx]);
+	return (*_Clients[idx]);
 }
 
-std::map<int, Client> & Server::getClients()
+std::map<int, Client*> & Server::getClients()
 {
 	return (_Clients);
 }
@@ -48,10 +48,10 @@ int Server::getFD()
 	return _SerSocketFd;
 }
 
-void Server::AcceptNewClient(pollfd tmp)
+void Server::AcceptNewClient(pollfd &tmp)
 {
-	Client Newclient(tmp);
-	_Clients[tmp.fd] = Newclient;
+	_Clients[tmp.fd] = new Client(tmp);
+
 }
 
 void Server::CloseFds()
