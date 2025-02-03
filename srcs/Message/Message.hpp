@@ -17,7 +17,11 @@ class Message
 	public:
 		Message();
 		Message(std::string buffer);
-		void Check_CMD();
+		void parse();
+		std::string getPrefix();
+		std::string getCommand();
+		std::string getTo();
+		std::string getContent();
 };
 
 #endif

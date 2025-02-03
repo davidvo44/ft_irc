@@ -9,7 +9,8 @@ IFLAGS = ./srcs/Client/Client.hpp \
 			./srcs/Poll/Poll.hpp \
 			./srcs/Join/Join.hpp \
 			./srcs/ExceptionError/ExceptionError.hpp \
-			./srcs/Channel/Channel.hpp
+			./srcs/Channel/Channel.hpp \
+			./srcs/Message/Message.hpp
 
 
 SRCS = ./srcs/Client/Client.cpp \
@@ -18,7 +19,8 @@ SRCS = ./srcs/Client/Client.cpp \
 	./srcs/Poll/Poll.cpp \
 	./srcs/Join/Join.cpp \
 	./srcs/ExceptionError/ExceptionError.cpp \
-	./srcs/Channel/Channel.cpp
+	./srcs/Channel/Channel.cpp \
+	./srcs/Message/Message.cpp
 
 DIR_OBJ := .object/
 
