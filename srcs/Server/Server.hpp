@@ -26,7 +26,7 @@ public:
 	void ClearClients(int fd);
 	void JoinChannel(Client client, std::string ChName);
 	Channel CreateChannel(Client client, std::string ChName);
-	void SendMessage(std::string ChName, Client clientSender);
+	// void SendMessage(std::string ChName, Client clientSender);
 };
 
 #include "./../Client/Client.hpp"

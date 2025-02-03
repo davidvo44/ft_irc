@@ -85,21 +85,21 @@ Channel Server::CreateChannel(Client client, std::string ChName)
 	return (NewChannel);
 }
 
-void Server::SendMessage(std::string ChName, Client clientSender)
-{
-	std::map<std::string, Channel>::iterator ItChannel = _Channel.find(ChName);
-	int fds = 0;
+// void Server::SendMessage(std::string ChName, Client clientSender)
+// {
+// 	std::map<std::string, Channel>::iterator ItChannel = _Channel.find(ChName);
+// 	int fds = 0;
 
-    if (_Channel.empty() == false &&  ItChannel != _Channel.end())
-       return;
-	std::map<int, Client>::iterator ItClient = ItChannel->second.GetClient().begin();
-	while (ItClient != ItChannel->second.GetClient().end())
-	{
-		fds = ItClient->second.GetFd();
-		write(fds, clientSender.GetName().c_str(), strlen(clientSender.GetName().c_str()));
-		write(fds, ": ", 2);
-		write(fds, buffer, valread);
-		write(fds, "\n", 1);
-		ItClient++;
-	}
-}
+//     if (_Channel.empty() == false &&  ItChannel != _Channel.end())
+//        return;
+// 	std::map<int, Client>::iterator ItClient = ItChannel->second.GetClient().begin();
+// 	while (ItClient != ItChannel->second.GetClient().end())
+// 	{
+// 		fds = ItClient->second.GetFd();
+// 		write(fds, clientSender.GetName().c_str(), strlen(clientSender.GetName().c_str()));
+// 		write(fds, ": ", 2);
+// 		write(fds, buffer, valread);
+// 		write(fds, "\n", 1);
+// 		ItClient++;
+// 	}
+// }
