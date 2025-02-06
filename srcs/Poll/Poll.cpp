@@ -44,8 +44,9 @@ void Poll::Start()
 					_server->JoinChannel(*it->second, str);
 				else if (str_message.getCommand() == "USER")
 					(it->second)->SetName(str.erase(0, 5));
-				else //if (str.compare(0, 7, "PRIVMSG") == 0)
+				else if (str.compare(0, 7, "PRIVMSG") == 0)
 				{
+					Command::PrivateMessage(str_message, *it->second);
             		write(_fds[i].fd, it->second->GetName().c_str(), strlen(it->second->GetName().c_str()));
 					write(_fds[i].fd, ": ", 2);
             		write(_fds[i].fd, buffer, valread - 1);
