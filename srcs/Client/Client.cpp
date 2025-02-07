@@ -5,7 +5,7 @@ Client::Client()
 	std::cout << "Client connected" << std::endl;
 }
 
-Client::Client(pollfd tmp, std::string IpAddr) : _pollfds(tmp), _name("User") , _nick("NickUser"), _password("0"), _IpAdd(IpAddr)
+Client::Client(pollfd tmp, std::string IpAddr) : _pollfds(tmp), _name("User") , _nick("NickUser"), _password("0"), _IpAdd(IpAddr), _log(true)
 {
 	std::cout << "Client connected" << std::endl;
 }
@@ -56,3 +56,7 @@ void Client::setIpAdd(std::string IpAdd)
 	_IpAdd = IpAdd;
 }
 
+void Client::setLog(bool change)
+{
+	_log = change;
+}

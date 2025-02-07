@@ -31,12 +31,11 @@ void Poll::Start()
 				int valread = read(_fds[i].fd, buffer, sizeof(buffer));
 				if (valread <= 0)
 				{
-					std::cout << "Client disconnected." << std::endl;
-					close(_fds[i].fd);
-					_fds.erase(_fds.begin() + i);
+					Command::QuitClient(_fds[i].fd, *this, i);
 					continue;
 				}
 				buffer[valread] = '\0';
+				std::cout << buffer << std::endl;
 				Command::GetLineCommand(buffer, _fds[i].fd, *_server);
     		}
 		}
@@ -60,4 +59,14 @@ void Poll::NewUser()
 	newfd.revents = 0;
 	_server->AcceptNewClient(newfd, inet_ntoa(tmp.sin_addr));
 	_fds.push_back(newfd);
+}
+
+std::vector<pollfd> & Poll::getPollfd()
+{
+	return _fds;
+}
+
+Server & Poll::getServer()
+{
+	return *_server;
 }

@@ -13,6 +13,8 @@ public:
 	Poll(Server *server);
 	void NewUser();
 	void Start();
+	std::vector<pollfd> & getPollfd();
+	Server & getServer();
 };
 
 #endif

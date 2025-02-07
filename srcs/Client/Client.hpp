@@ -12,6 +12,7 @@ private:
 	std::string _nick;
 	std::string _password;
 	std::string _IpAdd;
+	bool _log;
 public:
 	Client();
 	Client(pollfd tmp, std::string IpAddr);
@@ -24,6 +25,7 @@ public:
 	void SetNick(std::string nick);
 	void SetPassword(std::string pass);
 	void setIpAdd(std::string ipadd);
+	void setLog(bool change);
 };
 
 #endif

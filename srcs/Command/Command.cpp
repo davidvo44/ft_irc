@@ -72,6 +72,8 @@ void Command::CheckCommande(std::string str, Server &server, int fd)
 	}
 	else if (str_message.getCommand() == "NICK")
 		(it->second)->SetNick(str_message.getContent());
+	else if (str_message.getCommand() == "PASS")
+		(it->second)->SetPassword(str_message.getContent());
 	else if (str.compare(0, 7, "PRIVMSG") == 0)
 		Command::PrivateMessage(str_message, *it->second, server);
 }
@@ -96,4 +98,13 @@ void Command::GetLineCommand(char *buffer, int fd, Server &server)
 			break;
 		}
 	}
+}
+
+void Command::QuitClient(int fd, Poll &poll, size_t i)
+{
+	std::cout << "Client disconnected." << std::endl;
+	close(fd);
+	poll.getPollfd().erase(poll.getPollfd().begin() + i);
+	std::map<int, Client*>::iterator it = poll.getServer().getClients().find(fd);
+	it->second->setLog(false);
 }
