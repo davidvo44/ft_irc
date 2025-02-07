@@ -1,6 +1,6 @@
 #include "Poll.hpp"
 #include "../ExceptionError/ExceptionError.hpp"
-#include "../Join/Join.hpp"
+#include "../Command/Command.hpp"
 #include <cstdlib> 
 #include <unistd.h>
 #include "../Message/Message.hpp"
@@ -36,26 +36,13 @@ void Poll::Start()
 					_fds.erase(_fds.begin() + i);
 					continue;
 				}
-				buffer[valread - 1] = 0;
-				std::string str(buffer);
-				Message str_message(str);
-				std::map<int, Client*>::iterator it = _server->getClients().find(_fds[i].fd);
-				if (str_message.getCommand() == "JOIN")
-					_server->JoinChannel(*it->second, str);
-				else if (str_message.getCommand() == "USER")
-					(it->second)->SetName(str.erase(0, 5));
-				else if (str.compare(0, 7, "PRIVMSG") == 0)
-				{
-					Command::PrivateMessage(str_message, *it->second);
-            		write(_fds[i].fd, it->second->GetName().c_str(), strlen(it->second->GetName().c_str()));
-					write(_fds[i].fd, ": ", 2);
-            		write(_fds[i].fd, buffer, valread - 1);
-            		write(_fds[i].fd, "\n", 1);
-				}
-			}
+				buffer[valread] = '\0';
+				Command::GetLineCommand(buffer, _fds[i].fd, *_server);
+    		}
 		}
 	}
 }
+
 
 void Poll::NewUser()
 {
@@ -71,6 +58,6 @@ void Poll::NewUser()
 	newfd.events = POLLIN;
 	newfd.fd = fdNewClient;
 	newfd.revents = 0;
-	_server->AcceptNewClient(newfd);
+	_server->AcceptNewClient(newfd, inet_ntoa(tmp.sin_addr));
 	_fds.push_back(newfd);
 }

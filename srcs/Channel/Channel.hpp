@@ -14,7 +14,7 @@ public:
 	~Channel();
 	void AddClient(Client client);
 	void JoinChannel(Client client);
-	std::map<int, Client> GetClient();
+	std::map<int, Client> &GetClient();
 };
 
 #endif

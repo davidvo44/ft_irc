@@ -4,11 +4,11 @@ To Do list:
 - Formes canonique
 
 - Mise en places des commandes (et implementer la gestion des canaux de maniere generale)
-      : -Join (deja commence)
+      : -Join (deja commence): buggued!!!!!!!!
         -PART (quitter channel)
         -Quit
-        -Nick   
-        -User
+        -Nick   DONE
+        -User   DONE
         -Topic
         -List
         -Mode
@@ -16,10 +16,9 @@ To Do list:
         -Pong
 - Gerer les droits
 
-- Relier l'affichage a hexchat en implementant le protocole IRC (aled)
-
 - Replication server client
 
 Done :
 
 - Communication client server
+- Relier l'affichage a hexchat en implementant le protocole IRC (aled)
