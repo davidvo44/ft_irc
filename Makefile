@@ -7,7 +7,7 @@ CFLAGS = -Wall -Werror -Wextra -std=c++98 -g
 IFLAGS = ./srcs/Client/Client.hpp \
 			./srcs/Server/Server.hpp \
 			./srcs/Poll/Poll.hpp \
-			./srcs/Join/Join.hpp \
+			./srcs/Command/Command.hpp \
 			./srcs/ExceptionError/ExceptionError.hpp \
 			./srcs/Channel/Channel.hpp \
 			./srcs/Message/Message.hpp
@@ -17,7 +17,7 @@ SRCS = ./srcs/Client/Client.cpp \
 	./srcs/Server/Server.cpp \
 	./srcs/main.cpp \
 	./srcs/Poll/Poll.cpp \
-	./srcs/Join/Join.cpp \
+	./srcs/Command/Command.cpp \
 	./srcs/ExceptionError/ExceptionError.cpp \
 	./srcs/Channel/Channel.cpp \
 	./srcs/Message/Message.cpp

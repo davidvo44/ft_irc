@@ -19,14 +19,13 @@ public:
 	int getFD();
 	Client getIdxClients(int idx);
 	std::map<int, Client*> &getClients();
+	std::map<std::string, Channel> &getChannel();
 	sockaddr_in getServerAddr();
 	void ServerInit();
-	void AcceptNewClient(pollfd &tmp);
+	void AcceptNewClient(pollfd &tmp, std::string IpAdd);
 	void CloseFds();
 	void ClearClients(int fd);
-	void JoinChannel(Client client, std::string ChName);
 	Channel CreateChannel(Client client, std::string ChName);
-	// void SendMessage(std::string ChName, Client clientSender);
 };
 
 #include "./../Client/Client.hpp"

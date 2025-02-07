@@ -25,7 +25,7 @@ void Channel::JoinChannel(Client client)
 	_Clients.insert(std::make_pair(client.GetFd(), client));
 }
 
-std::map<int, Client> Channel::GetClient()
+std::map<int, Client> & Channel::GetClient()
 {
 	return _Clients;
 }

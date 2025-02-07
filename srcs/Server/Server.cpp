@@ -34,6 +34,11 @@ Client Server::getIdxClients(int idx)
 	return (*_Clients[idx]);
 }
 
+std::map<std::string, Channel> & Server::getChannel()
+{
+	return (_Channel);
+}
+
 std::map<int, Client*> & Server::getClients()
 {
 	return (_Clients);
@@ -48,9 +53,9 @@ int Server::getFD()
 	return _SerSocketFd;
 }
 
-void Server::AcceptNewClient(pollfd &tmp)
+void Server::AcceptNewClient(pollfd &tmp, std::string IpAdd)
 {
-	_Clients[tmp.fd] = new Client(tmp);
+	_Clients[tmp.fd] = new Client(tmp, IpAdd);
 
 }
 
@@ -63,43 +68,8 @@ void Server::ClearClients(int fd)
 	(void)fd;
 }
 
-void Server::JoinChannel(Client client, std::string ChName)
-{
-	ChName.erase(0, 5);
-	std::map<std::string, Channel>::iterator it = _Channel.find(ChName);
-
-    if (_Channel.empty() == false &&  it != _Channel.end())
-	{ 
-       it->second.JoinChannel(client);
-    }
-	else
-	{
-		std::cout << "creating " << ChName << std::endl;
-		_Channel[ChName] = CreateChannel(client, ChName);
-    }
-}
-
 Channel Server::CreateChannel(Client client, std::string ChName)
 {
 	Channel NewChannel(ChName, client);
 	return (NewChannel);
 }
-
-// void Server::SendMessage(std::string ChName, Client clientSender)
-// {
-// 	std::map<std::string, Channel>::iterator ItChannel = _Channel.find(ChName);
-// 	int fds = 0;
-
-//     if (_Channel.empty() == false &&  ItChannel != _Channel.end())
-//        return;
-// 	std::map<int, Client>::iterator ItClient = ItChannel->second.GetClient().begin();
-// 	while (ItClient != ItChannel->second.GetClient().end())
-// 	{
-// 		fds = ItClient->second.GetFd();
-// 		write(fds, clientSender.GetName().c_str(), strlen(clientSender.GetName().c_str()));
-// 		write(fds, ": ", 2);
-// 		write(fds, buffer, valread);
-// 		write(fds, "\n", 1);
-// 		ItClient++;
-// 	}
-// }
