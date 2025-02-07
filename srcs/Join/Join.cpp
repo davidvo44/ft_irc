@@ -11,4 +11,6 @@ void Command::PrivateMessage(Message message, Client Sender)
 {
 	// std::map<int, Client*>::iterator it = _server->getClients().find(_fds[i].fd);
 	// std::map<std::string, Channel> _Channel;
+	(void)message;
+	(void)Sender;
 }

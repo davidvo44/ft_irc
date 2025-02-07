@@ -7,7 +7,7 @@ To Do list:
       : -Join (deja commence)
         -PART (quitter channel)
         -Quit
-        -Nick   
+        -Nick
         -User
         -Topic
         -List
@@ -40,11 +40,11 @@ NICK
 
 Client client
 
-  NICK!NAME@DOMAINE du sender a tester mais les : serait reserve au serv?
+  :NICK!NAME@DOMAINE du sender
 
 Serveur client
 
-  Nom du serv
+  :Nom du serv
 
 
 CMD = soit un mot, soit 3 chiffres (reponse serveur)
