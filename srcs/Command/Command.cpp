@@ -47,15 +47,28 @@ void Command::PrivateMessage(Message message, Client Sender, Server server)
 	std::map<std::string, Channel>::iterator it = server.getChannel().find(message.getTo());
 	if (it == server.getChannel().end())
 		return;
-	std::map<int, Client>::iterator Clit = (it->second).GetClient().begin();
-	for (;Clit != (it->second).GetClient().end(); Clit++)
+	std::map<int, Client>::iterator itCl = (it->second).GetClient().begin();
+	for (;itCl != (it->second).GetClient().end(); itCl++)
 	{
-		int fdClient = (Clit->second).GetFd();
-		std::cout << fdClient << std::endl;
-		write(fdClient, Sender.GetName().c_str(), strlen(Sender.GetName().c_str()));
+		Client client = itCl->second;
+		if (client.GetName() == Sender.GetName())
+			continue;
+		int fdcl = client.GetFd();
+		std::cout << fdcl << std::endl;
+		write(fdcl, ":", 1);
+		write(fdcl, client.GetNick().c_str(), strlen(client.GetNick().c_str()));
+		write(fdcl, "!", 1);
+		write(fdcl, client.GetName().c_str(), strlen(client.GetName().c_str()));
+		write(fdcl, "@", 1);
+		write(fdcl, client.GetIpAdd().c_str(), strlen(client.GetIpAdd().c_str()));
+		write(fdcl, " PRIVMSG ", 9);
+		write(fdcl, message.getTo().c_str(), strlen(message.getTo().c_str()));
+		write(fdcl, " ", 1);
+		write(fdcl, message.getContent().c_str(), strlen(message.getContent().c_str()));
+		/*write(fdClient, Sender.GetName().c_str(), strlen(Sender.GetName().c_str()));
 		write(fdClient, ": ", 2);
 		write(fdClient, message.getContent().c_str(), strlen(message.getContent().c_str()));
-		write(fdClient, "\n", 1);
+		write(fdClient, "\n", 1);*/
 	}
 }
 
