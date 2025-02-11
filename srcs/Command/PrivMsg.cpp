@@ -10,8 +10,8 @@ void Command::PrivateMessage(Message message, Client Sender, Server server)
 	for (;itCl != (it->second).GetClient().end(); itCl++)
 	{
 		Client client = itCl->second;
-		// if (client.GetName() == Sender.GetName())
-		// 	continue;
+		if (client.GetName() == Sender.GetName())
+			continue;
 		int fdcl = client.GetFd();
 		std::cout << "Write to:" << fdcl << std::endl;
 		WritePrefix(fdcl, client);

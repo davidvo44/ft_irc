@@ -1,40 +1,60 @@
 #include "Command.hpp"
-
+#include "vector"
 
 void Command::CheckCommande(std::string str, Server &server, int fd)
 {
+	std::string array[] = {"JOIN", "USER", "NICK", "PASS", "PRIVMSG", "WHO"};
+	int index = 0;
 	Message str_message(str);
+	while (index < 6)
+	{
+		if (str_message.getCommand().compare(array[index]) == 0)
+			break;
+		index++;
+	}
 	std::map<int, Client*>::iterator it = server.getClients().find(fd);
 	try
 	{
-	if (str_message.getCommand() == "JOIN")
-		Command::JoinChannel(*it->second, str_message.getContent(), server);
-	else if (str_message.getCommand() == "USER")
-	{
-		std::cout << "attribute :" << str_message.getContent() << std::endl;
-		(it->second)->SetName(str_message.getContent());
-	}
-	else if (str_message.getCommand() == "NICK")
-		(it->second)->SetNick(str_message.getContent());
-	else if (str_message.getCommand() == "PASS")
-		(it->second)->SetPassword(str_message.getContent());
-	else if (str_message.getCommand() == "PRIVMSG")
-		Command::PrivateMessage(str_message, *it->second, server);
-	else if (str_message.getCommand() == "WHO")
-		Command::PrivateMessage(str_message, *it->second, server);
-	else
-		throw ProtocolError(421, str, (it->second)->GetNick());
+		switch (index)
+		{
+			case 0:
+				Command::JoinChannel(*it->second, str_message.getContent(), server);
+				break;
+			case 1:
+				std::cout << "attribute :" << str_message.getContent() << std::endl;
+				(it->second)->SetName(str_message.getContent());
+				break;
+			case 2:
+				(it->second)->SetNick(str_message.getContent());
+				break;
+			case 3:
+				(it->second)->SetPassword(str_message.getContent());
+				break;
+			case 4:
+				Command::PrivateMessage(str_message, *it->second, server);
+				break;
+			case 5:
+				Command::PrivateMessage(str_message, *it->second, server);
+				break;
+			default:
+				throw ProtocolError(421, str, (it->second)->GetNick());
+		}
 	}
 	catch(const std::exception& e)
 	{
-			Command::WritePrefix((it->second)->GetFd(), *(it->second));
-			write ((it->second)->GetFd(), e.what(), strlen(e.what()));
-			write ((it->second)->GetFd(), "\n", 1);
-
-			Command::WritePrefix(1, *(it->second));
-			write (1, e.what(), strlen(e.what()));
-			write (1, "\n", 1);
+		Command::CatchErrors((it->second), e);
 	}
+}
+
+void Command::CatchErrors(Client *client, const std::exception& e)
+{
+	Command::WritePrefix(client->GetFd(), *client);
+	write (client->GetFd(), e.what(), strlen(e.what()));
+	write (client->GetFd(), "\n", 1);
+
+	Command::WritePrefix(1, *client);
+	write (1, e.what(), strlen(e.what()));
+	write (1, "\n", 1);
 }
 
 void Command::GetLineCommand(char *buffer, int fd, Server &server)
@@ -68,18 +88,4 @@ void Command::WritePrefix(int FdCl, Client client)
 	write (FdCl, "@", 1);
 	write (FdCl, client.GetIpAdd().c_str(), strlen(client.GetIpAdd().c_str()));
 	write (FdCl, " ", 1);
-}
-
-void Command::WhoCommand(int FdCl, Client client, Message message)
-{
-	Client clientChan;
-	write (FdCl, "352 ", 4);
-	write (FdCl, client.GetName().c_str(), strlen(client.GetName().c_str()));
-	write (FdCl, message.getContent().c_str(), strlen(message.getContent().c_str()));
-	write (FdCl, clientChan.GetNick().c_str(), strlen(clientChan.GetNick().c_str()));
-	write (FdCl, clientChan.GetIpAdd().c_str(), strlen(clientChan.GetIpAdd().c_str()));
-	write (FdCl, clientChan.GetName().c_str(), strlen(clientChan.GetName().c_str()));
-
-// ERR_NOSUCHSERVER
-//352 TonPseudo #general UserA host1 irc.net NickA H :0 RealNameA
 }

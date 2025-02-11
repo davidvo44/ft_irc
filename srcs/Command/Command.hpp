@@ -10,10 +10,12 @@
 class Command
 {
 	public:
+			//Init Command
 		static void CheckCommande(std::string str, Server &server, int fd);
 		static void GetLineCommand(char *buffer, int fd, Server &server);
 		static void WritePrefix(int FdCl, Client client);
-
+		static void CatchErrors(Client *client, const std::exception& e);
+			//Command List
 		static void JoinChannel(Client client, std::string ChName, Server &server);
 		static void PrivateMessage(Message message, Client Sender, Server server);
 		static void QuitClient(int fd, Poll &server, size_t i);
