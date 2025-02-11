@@ -1,81 +1,12 @@
 #include "Command.hpp"
 
-void Command::JoinChannel(Client client, std::string ChName, Server &server)
-{
-	std::map<std::string, Channel>::iterator it = server.getChannel().find(ChName);
-
-    if (server.getChannel().empty() == false &&  it != server.getChannel().end())
-	{ 
-       it->second.JoinChannel(client);
-	   std::cout << client.GetName() << " join " << ChName << std::endl;
-    }
-	else
-	{
-		std::cout << "creating " << ChName << std::endl;
-		server.getChannel()[ChName] = server.CreateChannel(client, ChName);
-    }
-	//:Nick!User@Host JOIN #general
-	std::map<int, Client*>::iterator itclient = server.getClients().begin();
-	while (itclient != server.getClients().end())
-	{
-		int fdcl = itclient->second->GetFd();
-		write (fdcl, ":", 1);
-		write (fdcl, client.GetNick().c_str(), strlen(client.GetNick().c_str()));
-		write (fdcl, "!", 1);
-		write (fdcl, client.GetName().c_str(), strlen(client.GetName().c_str()));
-		write (fdcl, "@", 1);
-		write (fdcl, client.GetIpAdd().c_str(), strlen(client.GetIpAdd().c_str()));
-		write (fdcl, " JOIN ", 6);
-		write (fdcl, ChName.c_str(), strlen(ChName.c_str()));
-		write (fdcl, "\n", 1);
-		itclient++;
-	}
-	
-	write (1, ":", 1);
-	write (1, client.GetNick().c_str(), strlen(client.GetNick().c_str()));
-	write (1, "!", 1);
-	write (1, client.GetName().c_str(), strlen(client.GetName().c_str()));
-	write (1, "@", 1);
-	write (1, client.GetIpAdd().c_str(), strlen(client.GetIpAdd().c_str()));
-	write (1, " JOIN ", 6);
-	write (1, ChName.c_str(), strlen(ChName.c_str()));
-	write (1, "\n", 1);
-}
-
-void Command::PrivateMessage(Message message, Client Sender, Server server)
-{
-	std::map<std::string, Channel>::iterator it = server.getChannel().find(message.getTo());
-	if (it == server.getChannel().end())
-		return;
-	std::map<int, Client>::iterator itCl = (it->second).GetClient().begin();
-	for (;itCl != (it->second).GetClient().end(); itCl++)
-	{
-		Client client = itCl->second;
-		if (client.GetName() == Sender.GetName())
-			continue;
-		int fdcl = client.GetFd();
-		std::cout << fdcl << std::endl;
-		write(fdcl, ":", 1);
-		write(fdcl, client.GetNick().c_str(), strlen(client.GetNick().c_str()));
-		write(fdcl, "!", 1);
-		write(fdcl, client.GetName().c_str(), strlen(client.GetName().c_str()));
-		write(fdcl, "@", 1);
-		write(fdcl, client.GetIpAdd().c_str(), strlen(client.GetIpAdd().c_str()));
-		write(fdcl, " PRIVMSG ", 9);
-		write(fdcl, message.getTo().c_str(), strlen(message.getTo().c_str()));
-		write(fdcl, " ", 1);
-		write(fdcl, message.getContent().c_str(), strlen(message.getContent().c_str()));
-		/*write(fdClient, Sender.GetName().c_str(), strlen(Sender.GetName().c_str()));
-		write(fdClient, ": ", 2);
-		write(fdClient, message.getContent().c_str(), strlen(message.getContent().c_str()));
-		write(fdClient, "\n", 1);*/
-	}
-}
 
 void Command::CheckCommande(std::string str, Server &server, int fd)
 {
 	Message str_message(str);
 	std::map<int, Client*>::iterator it = server.getClients().find(fd);
+	try
+	{
 	if (str_message.getCommand() == "JOIN")
 		Command::JoinChannel(*it->second, str_message.getContent(), server);
 	else if (str_message.getCommand() == "USER")
@@ -87,8 +18,23 @@ void Command::CheckCommande(std::string str, Server &server, int fd)
 		(it->second)->SetNick(str_message.getContent());
 	else if (str_message.getCommand() == "PASS")
 		(it->second)->SetPassword(str_message.getContent());
-	else if (str.compare(0, 7, "PRIVMSG") == 0)
+	else if (str_message.getCommand() == "PRIVMSG")
 		Command::PrivateMessage(str_message, *it->second, server);
+	else if (str_message.getCommand() == "WHO")
+		Command::PrivateMessage(str_message, *it->second, server);
+	else
+		throw ProtocolError(421, str, (it->second)->GetNick());
+	}
+	catch(const std::exception& e)
+	{
+			Command::WritePrefix((it->second)->GetFd(), *(it->second));
+			write ((it->second)->GetFd(), e.what(), strlen(e.what()));
+			write ((it->second)->GetFd(), "\n", 1);
+
+			Command::WritePrefix(1, *(it->second));
+			write (1, e.what(), strlen(e.what()));
+			write (1, "\n", 1);
+	}
 }
 
 void Command::GetLineCommand(char *buffer, int fd, Server &server)
@@ -113,11 +59,27 @@ void Command::GetLineCommand(char *buffer, int fd, Server &server)
 	}
 }
 
-void Command::QuitClient(int fd, Poll &poll, size_t i)
+void Command::WritePrefix(int FdCl, Client client)
 {
-	std::cout << "Client disconnected." << std::endl;
-	close(fd);
-	poll.getPollfd().erase(poll.getPollfd().begin() + i);
-	std::map<int, Client*>::iterator it = poll.getServer().getClients().find(fd);
-	it->second->setLog(false);
+	write (FdCl, ":", 1);
+	write (FdCl, client.GetNick().c_str(), strlen(client.GetNick().c_str()));
+	write (FdCl, "!", 1);
+	write (FdCl, client.GetName().c_str(), strlen(client.GetName().c_str()));
+	write (FdCl, "@", 1);
+	write (FdCl, client.GetIpAdd().c_str(), strlen(client.GetIpAdd().c_str()));
+	write (FdCl, " ", 1);
+}
+
+void Command::WhoCommand(int FdCl, Client client, Message message)
+{
+	Client clientChan;
+	write (FdCl, "352 ", 4);
+	write (FdCl, client.GetName().c_str(), strlen(client.GetName().c_str()));
+	write (FdCl, message.getContent().c_str(), strlen(message.getContent().c_str()));
+	write (FdCl, clientChan.GetNick().c_str(), strlen(clientChan.GetNick().c_str()));
+	write (FdCl, clientChan.GetIpAdd().c_str(), strlen(clientChan.GetIpAdd().c_str()));
+	write (FdCl, clientChan.GetName().c_str(), strlen(clientChan.GetName().c_str()));
+
+// ERR_NOSUCHSERVER
+//352 TonPseudo #general UserA host1 irc.net NickA H :0 RealNameA
 }

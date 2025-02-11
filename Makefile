@@ -20,7 +20,10 @@ SRCS = ./srcs/Client/Client.cpp \
 	./srcs/Command/Command.cpp \
 	./srcs/ExceptionError/ExceptionError.cpp \
 	./srcs/Channel/Channel.cpp \
-	./srcs/Message/Message.cpp
+	./srcs/Message/Message.cpp \
+	./srcs/Command/Join.cpp \
+	./srcs/Command/PrivMsg.cpp \
+	./srcs/Command/Quit.cpp
 
 DIR_OBJ := .object/
 

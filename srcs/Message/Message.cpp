@@ -43,6 +43,15 @@ void Message::parse()
 		return ;
 	}
 	_content = _words[i];
+	if (_words[i][0] == ':')
+	{
+		_content.erase(0,1);
+		i++;
+		for (; i != _words.size(); i++)
+		{
+			_content = _content + " " + _words[i];
+		}
+	}
 
 }
 
