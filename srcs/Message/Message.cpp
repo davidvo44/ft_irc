@@ -15,7 +15,7 @@ Message::Message(std::string buffer)
 void Message::parse()
 {
 	unsigned long i = 0;
-	if (_words[0][0] == ':')
+	if (_words.size() > 0 && _words[0][0] == ':')
 	{
 		_prefix = _words[i];
 		i++;

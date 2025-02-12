@@ -9,15 +9,16 @@ void Command::PrivateMessage(Message message, Client Sender, Server server)
 	std::map<int, Client>::iterator itCl = (it->second).GetClient().begin();
 	for (;itCl != (it->second).GetClient().end(); itCl++)
 	{
+		std::cout << "Response : " << ":" << Sender.GetNick() << "!" << Sender.GetName() << "@" << Sender.GetIpAdd() << " PRIVMSG " << message.getTo() << " " << message.getContent() << std::endl;
 		Client client = itCl->second;
 		if (client.GetName() == Sender.GetName())
 			continue;
 		int fdcl = client.GetFd();
 		std::cout << "Write to:" << fdcl << std::endl;
-		WritePrefix(fdcl, client);
+		WritePrefix(fdcl, Sender);
 		write(fdcl, "PRIVMSG ", 8);
 		write(fdcl, message.getTo().c_str(), strlen(message.getTo().c_str()));
-		write(fdcl, " ", 1);
+		write(fdcl, " :", 1);
 		write(fdcl, message.getContent().c_str(), strlen(message.getContent().c_str()));
 		write(fdcl, "\n", 1);
 	}

@@ -11,14 +11,9 @@ void Command::Nick(Message message, Client &Sender, Server server)
 	{
 		std::cout << ":" << Sender.GetNick() << "!" << Sender.GetName() << "@" << Sender.GetIpAdd() << " NICK " << message.getContent() << std::endl;
 		fdcl = Sender.GetFd();
-		write(fdcl, ":", 1);
-		write(fdcl, Sender.GetNick().c_str(), strlen(Sender.GetNick().c_str()));
-		write(fdcl, "!", 1);
-		write(fdcl, Sender.GetName().c_str(), strlen(Sender.GetName().c_str()));
-		write(fdcl, "@", 1);
-		write(fdcl, Sender.GetIpAdd().c_str(), strlen(Sender.GetIpAdd().c_str()));
+		WritePrefix(fdcl, Sender);
 		Sender.SetNick(message.getContent());
-		write(fdcl, " NICK ", 6);
+		write(fdcl, "NICK ", 5);
 		write(fdcl, message.getContent().c_str(), strlen(message.getContent().c_str()));
 		write(fdcl, "\n", 1);
 		return;
@@ -28,15 +23,9 @@ void Command::Nick(Message message, Client &Sender, Server server)
 	{
 		std::cout << ":" << Sender.GetNick() << "!" << Sender.GetName() << "@" << Sender.GetIpAdd() << " NICK " << message.getContent() << std::endl;
 		fdcl = (itCl->second).GetFd();
-		std::cout << fdcl << std::endl;
-		write(fdcl, ":", 1);
-		write(fdcl, Sender.GetNick().c_str(), strlen(Sender.GetNick().c_str()));
-		write(fdcl, "!", 1);
-		write(fdcl, Sender.GetName().c_str(), strlen(Sender.GetName().c_str()));
-		write(fdcl, "@", 1);
-		write(fdcl, Sender.GetIpAdd().c_str(), strlen(Sender.GetIpAdd().c_str()));
+		WritePrefix(fdcl, Sender);
 		Sender.SetNick(message.getContent());
-		write(fdcl, " NICK ", 6);
+		write(fdcl, "NICK ", 5);
 		write(fdcl, message.getContent().c_str(), strlen(message.getContent().c_str()));
 		write(fdcl, "\n", 1);
 		}
@@ -47,6 +36,31 @@ void Command::CheckCommande(std::string str, Server &server, int fd)
 	std::string array[] = {"JOIN", "USER", "NICK", "PASS", "PRIVMSG", "WHO"};
 	int index = 0;
 	Message str_message(str);
+	
+	/*static int count = 0;
+	count++;
+	std::cout << "COUNT : " << count << std::endl;
+	if (count == 1)
+	{
+		std::cout << "SENT : " << ":garivo!garivo@127.0.0.1 JOIN test" << std::endl;
+		write(fd, ":garivo!garivo@127.0.0.1 JOIN #SALEMERDE\n", 41);
+	}
+	else if (count == 1)
+		write(fd, ":cringe!mecChelou@Shithole PRIVMSG garivo :Hello World\n", 56);
+	else if (count == 3)
+		write(fd, ":didier!con@Shithole JOIN #SALEMERDE\n", 37);
+	else if (count == 2)
+		//write(fd, ":didier!con@Shithole PRIVMSG #SALEMERDE :ALED\n", 46);
+	else if (count == 2)
+		write(fd, ":NickUser!User@127.0.0.1 PRIVMSG #SALEMERDE :Sac\n", 49);
+	else if (count == 3)
+		write(fd, ":NickUser!User@127.0.0.1 PRIVMSG #SALEMERDE :Sac\n", 49);
+	else if (count == 4)
+		write(fd, ":NickUser!User@127.0.0.1 PRIVMSG #SALEMERDE :Sac\n", 49);
+	
+	(void)str;
+	(void)server;
+	(void)index;*/
 	while (index < 6)
 	{
 		if (str_message.getCommand().compare(array[index]) == 0)
