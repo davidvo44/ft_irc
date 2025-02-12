@@ -29,3 +29,13 @@ std::map<int, Client> & Channel::GetClient()
 {
 	return _Clients;
 }
+
+void Channel::setTopic(const std::string topic)
+{
+	_topic = topic;
+}
+
+const std::string Channel::getTopic()
+{
+	return _topic;
+}

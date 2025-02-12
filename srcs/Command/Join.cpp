@@ -7,11 +7,6 @@ void Command::JoinChannel(Client client, std::string ChName, Server &server)
 		throw ProtocolError(403, ChName, client.GetNick());
     if (server.getChannel().empty() == false &&  it != server.getChannel().end())
 	{
-		// if (it->second.GetClient().find(client.GetFd()) != it->second.GetClient().end())
-		// {
-		// 	write (client.GetFd(), "Channel already joined\n", 23);
-		// 	return;
-		// }
        it->second.JoinChannel(client);
 	   std::cout << client.GetName() << " join " << ChName << std::endl;
     }
@@ -28,11 +23,16 @@ void Command::JoinChannel(Client client, std::string ChName, Server &server)
 		WritePrefix(fdcl, client);
 		write (fdcl, "JOIN ", 5);
 		write (fdcl, ChName.c_str(), strlen(ChName.c_str()));
+		write (fdcl, " ", 1);
+		write (1, "\n", 1);
+		RplMessage::GetRply(331, fdcl, 2, client.GetNick().c_str(), ChName.c_str());
 		write (fdcl, "\n", 1);
 		itclient++;
 	}
 	WritePrefix(1, client);
 	write (1, "JOIN ", 5);
 	write (1, ChName.c_str(), strlen(ChName.c_str()));
+	write (1, "\n", 1);
+	RplMessage::GetRply(331, 1, 2, client.GetNick().c_str(), ChName.c_str());
 	write (1, "\n", 1);
 }

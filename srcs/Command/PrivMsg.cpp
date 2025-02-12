@@ -14,7 +14,7 @@ void Command::PrivateMessage(Message message, Client Sender, Server server)
 			continue;
 		int fdcl = client.GetFd();
 		std::cout << "Write to:" << fdcl << std::endl;
-		WritePrefix(fdcl, client);
+		WritePrefix(fdcl, Sender);
 		write(fdcl, "PRIVMSG ", 8);
 		write(fdcl, message.getTo().c_str(), strlen(message.getTo().c_str()));
 		write(fdcl, " ", 1);

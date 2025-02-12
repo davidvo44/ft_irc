@@ -1,8 +1,8 @@
 #include "Command.hpp"
 
-void Command::WhoCommand(int FdCl, Client client, Message message)
+void Command::WhoCommand(int FdCl, Client client, Message message, Server server)
 {
-	
+	(void) server;
 	Client clientChan;
 	write (FdCl, "352 ", 4);
 	write (FdCl, client.GetName().c_str(), strlen(client.GetName().c_str()));
