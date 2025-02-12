@@ -42,13 +42,16 @@ void Message::parse()
 		_command = "WRONG INPUT";
 		return ;
 	}
-	if (_command == "PRIVMSG")
+	_content = _words[i];
+	if (_words[i][0] == ':')
 	{
-		while (i < _words.size())
-			_content += _words[i++] + " ";
+		_content.erase(0,1);
+		i++;
+		for (; i != _words.size(); i++)
+		{
+			_content = _content + " " + _words[i];
+		}
 	}
-	else
-		_content = _words[i];
 
 }
 

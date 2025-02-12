@@ -38,20 +38,6 @@ void Poll::Start()
 				buffer[valread] = '\0';
 				std::cout << "RECEIVED : <\n" << buffer << ">\n" <<std::endl;
 				Command::GetLineCommand(buffer, _fds[i].fd, *_server);
-				/*static int count = 0;
-				count++;
-				std::cout << "COUNT : " << count << std::endl;
-				if (count == 1)
-				{
-					std::cout << "SENT : " << ":garivo!garivo@127.0.0.1 JOIN test" << std::endl;
-					write(_fds[i].fd, ":garivo!garivo@127.0.0.1 JOIN #SALEMERDE\n", 41);
-				}
-				else if (count == 2)
-					write(_fds[i].fd, ":cringe!mecChelou@Shithole PRIVMSG garivo :Hello World\n", 56);
-				else if (count == 3)
-					write(_fds[i].fd, ":didier!con@Shithole JOIN #SALEMERDE\n", 37);
-				else if (count == 4)
-					write(_fds[i].fd, ":didier!con@Shithole PRIVMSG #SALEMERDE :ALED\n", 46);*/
     		}
 		}
 	}
