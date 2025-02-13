@@ -24,8 +24,8 @@ void Command::JoinChannel(Client client, std::string ChName, Server &server)
 		write (fdcl, "JOIN ", 5);
 		write (fdcl, ChName.c_str(), strlen(ChName.c_str()));
 		write (fdcl, " ", 1);
-		write (1, "\n", 1);
-		RplMessage::GetRply(331, fdcl, 2, client.GetNick().c_str(), ChName.c_str());
+		write (fdcl, "\n", 1);
+		// RplMessage::GetRply(331, fdcl, 2, client.GetNick().c_str(), ChName.c_str());
 		write (fdcl, "\n", 1);
 		itclient++;
 	}
@@ -33,6 +33,5 @@ void Command::JoinChannel(Client client, std::string ChName, Server &server)
 	write (1, "JOIN ", 5);
 	write (1, ChName.c_str(), strlen(ChName.c_str()));
 	write (1, "\n", 1);
-	RplMessage::GetRply(331, 1, 2, client.GetNick().c_str(), ChName.c_str());
-	write (1, "\n", 1);
+	// RplMessage::GetRply(331, 1, 2, client.GetNick().c_str(), ChName.c_str());
 }

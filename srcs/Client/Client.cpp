@@ -1,6 +1,6 @@
 #include "Client.hpp"
 
-Client::Client()
+Client::Client() : _name("User") , _nick("NickUser"), _password("0")
 {
 	std::cout << "Client connected" << std::endl;
 }
