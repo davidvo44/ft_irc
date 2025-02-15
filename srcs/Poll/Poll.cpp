@@ -29,7 +29,7 @@ void Poll::Start()
 			if (_fds[i].revents & POLLIN)
 			{
 				char buffer[1024] = {0};
-				int valread = read(_fds[i].fd, buffer, sizeof(buffer));
+				int valread = recv(_fds[i].fd, buffer, sizeof(buffer), MSG_DONTWAIT);
 				if (valread <= 0)
 				{
 					Command::QuitClient(_fds[i].fd, *this, i);

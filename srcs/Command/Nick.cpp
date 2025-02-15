@@ -12,9 +12,8 @@ void Command::Nick(Message message, Client &Sender, Server server)
 		fdcl = Sender.GetFd();
 		Command::WritePrefix(fdcl, Sender);
 		Sender.SetNick(message.getContent());
-		write(fdcl, " NICK ", 6);
-		write(fdcl, message.getContent().c_str(), strlen(message.getContent().c_str()));
-		write(fdcl, "\n", 1);
+		std::string response = " NICK " + message.getContent() + "\n";
+		send(fdcl, response.c_str(), response.length(), MSG_DONTWAIT | MSG_NOSIGNAL);
 		return;
 	}
 	std::map<int, Client>::iterator itCl = (it->second).GetClient().begin();
@@ -25,8 +24,7 @@ void Command::Nick(Message message, Client &Sender, Server server)
 		std::cout << fdcl << std::endl;
 		Command::WritePrefix(fdcl, Sender);
 		Sender.SetNick(message.getContent());
-		write(fdcl, " NICK ", 6);
-		write(fdcl, message.getContent().c_str(), strlen(message.getContent().c_str()));
-		write(fdcl, "\n", 1);
+		std::string response = " NICK " + message.getContent() + "\n";
+		send(fdcl, response.c_str(), response.length(), MSG_DONTWAIT | MSG_NOSIGNAL);
 		}
 }

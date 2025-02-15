@@ -4,6 +4,7 @@
 #include <iostream> 
 #include <vector>
 #include <cstdarg>
+#include <sys/socket.h>
 
 class RplMessage
 {

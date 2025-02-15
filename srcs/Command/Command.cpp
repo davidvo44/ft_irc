@@ -82,11 +82,6 @@ void Command::GetLineCommand(char *buffer, int fd, Server &server)
 
 void Command::WritePrefix(int FdCl, Client client)
 {
-	write (FdCl, ":", 1);
-	write (FdCl, client.GetNick().c_str(), strlen(client.GetNick().c_str()));
-	write (FdCl, "!", 1);
-	write (FdCl, client.GetName().c_str(), strlen(client.GetName().c_str()));
-	write (FdCl, "@", 1);
-	write (FdCl, client.GetIpAdd().c_str(), strlen(client.GetIpAdd().c_str()));
-	write (FdCl, " ", 1);
+	std::string response = ":" + client.GetNick() + "!" + client.GetName() + "@" + client.GetIpAdd() + " ";
+	send(FdCl, response.c_str(), response.length(), MSG_DONTWAIT | MSG_NOSIGNAL);
 }

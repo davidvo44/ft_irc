@@ -5,19 +5,21 @@
 
 void RplMessage::GetRply(int code, int fd, int size, const char * value, ...)
 {
-	(void)fd;
 	std::va_list args;
 	std::string final_msg;
 	std::vector <std::string> arg_list;
 	std::ostringstream ss;
     ss << code;
 	std::string scode = ss.str();
+
     va_start(args, value);
 	for (int i = 0; i < size; i++)
 	{
         const char* p = va_arg(args, const char*);
         arg_list.push_back(std::string(p));
 	}
+	va_end(args);
+
 	switch (code)
 	{
 		case 331:
@@ -29,11 +31,6 @@ void RplMessage::GetRply(int code, int fd, int size, const char * value, ...)
 		case 341:
 			break;
 	}
-	write (1, ":", 1);
-	write (1, scode.c_str(), strlen(scode.c_str()));
-	write (1, " ", 1);
-	write (1, arg_list[0].c_str(), strlen(arg_list[0].c_str()));
-	write (1, " ", 1);
-	write (1, final_msg.c_str(), strlen(final_msg.c_str()));
-	write (1, "\n", 1);
+	std::string response = ":" + scode + " " + arg_list[0] + " " + final_msg + "\n";
+    send(fd, response.c_str(), response.length(), MSG_DONTWAIT | MSG_NOSIGNAL);
 }
