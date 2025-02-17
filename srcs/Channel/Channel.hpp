@@ -15,6 +15,7 @@ public:
 	~Channel();
 	void AddClient(Client client);
 	void JoinChannel(Client client);
+	void PartChannel(Client client);
 	void setTopic(const std::string topic);
 	const std::string getTopic();
 	std::map<int, Client> &GetClient();

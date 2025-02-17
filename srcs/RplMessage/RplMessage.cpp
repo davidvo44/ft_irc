@@ -12,6 +12,7 @@ void RplMessage::GetRply(int code, int fd, int size, const char * value, ...)
     ss << code;
 	std::string scode = ss.str();
 
+	return; //segfault line 20
     va_start(args, value);
 	for (int i = 0; i < size; i++)
 	{

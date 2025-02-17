@@ -27,6 +27,7 @@ SRCS = ./srcs/Client/Client.cpp \
 	./srcs/Command/Quit.cpp \
 	./srcs/Command/Who.cpp \
 	./srcs/Command/Nick.cpp \
+	./srcs/Command/Part.cpp \
 	./srcs/RplMessage/RplMessage.cpp
 
 DIR_OBJ := .object/

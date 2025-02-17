@@ -32,7 +32,7 @@ void Message::parse()
 		_command = "WRONG INPUT";
 		return ;
 	}
-	if (_command == "PRIVMSG")
+	if (_command == "PRIVMSG" || _command == "PART")
 	{
 		_to = _words[i];
 		i++;

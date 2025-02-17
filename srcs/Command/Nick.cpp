@@ -1,30 +1,31 @@
 #include "Command.hpp"
 
-void Command::Nick(Message message, Client &Sender, Server server)
+void Command::Nick(Message message, Client &sender, Server server)
 {
 	int fdcl;
 
 	std::cout << "NICK cmd :" << std::endl;
-	std::map<std::string, Channel>::iterator it = server.getChannel().find(message.getTo());
+	std::map<std::string, Channel>::iterator it = server.getChannel().find(message.getContent());
 	if (it == server.getChannel().end())
 	{
-		std::cout << ":" << Sender.GetNick() << "!" << Sender.GetName() << "@" << Sender.GetIpAdd() << " NICK " << message.getContent() << std::endl;
-		fdcl = Sender.GetFd();
-		Command::WritePrefix(fdcl, Sender);
-		Sender.SetNick(message.getContent());
+		std::cout << ":" << sender.GetNick() << "!" << sender.GetName() << "@" << sender.GetIpAdd() << " NICK " << message.getContent() << std::endl;
+		fdcl = sender.GetFd();
+		Command::WritePrefix(fdcl, sender);
+		sender.SetNick(message.getContent());
 		std::string response = " NICK " + message.getContent() + "\n";
 		send(fdcl, response.c_str(), response.length(), MSG_DONTWAIT | MSG_NOSIGNAL);
 		return;
 	}
-	std::map<int, Client>::iterator itCl = (it->second).GetClient().begin();
-	for (;itCl != (it->second).GetClient().end(); itCl++)
+	std::map<int, Client>::iterator itcl = (it->second).GetClient().begin();
+	for (;itcl != (it->second).GetClient().end(); itcl++)
 	{
-		std::cout << ":" << Sender.GetNick() << "!" << Sender.GetName() << "@" << Sender.GetIpAdd() << " NICK " << message.getContent() << std::endl;
-		fdcl = (itCl->second).GetFd();
+		printf("Le nick la hein|%p|\n", &(itcl->second));
+		std::cout << ":" << sender.GetNick() << "!" << sender.GetName() << "@" << sender.GetIpAdd() << " NICK " << message.getContent() << std::endl;
+		fdcl = (itcl->second).GetFd();
 		std::cout << fdcl << std::endl;
-		Command::WritePrefix(fdcl, Sender);
-		Sender.SetNick(message.getContent());
+		Command::WritePrefix(fdcl, sender);
+		sender.SetNick(message.getContent());
 		std::string response = " NICK " + message.getContent() + "\n";
 		send(fdcl, response.c_str(), response.length(), MSG_DONTWAIT | MSG_NOSIGNAL);
-		}
+	}
 }

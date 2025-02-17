@@ -25,6 +25,12 @@ void Channel::JoinChannel(Client client)
 	_Clients.insert(std::make_pair(client.GetFd(), client));
 }
 
+void Channel::PartChannel(Client client)
+{
+	std::cout << client.GetNick() << " PARTING" << std::endl;
+	_Clients.erase(client.GetFd());
+}
+
 std::map<int, Client> & Channel::GetClient()
 {
 	return _Clients;
