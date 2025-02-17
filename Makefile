@@ -10,7 +10,8 @@ IFLAGS = ./srcs/Client/Client.hpp \
 			./srcs/Command/Command.hpp \
 			./srcs/ExceptionError/ExceptionError.hpp \
 			./srcs/Channel/Channel.hpp \
-			./srcs/Message/Message.hpp
+			./srcs/Message/Message.hpp \
+			./srcs/RplMessage/RplMessage.hpp
 
 
 SRCS = ./srcs/Client/Client.cpp \
@@ -23,7 +24,10 @@ SRCS = ./srcs/Client/Client.cpp \
 	./srcs/Message/Message.cpp \
 	./srcs/Command/Join.cpp \
 	./srcs/Command/PrivMsg.cpp \
-	./srcs/Command/Quit.cpp
+	./srcs/Command/Quit.cpp \
+	./srcs/Command/Who.cpp \
+	./srcs/Command/Nick.cpp \
+	./srcs/RplMessage/RplMessage.cpp
 
 DIR_OBJ := .object/
 

@@ -1,8 +1,8 @@
 #include "Client.hpp"
 
-Client::Client()
+Client::Client() : _name("User") , _nick("NickUser"), _password("0"), _IpAdd("empty")
 {
-	std::cout << "Client connected" << std::endl;
+	std::cout << "Client connectedsss" << std::endl;
 }
 
 Client::Client(pollfd tmp, std::string IpAddr) : _pollfds(tmp), _name("User") , _nick("NickUser"), _password("0"), _IpAdd(IpAddr), _log(true)

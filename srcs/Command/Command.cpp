@@ -1,36 +1,6 @@
 #include "Command.hpp"
 #include "vector"
 
-void Command::Nick(Message message, Client &Sender, Server server)
-{
-	int fdcl;
-
-	std::cout << "NICK cmd :" << std::endl;
-	std::map<std::string, Channel>::iterator it = server.getChannel().find(message.getTo());
-	if (it == server.getChannel().end())
-	{
-		std::cout << ":" << Sender.GetNick() << "!" << Sender.GetName() << "@" << Sender.GetIpAdd() << " NICK " << message.getContent() << std::endl;
-		fdcl = Sender.GetFd();
-		WritePrefix(fdcl, Sender);
-		Sender.SetNick(message.getContent());
-		write(fdcl, "NICK ", 5);
-		write(fdcl, message.getContent().c_str(), strlen(message.getContent().c_str()));
-		write(fdcl, "\n", 1);
-		return;
-	}
-	std::map<int, Client>::iterator itCl = (it->second).GetClient().begin();
-	for (;itCl != (it->second).GetClient().end(); itCl++)
-	{
-		std::cout << ":" << Sender.GetNick() << "!" << Sender.GetName() << "@" << Sender.GetIpAdd() << " NICK " << message.getContent() << std::endl;
-		fdcl = (itCl->second).GetFd();
-		WritePrefix(fdcl, Sender);
-		Sender.SetNick(message.getContent());
-		write(fdcl, "NICK ", 5);
-		write(fdcl, message.getContent().c_str(), strlen(message.getContent().c_str()));
-		write(fdcl, "\n", 1);
-		}
-}
-
 void Command::CheckCommande(std::string str, Server &server, int fd)
 {
 	std::string array[] = {"JOIN", "USER", "NICK", "PASS", "PRIVMSG", "WHO"};
@@ -89,7 +59,7 @@ void Command::CheckCommande(std::string str, Server &server, int fd)
 				Command::PrivateMessage(str_message, *it->second, server);
 				break;
 			case 5:
-				Command::PrivateMessage(str_message, *it->second, server);
+				Command::WhoCommand(fd, *(it->second), str_message, server);
 				break;
 			default:
 				throw ProtocolError(421, str, (it->second)->GetNick());
@@ -136,11 +106,6 @@ void Command::GetLineCommand(char *buffer, int fd, Server &server)
 
 void Command::WritePrefix(int FdCl, Client client)
 {
-	write (FdCl, ":", 1);
-	write (FdCl, client.GetNick().c_str(), strlen(client.GetNick().c_str()));
-	write (FdCl, "!", 1);
-	write (FdCl, client.GetName().c_str(), strlen(client.GetName().c_str()));
-	write (FdCl, "@", 1);
-	write (FdCl, client.GetIpAdd().c_str(), strlen(client.GetIpAdd().c_str()));
-	write (FdCl, " ", 1);
+	std::string response = ":" + client.GetNick() + "!" + client.GetName() + "@" + client.GetIpAdd() + " ";
+	send(FdCl, response.c_str(), response.length(), MSG_DONTWAIT | MSG_NOSIGNAL);
 }

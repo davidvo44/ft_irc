@@ -3,7 +3,7 @@
 
 Server::Server()
 {
-	_Port = 6697;
+	_Port = 6698;
 	ServerInit();
 }
 

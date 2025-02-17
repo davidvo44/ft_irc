@@ -6,6 +6,7 @@
 #include "../Poll/Poll.hpp"
 #include "../Message/Message.hpp"
 #include "./../ExceptionError/ExceptionError.hpp"
+#include "./../RplMessage/RplMessage.hpp"
 
 class Command
 {
@@ -20,7 +21,7 @@ class Command
 		static void Nick(Message message, Client &Sender, Server server);
 		static void PrivateMessage(Message message, Client Sender, Server server);
 		static void QuitClient(int fd, Poll &server, size_t i);
-		static void WhoCommand(int FdCl, Client client, Message message);
+		static void WhoCommand(int FdCl, Client client, Message message, Server server);
 };
 
 #endif
