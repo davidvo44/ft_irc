@@ -10,11 +10,11 @@
 #include <cstdio>
 
 #define TRY(expression) \
-	try \
-	{ \
-		expression; \
-	} \
-	catch(const std::exception& e) \
-	{ \
-		std::cerr << e.what() << std::endl; \
-	}
+try \
+{ \
+    expression; \
+} \
+catch(const std::exception& e) \
+{ \
+    std::cerr << e.what() << std::endl; \
+}

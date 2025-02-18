@@ -5,7 +5,7 @@ void Command::Part(Message message, Client &sender, Server &server)
 	int 	fdcl;
 
 	std::cout << "PART cmd :" << std::endl;
-	std::map<std::string, Channel>::iterator it = server.getChannel().find(message.getContent());
+	std::map<std::string, Channel>::iterator it = server.getChannel().find(message.getTo());
 	std::map<int, Client>::iterator itcl = (it->second).GetClient().begin();
 	if (it == server.getChannel().end())
 	{

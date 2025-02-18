@@ -2,7 +2,7 @@ NAME = ft_IRC
 
 CC = c++
 
-CFLAGS = -Wall -Werror -Wextra -std=c++98 -g
+CFLAGS = -Wall -Wextra -std=c++98 -g #-Werror
 
 IFLAGS = ./srcs/Client/Client.hpp \
 			./srcs/Server/Server.hpp \

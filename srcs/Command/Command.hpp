@@ -7,6 +7,8 @@
 #include "../Message/Message.hpp"
 #include "./../ExceptionError/ExceptionError.hpp"
 #include "./../RplMessage/RplMessage.hpp"
+#include <vector>
+#include <algorithm>
 
 class Command
 {
