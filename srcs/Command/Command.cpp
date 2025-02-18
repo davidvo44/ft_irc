@@ -44,6 +44,7 @@ void Command::CheckCommande(std::string str, Server &server, int fd)
 				break;
 			case 8:
 				Command::Kick();
+				break;
 			default:
 				throw ProtocolError(421, str, (it->second)->GetNick());
 		}
