@@ -5,7 +5,7 @@ Channel::Channel()
 	
 }
 
-Channel::Channel(std::string name, Client client) : _name(name)
+Channel::Channel(std::string name, Client &client) : _name(name)
 {
 	_Clients.insert(std::make_pair(client.GetFd(), client));
 }

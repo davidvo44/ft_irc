@@ -2,11 +2,7 @@
 #define CHANNEL_HPP
 
 #include "../Server/Server.hpp"
-
-struct ClientChann {
-    Client &client;
-    int mode;
-};
+#include <vector>
 
 class Channel
 {
@@ -14,8 +10,10 @@ private:
 	std::string _name;
 	std::map<int, Client> _Clients;
 	std::string _topic;
+	int _mode;
+	std::vector<int> _operator;
 public:
-	Channel(std::string name, Client client);
+	Channel(std::string name, Client &client);
 	Channel();
 	~Channel();
 	void AddClient(Client client);
