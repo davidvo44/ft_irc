@@ -11,14 +11,10 @@ void RplMessage::GetRply(int code, int fd, int size, const char * value, ...)
 	std::ostringstream ss;
     ss << code;
 	std::string scode = ss.str();
-
-	return; //segfault line 20
     va_start(args, value);
-	for (int i = 0; i < size; i++)
-	{
-        const char* p = va_arg(args, const char*);
-        arg_list.push_back(std::string(p));
-	}
+	arg_list.push_back(std::string(value));
+	for (int i = 1; i < size; i++)
+        arg_list.push_back(std::string(va_arg(args, const char*)));
 	va_end(args);
 
 	switch (code)
@@ -32,6 +28,6 @@ void RplMessage::GetRply(int code, int fd, int size, const char * value, ...)
 		case 341:
 			break;
 	}
-	std::string response = ":" + scode + " " + arg_list[0] + " " + final_msg + "\n";
+	std::string response = ":irc.com " + scode + " " + arg_list[0] + " " + final_msg + "\n";
     send(fd, response.c_str(), response.length(), MSG_DONTWAIT | MSG_NOSIGNAL);
 }

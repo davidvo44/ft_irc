@@ -25,7 +25,6 @@ void Poll::Start()
 			NewUser();
 		for (size_t i = 1; i < _fds.size(); i++)
 		{
-			std::cout << "FD : " << _fds[i].fd << std::endl;
 			if (_fds[i].revents & POLLIN)
 			{
 				char buffer[1024] = {0};
@@ -36,7 +35,7 @@ void Poll::Start()
 					continue;
 				}
 				buffer[valread] = '\0';
-				std::cout << "RECEIVED : <\n" << buffer << ">\n" <<std::endl;
+				std::cout << "RECEIVED : < " << buffer << " > from FD: " << _fds[i].fd << std::endl;
 				Command::GetLineCommand(buffer, _fds[i].fd, *_server);
     		}
 		}

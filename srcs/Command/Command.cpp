@@ -3,35 +3,10 @@
 
 void Command::CheckCommande(std::string str, Server &server, int fd)
 {
-	std::string array[] = {"JOIN", "USER", "NICK", "PASS", "PRIVMSG", "WHO", "PART"};
+	std::string array[] = {"JOIN", "USER", "NICK", "PASS", "PRIVMSG", "WHO", "PART", "TOPIC"};
 	int index = 0;
 	Message str_message(str);
-	
-	/*static int count = 0;
-	count++;
-	std::cout << "COUNT : " << count << std::endl;
-	if (count == 1)
-	{
-		std::cout << "SENT : " << ":garivo!garivo@127.0.0.1 JOIN test" << std::endl;
-		write(fd, ":garivo!garivo@127.0.0.1 JOIN #SALEMERDE\n", 41);
-	}
-	else if (count == 1)
-		write(fd, ":cringe!mecChelou@Shithole PRIVMSG garivo :Hello World\n", 56);
-	else if (count == 3)
-		write(fd, ":didier!con@Shithole JOIN #SALEMERDE\n", 37);
-	else if (count == 2)
-		//write(fd, ":didier!con@Shithole PRIVMSG #SALEMERDE :ALED\n", 46);
-	else if (count == 2)
-		write(fd, ":NickUser!User@127.0.0.1 PRIVMSG #SALEMERDE :Sac\n", 49);
-	else if (count == 3)
-		write(fd, ":NickUser!User@127.0.0.1 PRIVMSG #SALEMERDE :Sac\n", 49);
-	else if (count == 4)
-		write(fd, ":NickUser!User@127.0.0.1 PRIVMSG #SALEMERDE :Sac\n", 49);
-	
-	(void)str;
-	(void)server;
-	(void)index;*/
-	while (index < 7)
+	while (index < 8)
 	{
 		if (str_message.getCommand().compare(array[index]) == 0)
 			break;
@@ -43,7 +18,7 @@ void Command::CheckCommande(std::string str, Server &server, int fd)
 		switch (index)
 		{
 			case 0:
-				Command::JoinChannel(*it->second, str_message.getContent(), server);
+				Command::JoinChannel(*it->second, str_message, server);
 				break;
 			case 1:
 				std::cout << "attribute :" << str_message.getContent() << std::endl;
@@ -63,6 +38,9 @@ void Command::CheckCommande(std::string str, Server &server, int fd)
 				break;
 			case 6:
 				Command::Part(str_message, *it->second, server);
+				break;
+			case 7:
+				Command::Topic(str_message, *(it->second), server);
 				break;
 			default:
 				throw ProtocolError(421, str, (it->second)->GetNick());

@@ -1,15 +1,14 @@
 To Do list:
 
-- Mieux Organiser les classes
 - Formes canonique
 -Mettre listen dans la poll!!!
 - Mise en places des commandes (et implementer la gestion des canaux de maniere generale)
-      : -Join (deja commence): buggued!!!!!!!!
+      : -Join :200 characte channel, no space, no comma
         -PART (quitter channel)
         -Quit
-        -Nick   DONE
-        -User   DONE
-        -Topic
+        -Nick   9 character max
+        -User  
+        -Topic : FINI!!!
         -Kick
         -Mode:
 			-i Définir/supprimer le canal sur invitation uniquement
