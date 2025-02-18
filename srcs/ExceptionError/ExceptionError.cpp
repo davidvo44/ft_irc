@@ -31,6 +31,12 @@ void ProtocolError::GetError()
 		case 421:
 			_finalMessage = code + " :Unknown command";
 			return;
+		case 442:
+			_finalMessage = code + " :You're not on that channel";
+			return;
+		case 461:
+			_finalMessage = code + " :Not enough parameters";
+			return;
 	}
 	_finalMessage = "Unknown Code";
 }

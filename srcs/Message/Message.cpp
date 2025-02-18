@@ -21,27 +21,18 @@ void Message::parse()
 		i++;
 	}
 	if (i == _words.size())
-	{
-		_command = "WRONG INPUT";
 		return ;
-	}
 	_command = _words[i];
 	i++;
 	if (i == _words.size())
-	{
-		_command = "WRONG INPUT";
 		return ;
-	}
-	if (_command == "PRIVMSG" || _command == "PART")
+	if (_command == "PRIVMSG" || _command == "PART" || _command == "TOPIC" || _command == "JOIN")
 	{
 		_to = _words[i];
 		i++;
 	}
-		if (i == _words.size())
-	{
-		_command = "WRONG INPUT";
+	if (i == _words.size())
 		return ;
-	}
 	_content = _words[i];
 	if (_words[i][0] == ':')
 	{
