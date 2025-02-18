@@ -10,10 +10,9 @@ void Command::PrivateMessage(Message message, Client sender, Server server)
 	{
 		std::cout << "Response : " << ":" << sender.GetNick() << "!" << sender.GetName() << "@" << sender.GetIpAdd() << " PRIVMSG " << message.getTo() << " " << message.getContent() << std::endl;
 		Client client = itCl->second;
-		if (client.GetFd() == sender.GetFd())
-			continue;
 		int fdcl = client.GetFd();
-		std::cout << "OOIIII" << std::endl;
+		if (fdcl == sender.GetFd())
+		continue;
 		std::cout << "Write to:" << fdcl << std::endl;
 		std::string response = "PRIVMSG " + message.getTo() + " " + message.getContent() + "\n";
 		WritePrefix(fdcl, sender);

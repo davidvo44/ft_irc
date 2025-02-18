@@ -27,6 +27,7 @@ void Poll::Start()
 		{
 			if (_fds[i].revents & POLLIN)
 			{
+				std::cout << "\n\n" << "NEW COMMAND:\n";
 				char buffer[1024] = {0};
 				int valread = recv(_fds[i].fd, buffer, sizeof(buffer), MSG_DONTWAIT);
 				if (valread <= 0)

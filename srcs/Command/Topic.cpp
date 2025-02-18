@@ -14,7 +14,6 @@ void Command::Topic(Message message, Client &sender, Server &server)
 
 void Command::getTopic(Message message, Client &sender, Server &server)
 {
-	std::cout << "MESSAGE IS: " << message.getContent() << std::endl;
 	std::map<std::string, Channel>::iterator it = server.getChannel().find(message.getTo());
 	if (message.getTo() == "ft_irc")
 		throw ProtocolError(461, message.getCommand(), sender.GetNick());

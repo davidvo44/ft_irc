@@ -33,7 +33,4 @@ static void write_channel(Client client, Message message, Server &server)
 		Command::getTopic(message, client, server);
 		itclient++;
 	}
-	std::string response = "JOIN " + message.getTo() + "\n";
-	Command::WritePrefix(1, client);
-	send(1, response.c_str(), response.length(), MSG_DONTWAIT | MSG_NOSIGNAL);
 }
