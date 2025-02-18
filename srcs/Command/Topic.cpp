@@ -19,7 +19,7 @@ void Command::getTopic(Message message, Client &sender, Server &server)
 		throw ProtocolError(461, message.getCommand(), sender.GetNick());
     if (it == server.getChannel().end())
 		throw ProtocolError(403, message.getTo(), sender.GetNick());
-	std::map<int, Client>::iterator itcl = (it->second).GetClient().find(sender.GetFd());
+	std::map<int, Client*>::iterator itcl = (it->second).GetClient().find(sender.GetFd());
 	if (itcl == (it->second).GetClient().end())
 		throw ProtocolError(442, message.getTo(), sender.GetNick());
 	if (it->second.getTopic().empty() == true)
@@ -35,7 +35,7 @@ static void setTopic(Message message, Client &sender, Server &server)
 		throw ProtocolError(461, message.getCommand(), sender.GetNick());
     if (it == server.getChannel().end())
 		throw ProtocolError(403, message.getTo(), sender.GetNick());
-	std::map<int, Client>::iterator itcl = (it->second).GetClient().find(sender.GetFd());
+	std::map<int, Client*>::iterator itcl = (it->second).GetClient().find(sender.GetFd());
 	if (itcl == (it->second).GetClient().end())
 		throw ProtocolError(442, message.getTo(), sender.GetNick());
 	it->second.setTopic(message.getContent());

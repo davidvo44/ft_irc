@@ -5,9 +5,9 @@ Channel::Channel()
 	
 }
 
-Channel::Channel(std::string name, Client client) : _name(name)
+Channel::Channel(std::string name, Client* client) : _name(name)
 {
-	_Clients.insert(std::make_pair(client.GetFd(), client));
+	_Clients.insert(std::make_pair(client->GetFd(), client));
 }
 
 Channel::~Channel()
@@ -15,14 +15,14 @@ Channel::~Channel()
 
 }
 
-void Channel::AddClient(Client client)
+void Channel::AddClient(Client *client)
 {
-	_Clients[client.GetFd()] = client;
+	_Clients[client->GetFd()] = client;
 }
 
-void Channel::JoinChannel(Client client)
+void Channel::JoinChannel(Client *client)
 {
-	_Clients.insert(std::make_pair(client.GetFd(), client));
+	_Clients.insert(std::make_pair(client->GetFd(), client));
 }
 
 void Channel::PartChannel(Client client)
@@ -31,7 +31,7 @@ void Channel::PartChannel(Client client)
 	_Clients.erase(client.GetFd());
 }
 
-std::map<int, Client> & Channel::GetClient()
+std::map<int, Client*> & Channel::GetClient()
 {
 	return _Clients;
 }

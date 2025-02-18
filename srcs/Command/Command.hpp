@@ -19,7 +19,7 @@ class Command
 		static void WritePrefix(int FdCl, Client client);
 		static void CatchErrors(Client *client, const std::exception& e);
 			//Command List
-		static void JoinChannel(Client client, Message message, Server &server);
+		static void JoinChannel(Client &client, Message message, Server &server);
 		static void Nick(Message message, Client &sender, Server &server);
 		static void Part(Message message, Client &sender, Server &server);
 		static void PrivateMessage(Message message, Client sender, Server server);

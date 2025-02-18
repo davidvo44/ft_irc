@@ -69,7 +69,7 @@ void Server::ClearClients(int fd)
 	(void)fd;
 }
 
-Channel Server::CreateChannel(Client client, std::string ChName)
+Channel Server::CreateChannel(Client* client, std::string ChName)
 {
 	Channel NewChannel(ChName, client);
 	return (NewChannel);
