@@ -3,6 +3,11 @@
 
 #include "../Server/Server.hpp"
 
+struct ClientChann {
+    Client &client;
+    int mode;
+};
+
 class Channel
 {
 private:

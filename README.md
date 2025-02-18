@@ -9,14 +9,14 @@ To Do list:
         -Nick   9 character max
         -User  
         -Topic : FINI!!!
-        -Kick
-        -Mode:
+        -Kick: depend de part
+        -Mode: 
 			-i Définir/supprimer le canal sur invitation uniquement
 			-t Définir/supprimer les restrictions de la commande TOPIC pour les opérateurs de canaux
 			-k Définir/supprimer la clé du canal (mot de passe)
 			-o Donner/retirer le privilège de l’opérateur de canal
 			-l Définir/supprimer la limite d’utilisateurs pour le canal
-- Gerer les droits
+			idee, gerer en binaire (1,1,1,1,1) ou faire tableau d'admin. Voir struc sur Channel.hpp
 
 - Replication server client
 

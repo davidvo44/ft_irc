@@ -25,6 +25,7 @@ class Command
 		static void WhoCommand(int FdCl, Client client, Message message, Server server);
 		static void Topic(Message message, Client &sender, Server &server);
 		static void getTopic(Message message, Client &sender, Server &server);
+		static void Kick();
 };
 
 #endif
