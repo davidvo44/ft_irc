@@ -14,9 +14,10 @@ class Command
 {
 	public:
 			//Init Command
-		static void CheckCommande(std::string str, Server &server, int fd);
-		static void GetLineCommand(char *buffer, int fd, Server &server);
-		static void WritePrefix(int FdCl, Client client);
+		static void			CheckCommande(std::string str, Server &server, int fd);
+		static void			GetLineCommand(char *buffer, int fd, Server &server);
+		static std::string	GetPrefix(Client client);
+		static void			SendBySharedChannels(std::string to_send, Client sender, Server &server);
 		static void CatchErrors(Client *client, const std::exception& e);
 			//Command List
 		static void JoinChannel(Client &client, Message message, Server &server);

@@ -2,6 +2,8 @@
 
 void Command::PrivateMessage(Message message, Client sender, Server server)
 {
+	std::string	response;
+
 	std::map<std::string, Channel>::iterator it = server.getChannel().find(message.getTo());
 	if (it == server.getChannel().end())
 		return;
@@ -14,8 +16,8 @@ void Command::PrivateMessage(Message message, Client sender, Server server)
 		if (fdcl == sender.GetFd())
 		continue;
 		std::cout << "Write to:" << fdcl << std::endl;
-		std::string response = "PRIVMSG " + message.getTo() + " " + message.getContent() + "\n";
-		WritePrefix(fdcl, sender);
+		response = GetPrefix(sender);
+		response += "PRIVMSG " + message.getTo() + " " + message.getContent() + "\n";
 		send(fdcl, response.c_str(), response.length(), MSG_DONTWAIT | MSG_NOSIGNAL);
 	}
 }

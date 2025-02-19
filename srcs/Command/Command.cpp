@@ -57,13 +57,17 @@ void Command::CheckCommande(std::string str, Server &server, int fd)
 
 void Command::CatchErrors(Client *client, const std::exception& e)
 {
-	Command::WritePrefix(client->GetFd(), *client);
+	int fdcl = client->GetFd();
+	std::string	response;
+
+	response = GetPrefix(*client);
+	response += e.what();
 	write (client->GetFd(), e.what(), strlen(e.what()));
 	write (client->GetFd(), "\n", 1);
+	send(fdcl, response.c_str(), response.length(), MSG_DONTWAIT | MSG_NOSIGNAL);
 
-	Command::WritePrefix(1, *client);
-	write (1, e.what(), strlen(e.what()));
-	write (1, "\n", 1);
+	write(1, response.c_str(), response.length());
+	write(1, "\n", 1);
 }
 
 void Command::GetLineCommand(char *buffer, int fd, Server &server)
@@ -88,8 +92,41 @@ void Command::GetLineCommand(char *buffer, int fd, Server &server)
 	}
 }
 
-void Command::WritePrefix(int FdCl, Client client)
+std::string	Command::GetPrefix(Client client)
 {
-	std::string response = ":" + client.GetNick() + "!" + client.GetName() + "@" + client.GetIpAdd() + " ";
-	send(FdCl, response.c_str(), response.length(), MSG_DONTWAIT | MSG_NOSIGNAL);
+	std::string prefix = ":" + client.GetNick() + "!" + client.GetName() + "@" + client.GetIpAdd() + " ";
+	return (prefix);
+}
+
+void	Command::SendBySharedChannels(std::string to_send, Client sender, Server &server)
+{
+	int fdcl;
+	std::map<std::string, Channel>::iterator it = server.getChannel().begin();
+	
+	for (;it != server.getChannel().end(); it++)
+	{
+		std::vector<std::string> sentclient;
+		std::map<int, Client*>::iterator itcl = (it->second).GetClient().begin();
+		sentclient.push_back(sender.GetNick());
+		for (;itcl != (it->second).GetClient().end(); itcl++)
+		{
+			if ((*itcl->second).GetNick() == sender.GetNick())
+			{
+				std::map<int, Client*>::iterator itcl2 = (it->second).GetClient().begin();
+				for (;itcl2 != (it->second).GetClient().end(); itcl2++)
+				{
+					std::vector<std::string>::iterator vit = std::find(sentclient.begin(), sentclient.end(), (*itcl2->second).GetNick());
+					if (vit == sentclient.end())
+					{
+						sentclient.push_back((*itcl2->second).GetNick());
+						std::cout << "We sent by shared channel to " << (*itcl2->second).GetNick() << std::endl;
+						fdcl = (*itcl2->second).GetFd();
+						std::cout << fdcl << std::endl;
+						send(fdcl, to_send.c_str(), to_send.length(), MSG_DONTWAIT | MSG_NOSIGNAL);
+					}
+				}
+				break;
+			}
+		}
+	}
 }
