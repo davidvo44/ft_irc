@@ -1,5 +1,6 @@
 #include "Server.hpp"
 #include "./../ExceptionError/ExceptionError.hpp"
+#include <signal.h>
 
 Server::Server()
 {
@@ -7,11 +8,32 @@ Server::Server()
 	ServerInit();
 }
 
+static int serverSocket = -1;
+
+static void signalHandler(int signum) {
+    if (signum == SIGINT)
+	{
+		
+		std::cout << "\nServer closed" << std::endl;
+        if (serverSocket != -1)
+            close(serverSocket);
+        throw ExceptionError("SIGINT");
+    }
+}
+
 void Server::ServerInit()
 {
 	_SerSocketFd = socket(AF_INET, SOCK_STREAM, 0);
+	serverSocket = _SerSocketFd;
+	int opt = 1;
+	if (setsockopt(serverSocket, SOL_SOCKET, SO_REUSEADDR, &opt, sizeof(opt)) == -1)
+	{
+		close(serverSocket);
+		throw ExceptionError("setsockopt");
+	}
 	if (_SerSocketFd < 0)
 		throw ExceptionError("socket");
+	signal(SIGINT, signalHandler);
 	memset(&_ServerAddr, 0, sizeof(_ServerAddr));
     _ServerAddr.sin_family = AF_INET;
     _ServerAddr.sin_addr.s_addr = INADDR_ANY; 
