@@ -1,25 +1,29 @@
 #include <iostream>
-// #include <cstring>   // memset
-// #include <unistd.h>  // close
-#include <cstdarg>
 
-void test (std::string tests...);
-
-int main()
-{
-	test("Hello", "world", "this", "is", "a", "test", nullptr);
+int main() {
+    int num = 11;          
+    int bit_position = 0; 
+    // int mask = (1 << bit_position); 
+    // int result = num | mask;
+	int mask = (num & (1 << bit_position));
+    std::cout << "Résultat : " << mask << std::endl; 
+    return 0;
 }
 
-void test (std::string tests...)
-{
-	std::va_list args;
-	va_start(args, tests);
-	while (true)
-	{
-        const char* p = va_arg(args, const char*);
-        if (!p)
-			return;
-		printf("%s | ", p);
-    //    std::cout << p << std::endl;
-    }
-}
+
+/*
+Enlever droit
+	int num = 11;          
+    int bit_position = 0; 
+    int mask = ~(1 << bit_position); 
+	int result = num & mask;
+Mettre droit
+	int num = 11;          
+    int bit_position = 0; 
+    int mask = (1 << bit_position); 
+	int result = num | mask;
+Determiner position
+	    int num = 11;          
+    int bit_position = 0; 
+	int mask = (num & (1 << bit_position));
+*/

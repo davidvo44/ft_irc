@@ -1,19 +1,14 @@
 #include "Channel.hpp"
 
-Channel::Channel()
-{
-	
-}
+Channel::Channel(){}
 
-Channel::Channel(std::string name, Client &client) : _name(name)
+Channel::Channel(std::string name, Client &client) : _name(name), _mode(0)
 {
 	_Clients.insert(std::make_pair(client.GetFd(), client));
+	_operator.push_back(client.GetFd());
 }
 
-Channel::~Channel()
-{
-
-}
+Channel::~Channel(){}
 
 void Channel::AddClient(Client client)
 {
@@ -44,4 +39,45 @@ void Channel::setTopic(const std::string topic)
 const std::string Channel::getTopic()
 {
 	return _topic;
+}
+
+void Channel::addMode(char ope)
+{
+	char array[] = {'i', 't', 'k', 'l'};
+	int bit_position = 0;
+	while (bit_position < 10)
+	{
+		if (ope == array[bit_position])
+			break;
+		bit_position++;
+	}
+	int mask = (1 << bit_position);
+	_mode = _mode | mask;
+}
+
+void Channel::deleteMode(char ope)
+{
+	char array[] = {'i', 't', 'k', 'l'};
+	int bit_position = 0;
+	while (bit_position < 10)
+	{
+		if (ope == array[bit_position])
+			break;
+		bit_position++;
+	}
+	int mask = ~(1 << bit_position);
+	_mode = _mode & mask;
+}
+
+bool Channel::viewMode(char ope)
+{
+	char array[] = {'i', 't', 'k', 'l'};
+	int bit_position = 0;
+	while (bit_position < 10)
+	{
+		if (ope == array[bit_position])
+			break;
+		bit_position++;
+	}
+	return (_mode & (1 << bit_position));
 }

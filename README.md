@@ -1,8 +1,8 @@
 To Do list:
 
-- Formes canonique
+-Formes canonique
 -Mettre listen dans la poll!!!
-- Mise en places des commandes (et implementer la gestion des canaux de maniere generale)
+-Mise en places des commandes (et implementer la gestion des canaux de maniere generale)
       : -Join :200 characte channel, no space, no comma
         -PART (quitter channel)
         -Quit

@@ -10,7 +10,7 @@ private:
 	std::string _name;
 	std::map<int, Client> _Clients;
 	std::string _topic;
-	int _mode;
+	int _mode; //binary format 1 1 1 1: -i, -t, -k, -l
 	std::vector<int> _operator;
 public:
 	Channel(std::string name, Client &client);
@@ -20,6 +20,9 @@ public:
 	void JoinChannel(Client client);
 	void PartChannel(Client client);
 	void setTopic(const std::string topic);
+	void addMode(char ope);
+	void deleteMode(char ope);
+	bool viewMode(char ope);
 	const std::string getTopic();
 	std::map<int, Client> &GetClient();
 };

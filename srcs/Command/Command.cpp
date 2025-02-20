@@ -3,10 +3,10 @@
 
 void Command::CheckCommande(std::string str, Server &server, int fd)
 {
-	std::string array[] = {"JOIN", "USER", "NICK", "PASS", "PRIVMSG", "WHO", "PART", "TOPIC", "KICK"};
+	std::string array[] = {"JOIN", "USER", "NICK", "PASS", "PRIVMSG", "WHO", "PART", "TOPIC", "KICK", "INVITE"};
 	int index = 0;
 	Message str_message(str);
-	while (index < 9)
+	while (index < 10)
 	{
 		if (str_message.getCommand().compare(array[index]) == 0)
 			break;
@@ -44,6 +44,8 @@ void Command::CheckCommande(std::string str, Server &server, int fd)
 				break;
 			case 8:
 				Command::Kick();
+				break;
+			case 9:
 				break;
 			default:
 				throw ProtocolError(421, str, (it->second)->GetNick());
