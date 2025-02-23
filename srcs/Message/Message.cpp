@@ -26,7 +26,7 @@ void Message::parse()
 	i++;
 	if (i == _words.size())
 		return ;
-	if (_command == "PRIVMSG" || _command == "PART" || _command == "TOPIC" || _command == "JOIN")
+	if (_command == "PRIVMSG" || _command == "PART" || _command == "TOPIC" || _command == "JOIN" || _command == "MODE")
 	{
 		_to = _words[i];
 		i++;
@@ -46,22 +46,22 @@ void Message::parse()
 
 }
 
-std::string Message::getPrefix()
+std::string & Message::getPrefix()
 {
 	return _prefix;
 }
 
-std::string Message::getCommand()
+std::string & Message::getCommand()
 {
 	return _command;
 }
 
-std::string Message::getTo()
+std::string & Message::getTo()
 {
 	return _to;
 }
 
-std::string Message::getContent()
+std::string & Message::getContent()
 {
 	return _content;
 }

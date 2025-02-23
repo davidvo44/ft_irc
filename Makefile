@@ -1,8 +1,8 @@
-NAME = ft_IRC
+NAME = ircserv
 
 CC = c++
 
-CFLAGS = -Wall -Wextra -std=c++98 -g #-Werror
+CFLAGS = -Wall -Wextra -Werror -std=c++98 -g 
 
 IFLAGS = ./srcs/Client/Client.hpp \
 			./srcs/Server/Server.hpp \
@@ -30,6 +30,7 @@ SRCS = ./srcs/Client/Client.cpp \
 	./srcs/Command/Part.cpp \
 	./srcs/Command/Topic.cpp \
 	./srcs/Command/Kick.cpp \
+	./srcs/Command/Mode.cpp \
 	./srcs/RplMessage/RplMessage.cpp
 
 DIR_OBJ := .object/

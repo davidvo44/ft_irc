@@ -31,11 +31,23 @@ void ProtocolError::GetError()
 		case 421:
 			_finalMessage = code + " :Unknown command";
 			return;
+		case 431:
+			_finalMessage = ss.str() + " " + _user + ":No nickname given";
+			return;
+		case 433:
+			_finalMessage = code + " :Nickname is already in use";
+			return;
 		case 442:
 			_finalMessage = code + " :You're not on that channel";
 			return;
 		case 461:
 			_finalMessage = code + " :Not enough parameters";
+			return;
+		case 472:
+			_finalMessage = code + " :is unknown mode char to me";
+			return;
+		case 482:
+			_finalMessage = code + " :You're not channel operator";
 			return;
 	}
 	_finalMessage = "Unknown Code";

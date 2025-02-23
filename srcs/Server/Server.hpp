@@ -25,7 +25,7 @@ public:
 	void AcceptNewClient(pollfd &tmp, std::string IpAdd);
 	void CloseFds();
 	void ClearClients(int fd);
-	Channel CreateChannel(Client client, std::string ChName);
+	Channel CreateChannel(Client* client, std::string ChName);
 };
 
 #include "./../Client/Client.hpp"

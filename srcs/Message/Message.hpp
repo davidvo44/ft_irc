@@ -18,10 +18,10 @@ class Message
 		Message();
 		Message(std::string buffer);
 		void parse();
-		std::string getPrefix();
-		std::string getCommand();
-		std::string getTo();
-		std::string getContent();
+		std::string &getPrefix();
+		std::string &getCommand();
+		std::string &getTo();
+		std::string &getContent();
 };
 
 #endif

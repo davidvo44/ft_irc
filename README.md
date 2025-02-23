@@ -9,7 +9,7 @@ To Do list:
         -Nick   9 character max
         -User  
         -Topic : FINI!!!
-        -Kick: depend de part
+        -Kick
         -Mode: 
 			-i Définir/supprimer le canal sur invitation uniquement
 			-t Définir/supprimer les restrictions de la commande TOPIC pour les opérateurs de canaux

@@ -19,6 +19,8 @@ void RplMessage::GetRply(int code, int fd, int size, const char * value, ...)
 
 	switch (code)
 	{
+		case 324:
+			final_msg =  arg_list[1] + " " + arg_list[2];
 		case 331:
 			final_msg = arg_list[1] + " :No topic is set";
 			break;
