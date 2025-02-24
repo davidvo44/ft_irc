@@ -1,58 +1,74 @@
-NAME = ircserv
+# **************************************************************************** #
+#                                                                              #
+#                                                         :::      ::::::::    #
+#    Makefile                                           :+:      :+:    :+:    #
+#                                                     +:+ +:+         +:+      #
+#    By: saperrie <saperrie@student.42.fr>          +#+  +:+       +#+         #
+#                                                 +#+#+#+#+#+   +#+            #
+#    Created: 2025/02/24 12:05:22 by saperrie          #+#    #+#              #
+#    Updated: 2025/02/24 12:33:13 by saperrie         ###   ########.fr        #
+#                                                                              #
+# **************************************************************************** #
 
 CC = c++
 
-CFLAGS = -Wall -Wextra -Werror -std=c++98 -g 
+INCLUDE_DIR = headers/
 
-IFLAGS = ./srcs/Client/Client.hpp \
-			./srcs/Server/Server.hpp \
-			./srcs/Poll/Poll.hpp \
-			./srcs/Command/Command.hpp \
-			./srcs/ExceptionError/ExceptionError.hpp \
-			./srcs/Channel/Channel.hpp \
-			./srcs/Message/Message.hpp \
-			./srcs/RplMessage/RplMessage.hpp
+CFLAGS = -Wall -Wextra -Werror -std=c++98
+IFLAGS = -I$(INCLUDE_DIR)
+DFLAGS = -MD -MP
 
+OBJECT_DIR = .obj/
 
-SRCS = ./srcs/Client/Client.cpp \
-	./srcs/Server/Server.cpp \
-	./srcs/main.cpp \
-	./srcs/Poll/Poll.cpp \
-	./srcs/Command/Command.cpp \
-	./srcs/ExceptionError/ExceptionError.cpp \
-	./srcs/Channel/Channel.cpp \
-	./srcs/Message/Message.cpp \
-	./srcs/Command/Join.cpp \
-	./srcs/Command/PrivMsg.cpp \
-	./srcs/Command/Quit.cpp \
-	./srcs/Command/Who.cpp \
-	./srcs/Command/Nick.cpp \
-	./srcs/Command/Part.cpp \
-	./srcs/Command/Topic.cpp \
-	./srcs/Command/Kick.cpp \
-	./srcs/Command/Mode.cpp \
-	./srcs/RplMessage/RplMessage.cpp
+OBJECTS = $(patsubst %.cpp,$(OBJECT_DIR)%.o,\
+		srcs/Client.cpp \
+		srcs/Server.cpp \
+		srcs/main.cpp \
+		srcs/Poll.cpp \
+		srcs/Commands/Command.cpp \
+		srcs/ExceptionError.cpp \
+		srcs/Channel.cpp \
+		srcs/Message.cpp \
+		srcs/Commands/Join.cpp \
+		srcs/Commands/PrivMsg.cpp \
+		srcs/Commands/Quit.cpp \
+		srcs/Commands/Who.cpp \
+		srcs/Commands/Nick.cpp \
+		srcs/Commands/Part.cpp \
+		srcs/Commands/Topic.cpp \
+		srcs/Commands/Kick.cpp \
+		srcs/Commands/Mode.cpp \
+		srcs/RplMessage.cpp \
+		)
 
-DIR_OBJ := .object/
+OBJ_SUBDIRS = $(sort $(dir ${OBJECTS}))
 
-OBJS = $(patsubst %.cpp, ${DIR_OBJ}%.o, ${SRCS})
+DEPENDENCIES = $(OBJECTS:.o=.d)
 
+NAME = ircserv
+
+.PHONY: all
 all: $(NAME)
 
-$(NAME): $(SRCS) $(OBJS)
-	$(CC) $(CFLAGS) -o $(NAME) $(OBJS)
+-include $(DEPENDENCIES)
 
+$(NAME): $(OBJECTS)
+	$(CC) $(CFLAGS) $(IFLAGS) $(DFLAGS) -o $@ $(OBJECTS)
 
-${DIR_OBJ}%.o: %.cpp $(IFLAGS) Makefile
-	mkdir -p $(shell dirname $@)
-	$(CC) $(CFLAGS) -c $< -o $@
+$(OBJECT_DIR)%.o: %.cpp | $(OBJECT_DIR)
+	$(CC) $(CFLAGS) $(IFLAGS) $(DFLAGS) -o $@ -c $<
 
+$(OBJECT_DIR):
+	mkdir -p ${OBJ_SUBDIRS}
+
+.PHONY: clean
 clean:
-	rm -rf $(DIR_OBJ)
+	rm -rf $(OBJECT_DIR)
 
+.PHONY: fclean
 fclean: clean
 	rm -f $(NAME)
 
-re : fclean all
-
-.PHONY: all clean fclean re
+.PHONY: re
+re: fclean
+	@make --no-print-directory all

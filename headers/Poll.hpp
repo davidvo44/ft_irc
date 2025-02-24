@@ -1,26 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.cpp                                           :+:      :+:    :+:   */
+/*   Poll.hpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: saperrie <saperrie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/02/24 12:14:45 by saperrie          #+#    #+#             */
-/*   Updated: 2025/02/24 12:14:50 by saperrie         ###   ########.fr       */
+/*   Created: 2025/02/24 12:13:55 by saperrie          #+#    #+#             */
+/*   Updated: 2025/02/24 12:13:57 by saperrie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_irc.hpp"
+#ifndef POLL_HPP
+#define POLL_HPP
+
 #include "Server.hpp"
-#include "Poll.hpp"
+#include "vector"
 
-int main (void)
+class Poll
 {
-	TRY(
-	Server launch;
+private:
+	std::vector<pollfd> _fds;
+	Server *_server;
+public:
+	Poll(Server *server);
+	void NewUser();
+	void Start();
+	std::vector<pollfd> & getPollfd();
+	Server & getServer();
+};
 
-	Poll poll(&launch);
-	poll.Start();
-	return 0;
-	)
-}
+#endif

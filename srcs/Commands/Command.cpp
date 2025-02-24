@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   Command.cpp                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: saperrie <saperrie@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/02/24 12:14:11 by saperrie          #+#    #+#             */
+/*   Updated: 2025/02/24 12:33:53 by saperrie         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "Command.hpp"
 #include "vector"
 
@@ -48,7 +60,8 @@ void Command::CheckCommande(std::string str, Server &server, int fd)
 			case 9:
 				break;
 			case 10:
-				Command::checkMode(str_message, *(it->second), server);
+				Command::checkMode();
+				// Command::checkMode(str_message, *(it->second), server);
 				break;
 			default:
 				throw ProtocolError(421, str, (it->second)->GetNick());
@@ -101,7 +114,7 @@ void	Command::SendBySharedChannels(std::string to_send, Client sender, Server &s
 {
 	int fdcl;
 	std::map<std::string, Channel>::iterator it = server.getChannel().begin();
-	
+
 	for (;it != server.getChannel().end(); it++)
 	{
 		std::vector<std::string> sentclient;

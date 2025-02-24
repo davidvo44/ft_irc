@@ -1,26 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.cpp                                           :+:      :+:    :+:   */
+/*   RplMessage.hpp                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: saperrie <saperrie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/02/24 12:14:45 by saperrie          #+#    #+#             */
-/*   Updated: 2025/02/24 12:14:50 by saperrie         ###   ########.fr       */
+/*   Created: 2025/02/24 12:13:58 by saperrie          #+#    #+#             */
+/*   Updated: 2025/02/24 12:14:02 by saperrie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_irc.hpp"
-#include "Server.hpp"
-#include "Poll.hpp"
+#ifndef RPLMESSAGE_HPP
+#define RPLMESSAGE_HPP
 
-int main (void)
+#include <iostream>
+#include <vector>
+#include <cstdarg>
+#include <sys/socket.h>
+
+class RplMessage
 {
-	TRY(
-	Server launch;
+public:
+	static void GetRply(int code, int fd, int size, const char * value, ...);
+};
 
-	Poll poll(&launch);
-	poll.Start();
-	return 0;
-	)
-}
+#endif

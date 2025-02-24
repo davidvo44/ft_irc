@@ -1,7 +1,23 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   Mode.cpp                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: saperrie <saperrie@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/02/24 12:14:19 by saperrie          #+#    #+#             */
+/*   Updated: 2025/02/24 12:35:26 by saperrie         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "Command.hpp"
 
-static void getMode(Client &sender, Channel &channel);
+// static void getMode(Client &sender, Channel &channel);
 
+
+void Command::checkMode() {}
+
+/*
 void Command::checkMode(Message message, Client &sender, Server &server)
 {
 	std::map<std::string, Channel>::iterator it = server.getChannel().find(message.getTo());
@@ -58,3 +74,4 @@ static void getMode(Client &sender, Channel &channel)
 	}
 	RplMessage::GetRply(324, sender.GetFd(), 3, sender.GetNick().c_str(), channel.getName().c_str(), reply.c_str());
 }
+*/

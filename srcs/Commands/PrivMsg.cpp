@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   PrivMsg.cpp                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: saperrie <saperrie@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/02/24 12:14:28 by saperrie          #+#    #+#             */
+/*   Updated: 2025/02/24 12:14:30 by saperrie         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "Command.hpp"
 
 void Command::PrivateMessage(Message message, Client sender, Server server)

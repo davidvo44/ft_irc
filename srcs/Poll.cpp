@@ -1,9 +1,22 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   Poll.cpp                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: saperrie <saperrie@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/02/24 12:12:44 by saperrie          #+#    #+#             */
+/*   Updated: 2025/02/24 12:12:48 by saperrie         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "Poll.hpp"
-#include "../ExceptionError/ExceptionError.hpp"
-#include "../Command/Command.hpp"
-#include <cstdlib> 
+#include "ExceptionError.hpp"
+#include "Command.hpp"
+#include "Message.hpp"
+
+#include <cstdlib>
 #include <unistd.h>
-#include "../Message/Message.hpp"
 
 Poll::Poll(Server *server) : _server(server)
 {

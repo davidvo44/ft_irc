@@ -1,5 +1,17 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   Server.cpp                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: saperrie <saperrie@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/02/24 12:11:46 by saperrie          #+#    #+#             */
+/*   Updated: 2025/02/24 12:15:04 by saperrie         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "Server.hpp"
-#include "./../ExceptionError/ExceptionError.hpp"
+#include "ExceptionError.hpp"
 #include <signal.h>
 
 Server::Server()
@@ -13,7 +25,7 @@ static int serverSocket = -1;
 static void signalHandler(int signum) {
     if (signum == SIGINT)
 	{
-		
+
 		std::cout << "\nServer closed" << std::endl;
         if (serverSocket != -1)
             close(serverSocket);
@@ -36,7 +48,7 @@ void Server::ServerInit()
 	signal(SIGINT, signalHandler);
 	memset(&_ServerAddr, 0, sizeof(_ServerAddr));
     _ServerAddr.sin_family = AF_INET;
-    _ServerAddr.sin_addr.s_addr = INADDR_ANY; 
+    _ServerAddr.sin_addr.s_addr = INADDR_ANY;
     _ServerAddr.sin_port = htons(_Port);
 
 	if (bind(_SerSocketFd, (struct sockaddr *)&_ServerAddr, sizeof(_ServerAddr)) < 0)

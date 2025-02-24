@@ -1,26 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.cpp                                           :+:      :+:    :+:   */
+/*   Kick.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: saperrie <saperrie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/02/24 12:14:45 by saperrie          #+#    #+#             */
-/*   Updated: 2025/02/24 12:14:50 by saperrie         ###   ########.fr       */
+/*   Created: 2025/02/24 12:14:17 by saperrie          #+#    #+#             */
+/*   Updated: 2025/02/24 12:14:18 by saperrie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_irc.hpp"
-#include "Server.hpp"
-#include "Poll.hpp"
+#include "Command.hpp"
 
-int main (void)
+// binary format 1 1 1 1: -i, -t, -k, -l
+// see function bool viewMode(char ope);
+
+
+void Command::Kick()
 {
-	TRY(
-	Server launch;
 
-	Poll poll(&launch);
-	poll.Start();
-	return 0;
-	)
 }
