@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   RplMessage.cpp                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: saperrie <saperrie@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dvo <dvo@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/24 12:14:58 by saperrie          #+#    #+#             */
-/*   Updated: 2025/02/24 12:15:00 by saperrie         ###   ########.fr       */
+/*   Updated: 2025/02/24 18:21:54 by dvo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@ void RplMessage::GetRply(int code, int fd, int size, const char * value, ...)
 	{
 		case 324:
 			final_msg =  arg_list[1] + " " + arg_list[2];
+			break;
 		case 331:
 			final_msg = arg_list[1] + " :No topic is set";
 			break;

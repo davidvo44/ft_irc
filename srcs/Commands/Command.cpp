@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Command.cpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: saperrie <saperrie@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dvo <dvo@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/24 12:14:11 by saperrie          #+#    #+#             */
-/*   Updated: 2025/02/24 12:33:53 by saperrie         ###   ########.fr       */
+/*   Updated: 2025/02/24 18:50:25 by dvo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,10 +15,10 @@
 
 void Command::CheckCommande(std::string str, Server &server, int fd)
 {
-	std::string array[] = {"JOIN", "USER", "NICK", "PASS", "PRIVMSG", "WHO", "PART", "TOPIC", "KICK", "INVITE", "MODE"};
+	std::string array[] = {"JOIN", "USER", "NICK", "PASS", "PRIVMSG", "WHO", "PART", "TOPIC", "KICK", "INVITE", "MODE", "CAP"};
 	int index = 0;
 	Message str_message(str);
-	while (index < 11)
+	while (index < 12)
 	{
 		if (str_message.getCommand().compare(array[index]) == 0)
 			break;
@@ -60,8 +60,9 @@ void Command::CheckCommande(std::string str, Server &server, int fd)
 			case 9:
 				break;
 			case 10:
-				Command::checkMode();
-				// Command::checkMode(str_message, *(it->second), server);
+				Command::checkMode(str_message, *(it->second), server);
+				break;
+			case 11:
 				break;
 			default:
 				throw ProtocolError(421, str, (it->second)->GetNick());

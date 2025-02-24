@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: saperrie <saperrie@student.42.fr>          +#+  +:+       +#+         #
+#    By: dvo <dvo@student.42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/02/24 12:05:22 by saperrie          #+#    #+#              #
-#    Updated: 2025/02/24 12:33:13 by saperrie         ###   ########.fr        #
+#    Updated: 2025/02/24 18:10:46 by dvo              ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,7 +14,7 @@ CC = c++
 
 INCLUDE_DIR = headers/
 
-CFLAGS = -Wall -Wextra -Werror -std=c++98
+CFLAGS = -Wall -Wextra -Werror -std=c++98 -g
 IFLAGS = -I$(INCLUDE_DIR)
 DFLAGS = -MD -MP
 
@@ -53,7 +53,7 @@ all: $(NAME)
 -include $(DEPENDENCIES)
 
 $(NAME): $(OBJECTS)
-	$(CC) $(CFLAGS) $(IFLAGS) $(DFLAGS) -o $@ $(OBJECTS)
+	$(CC) $(CFLAGS) $(IFLAGS) $(DFLAGS) -o $@ $(OBJECTS) 
 
 $(OBJECT_DIR)%.o: %.cpp | $(OBJECT_DIR)
 	$(CC) $(CFLAGS) $(IFLAGS) $(DFLAGS) -o $@ -c $<

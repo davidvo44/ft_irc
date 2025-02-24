@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Command.hpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: saperrie <saperrie@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dvo <dvo@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/24 12:13:17 by saperrie          #+#    #+#             */
-/*   Updated: 2025/02/24 12:35:09 by saperrie         ###   ########.fr       */
+/*   Updated: 2025/02/24 18:01:01 by dvo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,8 +42,7 @@ class Command
 		static void Topic(Message message, Client &sender, Server &server);
 		static void getTopic(Message message, Client &sender, Server &server);
 		static void Kick();
-		// static void checkMode(Message message, Client &sender, Server &server);
-		static void checkMode();
+		static void checkMode(Message message, Client &sender, Server &server);
 };
 
 #endif

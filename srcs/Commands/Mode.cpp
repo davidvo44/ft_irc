@@ -3,30 +3,31 @@
 /*                                                        :::      ::::::::   */
 /*   Mode.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: saperrie <saperrie@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dvo <dvo@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/24 12:14:19 by saperrie          #+#    #+#             */
-/*   Updated: 2025/02/24 12:35:26 by saperrie         ###   ########.fr       */
+/*   Updated: 2025/02/24 18:27:04 by dvo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "Command.hpp"
 
-// static void getMode(Client &sender, Channel &channel);
+static void getMode(Client &sender, Channel &channel);
 
-
-void Command::checkMode() {}
-
-/*
 void Command::checkMode(Message message, Client &sender, Server &server)
 {
+	if (message.getTo().empty() == true)
+		throw ProtocolError(461, message.getCommand(), sender.GetNick());
 	std::map<std::string, Channel>::iterator it = server.getChannel().find(message.getTo());
 	if (it == server.getChannel().end())
 		throw ProtocolError(403, message.getTo(), sender.GetNick());
 	if (it->second.IsOperator(sender.GetFd()) == false)
 		throw ProtocolError(482, message.getTo(), sender.GetNick());
 	if (message.getContent().empty() == true)
+	{
 		getMode(sender, it->second);
+		return;
+	}
 	void (Channel::*functptr)(char s);
 	if (message.getContent()[0] == '+')
 		functptr = &Channel::addMode;
@@ -67,11 +68,9 @@ static void getMode(Client &sender, Channel &channel)
 	{
 		if ((channel.viewMode(array[i])) == true)
 		{
-			reply += " " ;
 			reply += array[i];
 		}
 		i++;
 	}
 	RplMessage::GetRply(324, sender.GetFd(), 3, sender.GetNick().c_str(), channel.getName().c_str(), reply.c_str());
 }
-*/

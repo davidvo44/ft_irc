@@ -16,7 +16,7 @@ To Do list:
 			-k Définir/supprimer la clé du canal (mot de passe)
 			-o Donner/retirer le privilège de l’opérateur de canal
 			-l Définir/supprimer la limite d’utilisateurs pour le canal
-			idee, gerer en binaire (1,1,1,1,1) ou faire tableau d'admin. Voir struc sur Channel.hpp
+			idee, gerer en binaire (1,1,1,1) ou faire tableau d'admin. Voir struc sur Channel.hpp
 
 - Replication server client
 
