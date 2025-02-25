@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Nick.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: saperrie <saperrie@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dvo <dvo@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/24 12:14:22 by saperrie          #+#    #+#             */
-/*   Updated: 2025/02/25 12:56:38 by saperrie         ###   ########.fr       */
+/*   Updated: 2025/02/25 19:04:01 by dvo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,14 @@ void Command::Nick(Message message, Client &sender, Server &server)
 	int			fdcl;
 	std::string	response;
 
-	std::cout << "NICK cmd :" << std::endl;
-	std::cout << ":" << sender.GetNick() << "!" << sender.GetName() << "@" << sender.GetIpAdd() << " NICK " << message.getContent() << std::endl;
+	if (message.getContent().empty() == true)
+		throw ProtocolError(431, message.getContent(), sender.GetNick());
+	std::map<int, Client*>::iterator itcl = server.getClients().begin();
+	for (;itcl != server.getClients().end(); itcl++)
+	{
+		if (itcl->second->GetNick() == message.getContent())
+			throw ProtocolError(433, message.getContent(), sender.GetNick());
+	}
 
 	fdcl = sender.GetFd();
 	response = GetPrefix(sender);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   DefineList.hpp                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: saperrie <saperrie@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dvo <dvo@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/25 13:12:18 by saperrie          #+#    #+#             */
-/*   Updated: 2025/02/25 14:51:46 by saperrie         ###   ########.fr       */
+/*   Updated: 2025/02/25 15:07:27 by dvo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@
 #define	ERR_NOSUCHCHANNEL 403
 #define	ERR_TOOMANYCHANNELS 405
 #define	ERR_BADCHANNELKEY 475
-#define	ERR_BANNEDFROMCHAN 474
+#define	ERR_BANNEDFROMCHAN 474 -
 #define	ERR_CHANNELISFULL 471
 #define	ERR_INVITEONLYCHAN 473
 #define	ERR_BADCHANMASK 476

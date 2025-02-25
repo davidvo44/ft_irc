@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Channel.cpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: saperrie <saperrie@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dvo <dvo@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/24 12:14:38 by saperrie          #+#    #+#             */
-/*   Updated: 2025/02/25 12:53:01 by saperrie         ###   ########.fr       */
+/*   Updated: 2025/02/25 16:54:54 by dvo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,6 +116,23 @@ bool Channel::IsOperator(int client)
 	return false;
 }
 
+bool Channel::IsWlist(int client)
+{
+	int i = 0;
+
+	if (_wlist.empty() == true)
+		return false;
+	while (_wlist[i] != _wlist.back())
+	{
+		if (_wlist[i] == client)
+			return true;
+		i++;
+	}
+	if (_wlist[i] == client)
+		return true;
+	return false;
+}
+
 std::vector<int> &Channel::getOperator()
 {
 	return _operator;
@@ -124,4 +141,14 @@ std::vector<int> &Channel::getOperator()
 std::string Channel::getName()
 {
 	return _name;
+}
+
+std::string Channel::getPassword()
+{
+	return (_password);
+}
+
+void Channel::setPassword(std::string pass)
+{
+	_password = pass;
 }

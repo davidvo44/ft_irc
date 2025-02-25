@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ExceptionError.cpp                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: saperrie <saperrie@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dvo <dvo@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/24 12:14:42 by saperrie          #+#    #+#             */
-/*   Updated: 2025/02/25 12:53:33 by saperrie         ###   ########.fr       */
+/*   Updated: 2025/02/25 17:12:27 by dvo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,15 @@ void ProtocolError::GetError()
 			return;
 		case 472:
 			_finalMessage = code + " :is unknown mode char to me";
+			return;
+		case 473:
+			_finalMessage = code + " :Cannot join channel (+b)";
+			return;
+		case 475:
+			_finalMessage = code + " :Cannot join channel (+k)";
+			return;
+		case 476:
+			_finalMessage = code + " :Bad Channel Mask";
 			return;
 		case 482:
 			_finalMessage = code + " :You're not channel operator";
