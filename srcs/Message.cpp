@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Message.cpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: saperrie <saperrie@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dvo <dvo@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/24 12:14:53 by saperrie          #+#    #+#             */
-/*   Updated: 2025/02/25 12:54:22 by saperrie         ###   ########.fr       */
+/*   Updated: 2025/02/25 22:53:44 by dvo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,9 @@ void Message::parse()
 			_content = _content + " " + _words[i];
 		}
 	}
-
+	i++;
+	if (_command == "MODE" && i != _words.size())
+		_pass = _words[i];
 }
 
 std::string & Message::getPrefix()
@@ -77,4 +79,9 @@ std::string & Message::getTo()
 std::string & Message::getContent()
 {
 	return _content;
+}
+
+std::string &Message::getPass()
+{
+	return _pass;
 }

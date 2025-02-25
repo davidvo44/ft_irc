@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Message.hpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: saperrie <saperrie@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dvo <dvo@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/24 12:13:52 by saperrie          #+#    #+#             */
-/*   Updated: 2025/02/25 12:50:19 by saperrie         ###   ########.fr       */
+/*   Updated: 2025/02/25 22:48:37 by dvo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@ class Message
 		std::string &getCommand();
 		std::string &getTo();
 		std::string &getContent();
+		std::string &getPass();
 
 	private:
 
@@ -35,6 +36,7 @@ class Message
 		std::string _command;
 		std::string _to;
 		std::string _content;
+		std::string _pass;
 		std::vector<std::string> _words;};
 
 #endif

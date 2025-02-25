@@ -6,7 +6,7 @@
 /*   By: dvo <dvo@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/24 12:14:38 by saperrie          #+#    #+#             */
-/*   Updated: 2025/02/25 16:54:54 by dvo              ###   ########.fr       */
+/*   Updated: 2025/02/25 21:10:23 by dvo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 Channel::Channel() {}
 
-Channel::Channel(std::string name, Client *client) : _name(name)
+Channel::Channel(std::string name, Client *client) : _name(name), _mode(0)
 {
 	_Clients.insert(std::make_pair(client->GetFd(), client));
 	_operator.push_back(client->GetFd());

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Mode.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: saperrie <saperrie@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dvo <dvo@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/24 12:14:19 by saperrie          #+#    #+#             */
-/*   Updated: 2025/02/25 14:54:35 by saperrie         ###   ########.fr       */
+/*   Updated: 2025/02/25 22:55:39 by dvo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,11 @@ void Command::checkMode(Message message, Client &sender, Server &server)
 			message.getContent().erase(0, i);
 			throw ProtocolError(ERR_UNKNOWNMODE, message.getContent(), sender.GetNick());
 		}
+		if (message.getContent()[0] == '+' && ichar == 2)
+		{
+			std::cout << "PASS IS:" << message.getContent() << std::endl;
+			it->second.setPassword(message.getPass());
+		}
 		(it->second.*functptr)(message.getContent()[i]);
 	}
 }
@@ -64,7 +69,6 @@ static void getMode(Client &sender, Channel &channel)
 	std::string reply = "+";
 	char array[] = {'i', 't', 'k', 'l'};
 	int i = 0;
-
 	while (i < 4)
 	{
 		if ((channel.viewMode(array[i])) == true)
