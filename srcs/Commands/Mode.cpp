@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Mode.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dvo <dvo@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: saperrie <saperrie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/24 12:14:19 by saperrie          #+#    #+#             */
-/*   Updated: 2025/02/24 18:27:04 by dvo              ###   ########.fr       */
+/*   Updated: 2025/02/25 12:56:49 by saperrie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,7 @@ static void getMode(Client &sender, Channel &channel)
 	std::string reply = "+";
 	char array[] = {'i', 't', 'k', 'l'};
 	int i = 0;
+
 	while (i < 4)
 	{
 		if ((channel.viewMode(array[i])) == true)

@@ -6,7 +6,7 @@
 /*   By: saperrie <saperrie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/24 12:13:58 by saperrie          #+#    #+#             */
-/*   Updated: 2025/02/24 12:14:02 by saperrie         ###   ########.fr       */
+/*   Updated: 2025/02/25 12:48:43 by saperrie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,9 @@
 
 class RplMessage
 {
-public:
-	static void GetRply(int code, int fd, int size, const char * value, ...);
+	public:
+
+		static void GetRply(int code, int fd, int size, const char * value, ...);
 };
 
 #endif

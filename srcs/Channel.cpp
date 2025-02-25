@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Channel.cpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dvo <dvo@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: saperrie <saperrie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/24 12:14:38 by saperrie          #+#    #+#             */
-/*   Updated: 2025/02/24 17:51:38 by dvo              ###   ########.fr       */
+/*   Updated: 2025/02/25 12:53:01 by saperrie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,12 +25,10 @@ Channel::~Channel() {}
 void Channel::AddClient(Client *client)
 {
 	_Clients[client->GetFd()] = client;
-	_Clients[client->GetFd()] = client;
 }
 
 void Channel::JoinChannel(Client *client)
 {
-	_Clients.insert(std::make_pair(client->GetFd(), client));
 	_Clients.insert(std::make_pair(client->GetFd(), client));
 }
 
@@ -60,6 +58,7 @@ void Channel::addMode(char ope)
 	std::cout << "ADDDDD\n";
 	char array[] = {'i', 't', 'k', 'l'};
 	int bit_position = 0;
+
 	while (bit_position < 10)
 	{
 		if (ope == array[bit_position])
@@ -75,6 +74,7 @@ void Channel::deleteMode(char ope)
 	std::cout << "DELETEEEEE\n";
 	char array[] = {'i', 't', 'k', 'l'};
 	int bit_position = 0;
+
 	while (bit_position < 10)
 	{
 		if (ope == array[bit_position])
@@ -89,6 +89,7 @@ bool Channel::viewMode(char ope)
 {
 	char array[] = {'i', 't', 'k', 'l'};
 	int bit_position = 0;
+
 	while (bit_position < 10)
 	{
 		if (ope == array[bit_position])
@@ -101,6 +102,7 @@ bool Channel::viewMode(char ope)
 bool Channel::IsOperator(int client)
 {
 	int i = 0;
+
 	if (_operator.empty() == true)
 		return false;
 	while (_operator[i] != _operator.back())

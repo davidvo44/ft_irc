@@ -6,7 +6,7 @@
 /*   By: saperrie <saperrie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/24 12:14:25 by saperrie          #+#    #+#             */
-/*   Updated: 2025/02/24 12:14:27 by saperrie         ###   ########.fr       */
+/*   Updated: 2025/02/25 12:56:23 by saperrie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,10 +16,10 @@ void Command::Part(Message message, Client &sender, Server &server)
 {
 	int 		fdcl;
 	std::string	response;
-
 	std::cout << "PART cmd :" << std::endl;
 	std::map<std::string, Channel>::iterator it = server.getChannel().find(message.getTo());
 	std::map<int, Client*>::iterator itcl = (it->second).GetClient().begin();
+
 	if (it == server.getChannel().end())
 	{
 		std::cout << "Channel didn't exist" << std::endl;

@@ -6,7 +6,7 @@
 /*   By: saperrie <saperrie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/24 12:11:46 by saperrie          #+#    #+#             */
-/*   Updated: 2025/02/24 12:15:04 by saperrie         ###   ########.fr       */
+/*   Updated: 2025/02/25 12:55:20 by saperrie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,7 @@ void Server::ServerInit()
 	_SerSocketFd = socket(AF_INET, SOCK_STREAM, 0);
 	serverSocket = _SerSocketFd;
 	int opt = 1;
+
 	if (setsockopt(serverSocket, SOL_SOCKET, SO_REUSEADDR, &opt, sizeof(opt)) == -1)
 	{
 		close(serverSocket);

@@ -6,7 +6,7 @@
 /*   By: saperrie <saperrie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/24 12:14:53 by saperrie          #+#    #+#             */
-/*   Updated: 2025/02/24 12:14:55 by saperrie         ###   ########.fr       */
+/*   Updated: 2025/02/25 12:54:22 by saperrie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@ Message::Message(std::string buffer)
 void Message::parse()
 {
 	unsigned long i = 0;
+
 	if (_words.size() > 0 && _words[0][0] == ':')
 	{
 		_prefix = _words[i];

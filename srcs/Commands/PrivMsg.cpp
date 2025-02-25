@@ -6,7 +6,7 @@
 /*   By: saperrie <saperrie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/24 12:14:28 by saperrie          #+#    #+#             */
-/*   Updated: 2025/02/24 12:14:30 by saperrie         ###   ########.fr       */
+/*   Updated: 2025/02/25 12:56:00 by saperrie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,8 @@
 void Command::PrivateMessage(Message message, Client sender, Server server)
 {
 	std::string	response;
-
 	std::map<std::string, Channel>::iterator it = server.getChannel().find(message.getTo());
+
 	if (it == server.getChannel().end())
 		return;
 	std::map<int, Client*>::iterator itCl = (it->second).GetClient().begin();

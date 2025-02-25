@@ -6,7 +6,7 @@
 /*   By: saperrie <saperrie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/24 12:14:42 by saperrie          #+#    #+#             */
-/*   Updated: 2025/02/24 12:14:44 by saperrie         ###   ########.fr       */
+/*   Updated: 2025/02/25 12:53:33 by saperrie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@ void ProtocolError::GetError()
 	std::stringstream ss;
     ss << _code;
 	code = ss.str() + " " + _user + " " + _s;
+
 	switch (_code)
 	{
 		case 401:

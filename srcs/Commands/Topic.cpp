@@ -6,7 +6,7 @@
 /*   By: saperrie <saperrie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/24 12:14:33 by saperrie          #+#    #+#             */
-/*   Updated: 2025/02/24 12:14:35 by saperrie         ###   ########.fr       */
+/*   Updated: 2025/02/25 12:55:41 by saperrie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@ void Command::Topic(Message message, Client &sender, Server &server)
 void Command::getTopic(Message message, Client &sender, Server &server)
 {
 	std::map<std::string, Channel>::iterator it = server.getChannel().find(message.getTo());
+
 	if (message.getTo() == "ft_irc")
 		throw ProtocolError(461, message.getCommand(), sender.GetNick());
     if (it == server.getChannel().end())
@@ -41,6 +42,7 @@ void Command::getTopic(Message message, Client &sender, Server &server)
 static void setTopic(Message message, Client &sender, Server &server)
 {
 	std::map<std::string, Channel>::iterator it = server.getChannel().find(message.getTo());
+
 	if (message.getTo() == "ft_irc")
 		throw ProtocolError(461, message.getCommand(), sender.GetNick());
     if (it == server.getChannel().end())

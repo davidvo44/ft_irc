@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   RplMessage.cpp                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dvo <dvo@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: saperrie <saperrie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/24 12:14:58 by saperrie          #+#    #+#             */
-/*   Updated: 2025/02/24 18:21:54 by dvo              ###   ########.fr       */
+/*   Updated: 2025/02/25 12:54:42 by saperrie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@ void RplMessage::GetRply(int code, int fd, int size, const char * value, ...)
 	std::ostringstream ss;
     ss << code;
 	std::string scode = ss.str();
+
     va_start(args, value);
 	arg_list.push_back(std::string(value));
 	for (int i = 1; i < size; i++)

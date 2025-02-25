@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Command.cpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dvo <dvo@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: saperrie <saperrie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/24 12:14:11 by saperrie          #+#    #+#             */
-/*   Updated: 2025/02/24 18:50:25 by dvo              ###   ########.fr       */
+/*   Updated: 2025/02/25 12:57:13 by saperrie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@ void Command::CheckCommande(std::string str, Server &server, int fd)
 	std::string array[] = {"JOIN", "USER", "NICK", "PASS", "PRIVMSG", "WHO", "PART", "TOPIC", "KICK", "INVITE", "MODE", "CAP"};
 	int index = 0;
 	Message str_message(str);
+
 	while (index < 12)
 	{
 		if (str_message.getCommand().compare(array[index]) == 0)
@@ -87,6 +88,7 @@ void Command::GetLineCommand(char *buffer, int fd, Server &server)
 {
 	std::string str;
 	char *tmp = buffer;
+
 	while (*tmp)
 	{
 		char *newline = strchr(tmp, '\n');

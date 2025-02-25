@@ -6,7 +6,7 @@
 /*   By: saperrie <saperrie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/24 12:13:52 by saperrie          #+#    #+#             */
-/*   Updated: 2025/02/24 12:13:53 by saperrie         ###   ########.fr       */
+/*   Updated: 2025/02/25 12:50:19 by saperrie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,14 +19,8 @@
 
 class Message
 {
-	private:
-		std::string _prefix;    //  std::string prefix = ":" + clientNick + "!" + clientUser + "@" + clientHost;
-		std::string _command;
-		std::string _to;
-		std::string _content;
-		std::vector<std::string> _words;
-
 	public:
+
 		Message();
 		Message(std::string buffer);
 		void parse();
@@ -34,6 +28,13 @@ class Message
 		std::string &getCommand();
 		std::string &getTo();
 		std::string &getContent();
-};
+
+	private:
+
+		std::string _prefix;    //  std::string prefix = ":" + clientNick + "!" + clientUser + "@" + clientHost;
+		std::string _command;
+		std::string _to;
+		std::string _content;
+		std::vector<std::string> _words;};
 
 #endif

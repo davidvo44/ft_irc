@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Nick.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dvo <dvo@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: saperrie <saperrie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/24 12:14:22 by saperrie          #+#    #+#             */
-/*   Updated: 2025/02/24 18:02:00 by dvo              ###   ########.fr       */
+/*   Updated: 2025/02/25 12:56:38 by saperrie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,6 @@ void Command::Nick(Message message, Client &sender, Server &server)
 
 	std::cout << "NICK cmd :" << std::endl;
 	std::cout << ":" << sender.GetNick() << "!" << sender.GetName() << "@" << sender.GetIpAdd() << " NICK " << message.getContent() << std::endl;
-
 
 	fdcl = sender.GetFd();
 	response = GetPrefix(sender);
