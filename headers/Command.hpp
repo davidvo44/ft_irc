@@ -6,7 +6,7 @@
 /*   By: saperrie <saperrie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/24 12:13:17 by saperrie          #+#    #+#             */
-/*   Updated: 2025/02/25 14:56:00 by saperrie         ###   ########.fr       */
+/*   Updated: 2025/02/25 16:04:13 by saperrie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ class Command
 		static void WhoCommand(int FdCl, Client client, Message message, Server server);
 		static void Topic(Message message, Client &sender, Server &server);
 		static void getTopic(Message message, Client &sender, Server &server);
-		static void Kick();
+		static void Kick(Message message, Client &client, Server &server);
 		static void checkMode(Message message, Client &sender, Server &server);
 };
 

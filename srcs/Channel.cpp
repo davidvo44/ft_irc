@@ -6,7 +6,7 @@
 /*   By: saperrie <saperrie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/24 12:14:38 by saperrie          #+#    #+#             */
-/*   Updated: 2025/02/25 12:53:01 by saperrie         ###   ########.fr       */
+/*   Updated: 2025/02/25 18:17:04 by saperrie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ void Channel::JoinChannel(Client *client)
 
 void Channel::PartChannel(Client client)
 {
-	std::cout << client.GetNick() << " PARTING" << std::endl;
+	std::cout << client.GetNick() << " LEFT" << std::endl;
 	_Clients.erase(client.GetFd());
 }
 

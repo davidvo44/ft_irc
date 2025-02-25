@@ -6,7 +6,7 @@
 /*   By: saperrie <saperrie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/24 12:14:11 by saperrie          #+#    #+#             */
-/*   Updated: 2025/02/25 14:56:22 by saperrie         ###   ########.fr       */
+/*   Updated: 2025/02/25 16:04:03 by saperrie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ void Command::CheckCommand(std::string str, Server &server, int fd)
 				Command::Topic(str_message, *(it->second), server);
 				break;
 			case 8:
-				Command::Kick();
+				Command::Kick(str_message, *(it->second), server);
 				break;
 			case 9:
 				break;

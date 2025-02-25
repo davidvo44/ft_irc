@@ -6,7 +6,7 @@
 /*   By: saperrie <saperrie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/24 12:14:53 by saperrie          #+#    #+#             */
-/*   Updated: 2025/02/25 12:54:22 by saperrie         ###   ########.fr       */
+/*   Updated: 2025/02/25 17:22:43 by saperrie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ void Message::parse()
 	i++;
 	if (i == _words.size())
 		return ;
-	if (_command == "PRIVMSG" || _command == "PART" || _command == "TOPIC" || _command == "JOIN" || _command == "MODE")
+	if (_command == "PRIVMSG" || _command == "PART" || _command == "TOPIC" || _command == "JOIN" || _command == "MODE" ||  _command == "KICK")
 	{
 		_to = _words[i];
 		i++;

@@ -6,7 +6,7 @@
 /*   By: saperrie <saperrie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/24 12:14:42 by saperrie          #+#    #+#             */
-/*   Updated: 2025/02/25 15:18:09 by saperrie         ###   ########.fr       */
+/*   Updated: 2025/02/25 17:51:12 by saperrie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,9 @@ void ProtocolError::GetError()
 			return;
 		case ERR_NICKNAMEINUSE:
 			_finalMessage = code + " :Nickname is already in use";
+			return;
+		case ERR_USERNOTINCHANNEL:
+			_finalMessage = code + " :They aren't on that channel";
 			return;
 		case ERR_NOTONCHANNEL:
 			_finalMessage = code + " :You're not on that channel";
