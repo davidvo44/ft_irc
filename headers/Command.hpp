@@ -6,7 +6,7 @@
 /*   By: saperrie <saperrie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/24 12:13:17 by saperrie          #+#    #+#             */
-/*   Updated: 2025/02/25 12:46:41 by saperrie         ###   ########.fr       */
+/*   Updated: 2025/02/25 14:56:00 by saperrie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@
 #include "Message.hpp"
 #include "ExceptionError.hpp"
 #include "RplMessage.hpp"
+#include "DefineList.hpp"
 
 #include <vector>
 #include <algorithm>
@@ -27,7 +28,7 @@ class Command
 {
 	public:
 			//Init Command
-		static void			CheckCommande(std::string str, Server &server, int fd);
+		static void			CheckCommand(std::string str, Server &server, int fd);
 		static void			GetLineCommand(char *buffer, int fd, Server &server);
 		static std::string	GetPrefix(Client client);
 		static void			SendBySharedChannels(std::string to_send, Client sender, Server &server);

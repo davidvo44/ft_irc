@@ -6,12 +6,16 @@
 /*   By: saperrie <saperrie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/25 13:12:18 by saperrie          #+#    #+#             */
-/*   Updated: 2025/02/25 13:45:39 by saperrie         ###   ########.fr       */
+/*   Updated: 2025/02/25 14:51:46 by saperrie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef DEFINELIST_HPP
 # define DEFINELIST_HPP
+
+
+#define	ERR_UNKNOWNCOMMAND 421
+
 
 //			JOIN			//
 #define	ERR_NEEDMOREPARAMS 461
@@ -70,21 +74,21 @@
 
 
 //			TOPIC			//
-#define ERR_NEEDMOREPARAMS 461
-#define ERR_NOSUCHCHANNEL 403
-#define ERR_NOTONCHANNEL 442
-#define ERR_CHANOPRIVSNEEDED 482
-#define RPL_NOTOPIC 331
-#define RPL_TOPIC 332
-#define RPL_TOPICWHOTIME 333
+#define	ERR_NEEDMOREPARAMS 461
+#define	ERR_NOSUCHCHANNEL 403
+#define	ERR_NOTONCHANNEL 442
+#define	ERR_CHANOPRIVSNEEDED 482
+#define	RPL_NOTOPIC 331
+#define	RPL_TOPIC 332
+#define	RPL_TOPICWHOTIME 333
 
 
 //			KICK			//
-#define ERR_NEEDMOREPARAMS 461
-#define ERR_NOSUCHCHANNEL 403
-#define ERR_CHANOPRIVSNEEDED 482
-#define ERR_USERNOTINCHANNEL 441
-#define ERR_NOTONCHANNEL 442
+#define	ERR_NEEDMOREPARAMS 461
+#define	ERR_NOSUCHCHANNEL 403
+#define	ERR_CHANOPRIVSNEEDED 482
+#define	ERR_USERNOTINCHANNEL 441
+#define	ERR_NOTONCHANNEL 442
 
 
 //			INVITE			//
@@ -106,6 +110,7 @@
 #define	ERR_NOSUCHCHANNEL 403
 #define	RPL_CHANNELMODEIS 324
 #define	RPL_CREATIONTIME 329
+#define	ERR_UNKNOWNMODE 472
 #define	ERR_CHANOPRIVSNEEDED 482
 
 

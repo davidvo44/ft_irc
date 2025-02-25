@@ -6,14 +6,13 @@
 /*   By: saperrie <saperrie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/24 12:14:11 by saperrie          #+#    #+#             */
-/*   Updated: 2025/02/25 12:57:13 by saperrie         ###   ########.fr       */
+/*   Updated: 2025/02/25 14:56:22 by saperrie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "Command.hpp"
-#include "vector"
 
-void Command::CheckCommande(std::string str, Server &server, int fd)
+void Command::CheckCommand(std::string str, Server &server, int fd)
 {
 	std::string array[] = {"JOIN", "USER", "NICK", "PASS", "PRIVMSG", "WHO", "PART", "TOPIC", "KICK", "INVITE", "MODE", "CAP"};
 	int index = 0;
@@ -31,26 +30,26 @@ void Command::CheckCommande(std::string str, Server &server, int fd)
 		switch (index)
 		{
 			case 0:
-				Command::JoinChannel(*it->second, str_message, server);
+				Command::JoinChannel(*(it->second), str_message, server);
 				break;
 			case 1:
 				std::cout << "attribute :" << str_message.getContent() << std::endl;
 				(it->second)->SetName(str_message.getContent());
 				break;
 			case 2:
-				Command::Nick(str_message, *it->second, server);
+				Command::Nick(str_message, *(it->second), server);
 				break;
 			case 3:
 				(it->second)->SetPassword(str_message.getContent());
 				break;
 			case 4:
-				Command::PrivateMessage(str_message, *it->second, server);
+				Command::PrivateMessage(str_message, *(it->second), server);
 				break;
 			case 5:
 				Command::WhoCommand(fd, *(it->second), str_message, server);
 				break;
 			case 6:
-				Command::Part(str_message, *it->second, server);
+				Command::Part(str_message, *(it->second), server);
 				break;
 			case 7:
 				Command::Topic(str_message, *(it->second), server);
@@ -66,7 +65,7 @@ void Command::CheckCommande(std::string str, Server &server, int fd)
 			case 11:
 				break;
 			default:
-				throw ProtocolError(421, str, (it->second)->GetNick());
+				throw ProtocolError(ERR_UNKNOWNCOMMAND, str, it->second->GetNick());
 		}
 	}
 	catch(const std::exception& e)
@@ -95,13 +94,13 @@ void Command::GetLineCommand(char *buffer, int fd, Server &server)
 		if (newline)
 		{
 			*newline = '\0';
-			Command::CheckCommande(str.append(tmp), server, fd);
+			Command::CheckCommand(str.append(tmp), server, fd);
 			tmp = newline + 1;
 			str.clear();
 		}
 		else
 		{
-			Command::CheckCommande(str.append(tmp), server, fd);
+			Command::CheckCommand(str.append(tmp), server, fd);
 			break;
 		}
 	}

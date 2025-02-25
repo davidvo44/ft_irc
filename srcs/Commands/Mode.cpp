@@ -6,7 +6,7 @@
 /*   By: saperrie <saperrie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/24 12:14:19 by saperrie          #+#    #+#             */
-/*   Updated: 2025/02/25 12:56:49 by saperrie         ###   ########.fr       */
+/*   Updated: 2025/02/25 14:54:35 by saperrie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,12 +17,12 @@ static void getMode(Client &sender, Channel &channel);
 void Command::checkMode(Message message, Client &sender, Server &server)
 {
 	if (message.getTo().empty() == true)
-		throw ProtocolError(461, message.getCommand(), sender.GetNick());
+		throw ProtocolError(ERR_NEEDMOREPARAMS, message.getCommand(), sender.GetNick());
 	std::map<std::string, Channel>::iterator it = server.getChannel().find(message.getTo());
 	if (it == server.getChannel().end())
-		throw ProtocolError(403, message.getTo(), sender.GetNick());
+		throw ProtocolError(ERR_NOSUCHCHANNEL, message.getTo(), sender.GetNick());
 	if (it->second.IsOperator(sender.GetFd()) == false)
-		throw ProtocolError(482, message.getTo(), sender.GetNick());
+		throw ProtocolError(ERR_CHANOPRIVSNEEDED, message.getTo(), sender.GetNick());
 	if (message.getContent().empty() == true)
 	{
 		getMode(sender, it->second);
@@ -36,7 +36,7 @@ void Command::checkMode(Message message, Client &sender, Server &server)
 	else
 	{
 		functptr = NULL;
-		throw ProtocolError(472, message.getContent().erase(1), sender.GetNick());
+		throw ProtocolError(ERR_UNKNOWNMODE, message.getContent().erase(1), sender.GetNick());
 	}
 	char array[] = {'i', 't', 'k', 'l'};
 	for (int i = 1; message.getContent()[i] != '\0'; i++)
@@ -52,7 +52,7 @@ void Command::checkMode(Message message, Client &sender, Server &server)
 		{
 			message.getContent().erase(i + 1);
 			message.getContent().erase(0, i);
-			throw ProtocolError(472, message.getContent(), sender.GetNick());
+			throw ProtocolError(ERR_UNKNOWNMODE, message.getContent(), sender.GetNick());
 		}
 		(it->second.*functptr)(message.getContent()[i]);
 	}
@@ -73,5 +73,5 @@ static void getMode(Client &sender, Channel &channel)
 		}
 		i++;
 	}
-	RplMessage::GetRply(324, sender.GetFd(), 3, sender.GetNick().c_str(), channel.getName().c_str(), reply.c_str());
+	RplMessage::GetRply(RPL_CHANNELMODEIS, sender.GetFd(), 3, sender.GetNick().c_str(), channel.getName().c_str(), reply.c_str());
 }
