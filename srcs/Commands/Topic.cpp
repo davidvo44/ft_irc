@@ -6,7 +6,7 @@
 /*   By: saperrie <saperrie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/24 12:14:33 by saperrie          #+#    #+#             */
-/*   Updated: 2025/02/25 14:53:47 by saperrie         ###   ########.fr       */
+/*   Updated: 2025/02/25 15:19:09 by saperrie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,11 +44,11 @@ static void setTopic(Message message, Client &sender, Server &server)
 	std::map<std::string, Channel>::iterator it = server.getChannel().find(message.getTo());
 
 	if (message.getTo() == "ft_irc")
-		throw ProtocolError(461, message.getCommand(), sender.GetNick());
+		throw ProtocolError(ERR_NEEDMOREPARAMS, message.getCommand(), sender.GetNick());
     if (it == server.getChannel().end())
-		throw ProtocolError(403, message.getTo(), sender.GetNick());
+		throw ProtocolError(ERR_NOSUCHCHANNEL, message.getTo(), sender.GetNick());
 	std::map<int, Client*>::iterator itcl = (it->second).GetClient().find(sender.GetFd());
 	if (itcl == (it->second).GetClient().end())
-		throw ProtocolError(442, message.getTo(), sender.GetNick());
+		throw ProtocolError(ERR_NOTONCHANNEL, message.getTo(), sender.GetNick());
 	it->second.setTopic(message.getContent());
 }

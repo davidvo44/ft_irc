@@ -6,11 +6,12 @@
 /*   By: saperrie <saperrie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/24 12:14:58 by saperrie          #+#    #+#             */
-/*   Updated: 2025/02/25 12:54:42 by saperrie         ###   ########.fr       */
+/*   Updated: 2025/02/25 15:15:52 by saperrie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "RplMessage.hpp"
+#include "DefineList.hpp"
 #include <cstring>
 #include <unistd.h>
 #include <sstream>
@@ -32,16 +33,16 @@ void RplMessage::GetRply(int code, int fd, int size, const char * value, ...)
 
 	switch (code)
 	{
-		case 324:
+		case RPL_CHANNELMODEIS:
 			final_msg =  arg_list[1] + " " + arg_list[2];
 			break;
-		case 331:
+		case RPL_NOTOPIC:
 			final_msg = arg_list[1] + " :No topic is set";
 			break;
-		case 332:
+		case RPL_TOPIC:
 			final_msg = arg_list[1] + " :" + arg_list[2];
 			break;
-		case 341:
+		case RPL_INVITING:
 			break;
 	}
 	std::string response = ":irc.com " + scode + " " + arg_list[0] + " " + final_msg + "\n";

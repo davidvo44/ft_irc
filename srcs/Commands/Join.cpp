@@ -6,7 +6,7 @@
 /*   By: saperrie <saperrie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/24 12:14:14 by saperrie          #+#    #+#             */
-/*   Updated: 2025/02/24 12:14:15 by saperrie         ###   ########.fr       */
+/*   Updated: 2025/02/25 15:19:48 by saperrie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ static void write_channel(Client client, Message message, Server &server);
 void Command::JoinChannel(Client &client, Message message, Server &server)
 {
 	if (message.getTo().find('#') != 0 && message.getTo().find('&') != 0)
-		throw ProtocolError(403, message.getTo(), client.GetNick());
+		throw ProtocolError(ERR_NOSUCHCHANNEL, message.getTo(), client.GetNick());
 	std::map<std::string, Channel>::iterator it = server.getChannel().find(message.getTo());
     if (server.getChannel().empty() == false &&  it != server.getChannel().end())
 	{
