@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Command.cpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: saperrie <saperrie@student.42.fr>          +#+  +:+       +#+        */
+/*   By: garivo <garivo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/24 12:14:11 by saperrie          #+#    #+#             */
-/*   Updated: 2025/02/25 14:56:22 by saperrie         ###   ########.fr       */
+/*   Updated: 2025/02/25 18:01:26 by garivo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ void Command::CheckCommand(std::string str, Server &server, int fd)
 				Command::PrivateMessage(str_message, *(it->second), server);
 				break;
 			case 5:
-				Command::WhoCommand(fd, *(it->second), str_message, server);
+				Command::Who(fd, *(it->second), str_message, server);
 				break;
 			case 6:
 				Command::Part(str_message, *(it->second), server);

@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   Who.cpp                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: saperrie <saperrie@student.42.fr>          +#+  +:+       +#+        */
+/*   By: garivo <garivo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/24 12:14:36 by saperrie          #+#    #+#             */
-/*   Updated: 2025/02/24 12:14:37 by saperrie         ###   ########.fr       */
+/*   Updated: 2025/02/25 18:01:48 by garivo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "Command.hpp"
 
-void Command::WhoCommand(int FdCl, Client client, Message message, Server server)
+void Command::Who(int FdCl, Client client, Message message, Server server)
 {
 	(void) server;
 	Client clientChan;

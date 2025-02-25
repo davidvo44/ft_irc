@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Command.hpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: saperrie <saperrie@student.42.fr>          +#+  +:+       +#+        */
+/*   By: garivo <garivo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/24 12:13:17 by saperrie          #+#    #+#             */
-/*   Updated: 2025/02/25 14:56:00 by saperrie         ###   ########.fr       */
+/*   Updated: 2025/02/25 18:01:41 by garivo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ class Command
 		static void Part(Message message, Client &sender, Server &server);
 		static void PrivateMessage(Message message, Client sender, Server server);
 		static void QuitClient(int fd, Poll &server, size_t i);
-		static void WhoCommand(int FdCl, Client client, Message message, Server server);
+		static void Who(int FdCl, Client client, Message message, Server server);
 		static void Topic(Message message, Client &sender, Server &server);
 		static void getTopic(Message message, Client &sender, Server &server);
 		static void Kick();
