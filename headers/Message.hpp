@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Message.hpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: garivo <garivo@student.42.fr>              +#+  +:+       +#+        */
+/*   By: dvo <dvo@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/24 12:13:52 by saperrie          #+#    #+#             */
-/*   Updated: 2025/02/26 00:09:55 by garivo           ###   ########.fr       */
+/*   Updated: 2025/02/26 16:37:20 by dvo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,13 +31,12 @@ class Message
 
 	private:
 
-		void parse();
+		void parse(std::vector<std::string> _words);
 		std::string _prefix;    //  std::string prefix = ":" + clientNick + "!" + clientUser + "@" + clientHost;
 		std::string _command;
 		std::string _to;
 		std::string _content;
 		std::string _pass;
-		std::vector<std::string> _words; // a mettre sur parse
 };
 
 #endif

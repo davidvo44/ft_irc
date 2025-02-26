@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Command.cpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: garivo <garivo@student.42.fr>              +#+  +:+       +#+        */
+/*   By: dvo <dvo@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/24 12:14:11 by saperrie          #+#    #+#             */
-/*   Updated: 2025/02/26 00:23:41 by garivo           ###   ########.fr       */
+/*   Updated: 2025/02/26 19:43:14 by dvo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,11 +17,10 @@ void Command::CheckCommand(std::string str, Server &server, int fd)
 	std::string array[] = {"JOIN", "USER", "NICK", "PASS", "PRIVMSG", "WHO", "PART", "TOPIC", "KICK", "INVITE", "MODE", "CAP"};
 	int index = 0;
 	Message str_message(str);
-
 	while (index < 12)
 	{
 		if (str_message.getCommand().compare(array[index]) == 0)
-			break;
+		break;
 		index++;
 	}
 	std::map<int, Client*>::iterator it = server.getClients().find(fd);

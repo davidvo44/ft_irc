@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Message.cpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: garivo <garivo@student.42.fr>              +#+  +:+       +#+        */
+/*   By: dvo <dvo@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/24 12:14:53 by saperrie          #+#    #+#             */
-/*   Updated: 2025/02/26 00:09:50 by garivo           ###   ########.fr       */
+/*   Updated: 2025/02/26 16:37:15 by dvo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,13 +18,14 @@ Message::Message(std::string buffer)
 {
 	std::istringstream iss(buffer);
     std::string StrCut;
+	std::vector<std::string> _words;
 
 	while (iss >> StrCut)
 		_words.push_back(StrCut);
-	Message::parse();
+	Message::parse(_words);
 }
 
-void Message::parse()
+void Message::parse(std::vector<std::string> _words)
 {
 	unsigned long i = 0;
 

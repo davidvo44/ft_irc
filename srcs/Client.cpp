@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Client.cpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: garivo <garivo@student.42.fr>              +#+  +:+       +#+        */
+/*   By: dvo <dvo@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/24 12:14:40 by saperrie          #+#    #+#             */
-/*   Updated: 2025/02/26 00:12:23 by garivo           ###   ########.fr       */
+/*   Updated: 2025/02/26 16:39:07 by dvo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ Client::Client() : _name("User") , _nick("NickUser"), _password("0"), _IpAdd("em
 	std::cout << "Client connectedsss" << std::endl;
 }
 
-Client::Client(pollfd tmp, std::string IpAddr) : _pollfds(tmp) , _name("User"), _password("0"), _IpAdd(IpAddr), _log(true)
+Client::Client(pollfd &tmp, std::string IpAddr) : _pollfds(tmp) , _name("User"), _password("0"), _IpAdd(IpAddr), _log(true)
 {
 	std::string code;
 	std::stringstream ss;

@@ -6,7 +6,7 @@
 #    By: dvo <dvo@student.42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/02/24 12:05:22 by saperrie          #+#    #+#              #
-#    Updated: 2025/02/24 18:10:46 by dvo              ###   ########.fr        #
+#    Updated: 2025/02/26 19:38:27 by dvo              ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -36,8 +36,8 @@ OBJECTS = $(patsubst %.cpp,$(OBJECT_DIR)%.o,\
 		srcs/Commands/Nick.cpp \
 		srcs/Commands/Part.cpp \
 		srcs/Commands/Topic.cpp \
-		srcs/Commands/Kick.cpp \
 		srcs/Commands/Mode.cpp \
+		srcs/Commands/Kick.cpp \
 		srcs/RplMessage.cpp \
 		)
 
