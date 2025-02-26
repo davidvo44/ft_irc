@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Command.cpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: saperrie <saperrie@student.42.fr>          +#+  +:+       +#+        */
+/*   By: garivo <garivo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/24 12:14:11 by saperrie          #+#    #+#             */
-/*   Updated: 2025/02/25 14:56:22 by saperrie         ###   ########.fr       */
+/*   Updated: 2025/02/26 00:23:41 by garivo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,7 +106,7 @@ void Command::GetLineCommand(char *buffer, int fd, Server &server)
 	}
 }
 
-std::string	Command::GetPrefix(Client client)
+std::string	Command::GetPrefix(Client client) //a mettre sur classe client
 {
 	std::string prefix = ":" + client.GetNick() + "!" + client.GetName() + "@" + client.GetIpAdd() + " ";
 	return (prefix);

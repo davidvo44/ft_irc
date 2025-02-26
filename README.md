@@ -18,39 +18,18 @@ To Do list:
 			-l Définir/supprimer la limite d’utilisateurs pour le canal
 			idee, gerer en binaire (1,1,1,1) ou faire tableau d'admin. Voir struc sur Channel.hpp
 
-- Replication server client
-
-Done :
-
-- Communication client serveur
-
-
-Syntaxe IRC :
-
-[{:}{prefix}{SP}]{COMMANDE}[{SP}{PARAMETRES}]{CRLF}
-
-:prefix CMD param
-
-
- prefix = 
-
- Client => serveur
-
-NICK
-
-Client client
-
-  :NICK!NAME@DOMAINE du sender
-
-Serveur client
-
-  :Nom du serv
-
-
-CMD = soit un mot, soit 3 chiffres (reponse serveur)
-
-
-param = :x x x si plusieurs param
 
 
 Verifier caracteres interdit et taille max 512 char
+
+Upon successful completion of the registration process, the server MUST send, in this order:
+
+    RPL_WELCOME (001),
+    RPL_YOURHOST (002),
+    RPL_CREATED (003),
+    RPL_MYINFO (004),
+    at least one RPL_ISUPPORT (005) numeric to the client.
+    The server MAY then send other numerics and messages.
+    The server SHOULD then respond as though the client sent the LUSERS command and return the appropriate numerics.
+    The server MUST then respond as though the client sent it the MOTD command, i.e. it must send either the successful Message of the Day numerics or the ERR_NOMOTD (422) numeric.
+    If the user has client modes set on them automatically upon joining the network, the server SHOULD send the client the RPL_UMODEIS (221) reply or a MODE message with the client as target, preferably the former.

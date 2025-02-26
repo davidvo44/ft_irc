@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Message.cpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dvo <dvo@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: garivo <garivo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/24 12:14:53 by saperrie          #+#    #+#             */
-/*   Updated: 2025/02/25 22:53:44 by dvo              ###   ########.fr       */
+/*   Updated: 2025/02/26 00:09:50 by garivo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,17 +61,17 @@ void Message::parse()
 		_pass = _words[i];
 }
 
-std::string & Message::getPrefix()
+const std::string & Message::getPrefix() const
 {
 	return _prefix;
 }
 
-std::string & Message::getCommand()
+const std::string & Message::getCommand() const
 {
 	return _command;
 }
 
-std::string & Message::getTo()
+const std::string & Message::getTo() const
 {
 	return _to;
 }
@@ -81,7 +81,7 @@ std::string & Message::getContent()
 	return _content;
 }
 
-std::string &Message::getPass()
+const std::string &Message::getPass() const
 {
 	return _pass;
 }
