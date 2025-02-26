@@ -6,7 +6,7 @@
 /*   By: dvo <dvo@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/24 12:14:38 by saperrie          #+#    #+#             */
-/*   Updated: 2025/02/26 19:53:01 by dvo              ###   ########.fr       */
+/*   Updated: 2025/02/27 00:54:34 by dvo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ void Channel::PartChannel(Client client)
 	_Clients.erase(client.GetFd());
 }
 
-std::map<int, Client *> &Channel::GetClient()
+MutantMap<int, Client *> &Channel::GetClient()
 {
 	return _Clients;
 }

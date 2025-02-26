@@ -6,7 +6,7 @@
 /*   By: dvo <dvo@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/24 12:14:11 by saperrie          #+#    #+#             */
-/*   Updated: 2025/02/27 00:38:58 by dvo              ###   ########.fr       */
+/*   Updated: 2025/02/27 00:54:20 by dvo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,54 +24,54 @@ void Command::CheckCommand(std::string str, Server &server, int fd)
 		break;
 		index++;
 	}
-	// MutantMap::iterator it;
-	std::map<int, Client*>::iterator it = server.getClients().find(fd); 
+	Client *client = server.getClients().findValue(fd);
+	// std::map<int, Client*>::iterator it = server.getClients().find(fd); 
 	try
 	{
 		switch (index)
 		{
 			case 0:
-				Command::JoinChannel(*(it->second), str_message, server);
+				Command::JoinChannel(*client, str_message, server);
 				break;
 			case 1:
 				std::cout << "attribute :" << str_message.getContent() << std::endl;
-				(it->second)->SetName(str_message.getContent());
+				client->SetName(str_message.getContent());
 				break;
 			case 2:
-				Command::Nick(str_message, *(it->second), server);
+				Command::Nick(str_message, *client, server);
 				break;
 			case 3:
-				(it->second)->SetPassword(str_message.getContent());
+				client->SetPassword(str_message.getContent());
 				break;
 			case 4:
-				Command::PrivateMessage(str_message, *(it->second), server);
+				Command::PrivateMessage(str_message, *client, server);
 				break;
 			case 5:
-				Command::WhoCommand(fd, *(it->second), str_message, server);
+				Command::WhoCommand(fd, *client, str_message, server);
 				break;
 			case 6:
-				Command::Part(str_message, *(it->second), server);
+				Command::Part(str_message, *client, server);
 				break;
 			case 7:
-				Command::Topic(str_message, *(it->second), server);
+				Command::Topic(str_message, *client, server);
 				break;
 			case 8:
-				Command::Kick(str_message, *(it->second), server);
+				Command::Kick(str_message, *client, server);
 				break;
 			case 9:
 				break;
 			case 10:
-				Command::checkMode(str_message, *(it->second), server);
+				Command::checkMode(str_message, *client, server);
 				break;
 			case 11:
 				break;
 			default:
-				throw ProtocolError(ERR_UNKNOWNCOMMAND, str, it->second->GetNick());
+				throw ProtocolError(ERR_UNKNOWNCOMMAND, str, client->GetNick());
 		}
 	}
 	catch(const std::exception& e)
 	{
-		Command::CatchErrors((it->second), e);
+		Command::CatchErrors(client, e);
 	}
 }
 

@@ -6,7 +6,7 @@
 /*   By: dvo <dvo@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/24 12:14:05 by saperrie          #+#    #+#             */
-/*   Updated: 2025/02/27 00:42:28 by dvo              ###   ########.fr       */
+/*   Updated: 2025/02/27 00:52:45 by dvo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ public:
 	Server();
 	int getFD();
 	Client getIdxClients(int idx);
-	std::map<int, Client *> &getClients();
+	MutantMap<int, Client *> &getClients();
 	MutantMap<std::string, Channel *> &getChannel();
 	sockaddr_in getServerAddr();
 	void ServerInit();
@@ -37,7 +37,7 @@ public:
 private:
 	int _Port;
 	int _SerSocketFd;
-	std::map<int, Client *> _Clients;
+	MutantMap<int, Client *> _Clients;
 	MutantMap<std::string, Channel *> _Channel;
 	struct sockaddr_in _ServerAddr;
 };

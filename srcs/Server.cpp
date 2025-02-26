@@ -6,7 +6,7 @@
 /*   By: dvo <dvo@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/24 12:11:46 by saperrie          #+#    #+#             */
-/*   Updated: 2025/02/26 23:08:16 by dvo              ###   ########.fr       */
+/*   Updated: 2025/02/27 00:51:37 by dvo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,7 @@ MutantMap<std::string, Channel *> &Server::getChannel()
 	return (_Channel);
 }
 
-std::map<int, Client *> &Server::getClients()
+MutantMap<int, Client *> &Server::getClients()
 {
 	return (_Clients);
 }
