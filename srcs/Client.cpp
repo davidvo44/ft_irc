@@ -6,23 +6,23 @@
 /*   By: dvo <dvo@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/24 12:14:40 by saperrie          #+#    #+#             */
-/*   Updated: 2025/02/26 16:39:07 by dvo              ###   ########.fr       */
+/*   Updated: 2025/02/27 00:44:08 by dvo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "Client.hpp"
 #include <sstream>
 
-Client::Client() : _name("User") , _nick("NickUser"), _password("0"), _IpAdd("empty")
+Client::Client() : _name("User"), _nick("NickUser"), _password("0"), _IpAdd("empty")
 {
 	std::cout << "Client connectedsss" << std::endl;
 }
 
-Client::Client(pollfd &tmp, std::string IpAddr) : _pollfds(tmp) , _name("User"), _password("0"), _IpAdd(IpAddr), _log(true)
+Client::Client(pollfd &tmp, std::string IpAddr) : _pollfds(tmp), _name("User"), _password("0"), _IpAdd(IpAddr), _log(true)
 {
 	std::string code;
 	std::stringstream ss;
-    ss << tmp.fd;
+	ss << tmp.fd;
 	_nick = "NickUser" + ss.str();
 	std::cout << "Client connected" << std::endl;
 }
@@ -31,7 +31,6 @@ int Client::GetFd()
 {
 	return _pollfds.fd;
 }
-
 
 std::string Client::GetName()
 {
@@ -76,4 +75,10 @@ void Client::setIpAdd(std::string IpAdd)
 void Client::setLog(bool change)
 {
 	_log = change;
+}
+
+std::string Client::GetPrefix()
+{
+	std::string prefix = ":" + _nick + "!" + _name + "@" + _IpAdd + " ";
+	return (prefix);
 }

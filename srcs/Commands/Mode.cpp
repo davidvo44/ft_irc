@@ -6,7 +6,7 @@
 /*   By: dvo <dvo@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/24 12:14:19 by saperrie          #+#    #+#             */
-/*   Updated: 2025/02/26 19:43:48 by dvo              ###   ########.fr       */
+/*   Updated: 2025/02/27 00:17:10 by dvo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,12 +62,12 @@ static Channel &checkErrorMode(Message &message, Client &sender, Server &server)
 {
 	if (message.getTo().empty() == true)
 		throw ProtocolError(ERR_NEEDMOREPARAMS, message.getCommand(), sender.GetNick());
-	std::map<std::string, Channel>::iterator it = server.getChannel().find(message.getTo());
-	if (it == server.getChannel().end())
+	Channel *channel = server.getChannel().findValue(message.getTo());
+	if (channel == NULL)
 		throw ProtocolError(ERR_NOSUCHCHANNEL, message.getTo(), sender.GetNick());
-	if (it->second.IsOperator(sender.GetFd()) == false)
+	if (channel->IsOperator(sender.GetFd()) == false)
 		throw ProtocolError(ERR_CHANOPRIVSNEEDED, message.getTo(), sender.GetNick());
-	return (it->second);
+	return (*channel);
 }
 
 static int CheckChar(char c, Message &message, Client &sender, Channel channel)

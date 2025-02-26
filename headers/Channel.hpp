@@ -6,7 +6,7 @@
 /*   By: dvo <dvo@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/24 12:13:35 by saperrie          #+#    #+#             */
-/*   Updated: 2025/02/25 16:54:13 by dvo              ###   ########.fr       */
+/*   Updated: 2025/02/27 00:27:49 by dvo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,15 +23,19 @@ class Channel
 		Channel(std::string name, Client* client);
 		Channel();
 		~Channel();
+
 		void AddClient(Client* client);
 		void JoinChannel(Client* client);
+
 		void PartChannel(Client client);
 		void setTopic(const std::string topic);
+
 		void addMode(char ope);
 		void deleteMode(char ope);
 		bool viewMode(char ope);
 		bool IsOperator(int client);
 		bool IsWlist(int client);
+
 		std::string getName();
 		const std::string getTopic();
 		std::map<int, Client*> &GetClient();

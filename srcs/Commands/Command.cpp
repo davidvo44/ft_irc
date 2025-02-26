@@ -6,11 +6,12 @@
 /*   By: dvo <dvo@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/24 12:14:11 by saperrie          #+#    #+#             */
-/*   Updated: 2025/02/26 19:43:14 by dvo              ###   ########.fr       */
+/*   Updated: 2025/02/27 00:38:58 by dvo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "Command.hpp"
+#include "MutantMap.hpp"
 
 void Command::CheckCommand(std::string str, Server &server, int fd)
 {
@@ -23,7 +24,8 @@ void Command::CheckCommand(std::string str, Server &server, int fd)
 		break;
 		index++;
 	}
-	std::map<int, Client*>::iterator it = server.getClients().find(fd);
+	// MutantMap::iterator it;
+	std::map<int, Client*>::iterator it = server.getClients().find(fd); 
 	try
 	{
 		switch (index)
@@ -54,7 +56,7 @@ void Command::CheckCommand(std::string str, Server &server, int fd)
 				Command::Topic(str_message, *(it->second), server);
 				break;
 			case 8:
-				Command::Kick();
+				Command::Kick(str_message, *(it->second), server);
 				break;
 			case 9:
 				break;
@@ -78,7 +80,7 @@ void Command::CatchErrors(Client *client, const std::exception& e)
 	int fdcl = client->GetFd();
 	std::string	response;
 
-	response = GetPrefix(*client) + " " + e.what() + "\n";
+	response = client->GetPrefix() + " " + e.what() + "\n";
 	send(fdcl, response.c_str(), response.length(), MSG_DONTWAIT | MSG_NOSIGNAL);
 }
 
@@ -105,28 +107,22 @@ void Command::GetLineCommand(char *buffer, int fd, Server &server)
 	}
 }
 
-std::string	Command::GetPrefix(Client client) //a mettre sur classe client
-{
-	std::string prefix = ":" + client.GetNick() + "!" + client.GetName() + "@" + client.GetIpAdd() + " ";
-	return (prefix);
-}
-
 void	Command::SendBySharedChannels(std::string to_send, Client sender, Server &server)
 {
 	int fdcl;
-	std::map<std::string, Channel>::iterator it = server.getChannel().begin();
+	std::map<std::string, Channel*>::iterator it = server.getChannel().begin();
 
 	for (;it != server.getChannel().end(); it++)
 	{
 		std::vector<std::string> sentclient;
-		std::map<int, Client*>::iterator itcl = (it->second).GetClient().begin();
+		std::map<int, Client*>::iterator itcl = (*it->second).GetClient().begin();
 		sentclient.push_back(sender.GetNick());
-		for (;itcl != (it->second).GetClient().end(); itcl++)
+		for (;itcl != (*it->second).GetClient().end(); itcl++)
 		{
 			if ((*itcl->second).GetNick() == sender.GetNick())
 			{
-				std::map<int, Client*>::iterator itcl2 = (it->second).GetClient().begin();
-				for (;itcl2 != (it->second).GetClient().end(); itcl2++)
+				std::map<int, Client*>::iterator itcl2 = (*it->second).GetClient().begin();
+				for (;itcl2 != (*it->second).GetClient().end(); itcl2++)
 				{
 					std::vector<std::string>::iterator vit = std::find(sentclient.begin(), sentclient.end(), (*itcl2->second).GetNick());
 					if (vit == sentclient.end())

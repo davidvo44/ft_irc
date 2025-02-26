@@ -6,11 +6,12 @@
 /*   By: dvo <dvo@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/24 12:14:42 by saperrie          #+#    #+#             */
-/*   Updated: 2025/02/25 17:12:27 by dvo              ###   ########.fr       */
+/*   Updated: 2025/02/26 19:54:25 by dvo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ExceptionError.hpp"
+#include "DefineList.hpp"
 #include <sstream>
 
 const char* ExceptionError::what() const throw()
@@ -34,41 +35,44 @@ void ProtocolError::GetError()
 
 	switch (_code)
 	{
-		case 401:
+		case ERR_NOSUCHNICK:
 			return;
-		case 402:
+		case ERR_NOSUCHSERVER:
 			return;
-		case 403:
+		case ERR_NOSUCHCHANNEL:
 			_finalMessage = code + " :No such channel";
 			return;
-		case 421:
+		case ERR_UNKNOWNCOMMAND:
 			_finalMessage = code + " :Unknown command";
 			return;
-		case 431:
+		case ERR_NONICKNAMEGIVEN:
 			_finalMessage = ss.str() + " " + _user + ":No nickname given";
 			return;
-		case 433:
+		case ERR_NICKNAMEINUSE:
 			_finalMessage = code + " :Nickname is already in use";
 			return;
-		case 442:
+		case ERR_USERNOTINCHANNEL:
+			_finalMessage = code + " :They aren't on that channel";
+			return;
+		case ERR_NOTONCHANNEL:
 			_finalMessage = code + " :You're not on that channel";
 			return;
-		case 461:
+		case ERR_NEEDMOREPARAMS:
 			_finalMessage = code + " :Not enough parameters";
 			return;
-		case 472:
+		case ERR_UNKNOWNMODE:
 			_finalMessage = code + " :is unknown mode char to me";
 			return;
-		case 473:
+		case ERR_INVITEONLYCHAN:
 			_finalMessage = code + " :Cannot join channel (+b)";
 			return;
-		case 475:
+		case ERR_BADCHANNELKEY:
 			_finalMessage = code + " :Cannot join channel (+k)";
 			return;
-		case 476:
+		case ERR_BADCHANMASK:
 			_finalMessage = code + " :Bad Channel Mask";
 			return;
-		case 482:
+		case ERR_CHANOPRIVSNEEDED:
 			_finalMessage = code + " :You're not channel operator";
 			return;
 	}

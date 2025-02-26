@@ -6,7 +6,7 @@
 /*   By: dvo <dvo@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/24 12:14:22 by saperrie          #+#    #+#             */
-/*   Updated: 2025/02/25 19:04:01 by dvo              ###   ########.fr       */
+/*   Updated: 2025/02/27 00:45:07 by dvo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ void Command::Nick(Message message, Client &sender, Server &server)
 	}
 
 	fdcl = sender.GetFd();
-	response = GetPrefix(sender);
+	response = sender.GetPrefix();
 	response += "NICK " + message.getContent() + "\n";
 
 	SendBySharedChannels(response, sender, server);
