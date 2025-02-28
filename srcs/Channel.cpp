@@ -6,7 +6,7 @@
 /*   By: dvo <dvo@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/24 12:14:38 by saperrie          #+#    #+#             */
-/*   Updated: 2025/02/27 00:54:34 by dvo              ###   ########.fr       */
+/*   Updated: 2025/02/28 02:04:43 by dvo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,10 +55,8 @@ const std::string Channel::getTopic()
 
 void Channel::addMode(char ope)
 {
-	std::cout << "ADDDDD\n";
 	char array[] = {'i', 't', 'k', 'l'};
 	int bit_position = 0;
-
 	while (bit_position < 10)
 	{
 		if (ope == array[bit_position])
@@ -67,11 +65,11 @@ void Channel::addMode(char ope)
 	}
 	int mask = (1 << bit_position);
 	_mode = _mode | mask;
+	std::cout << _mode << std::endl;
 }
 
 void Channel::deleteMode(char ope)
 {
-	std::cout << "DELETEEEEE\n";
 	char array[] = {'i', 't', 'k', 'l'};
 	int bit_position = 0;
 
@@ -151,4 +149,9 @@ std::string Channel::getPassword()
 void Channel::setPassword(std::string pass)
 {
 	_password = pass;
+}
+
+Client *Channel::operator[](unsigned index)
+{
+	return _Clients.GetValueIndx(index);
 }

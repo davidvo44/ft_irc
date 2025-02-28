@@ -6,7 +6,7 @@
 /*   By: dvo <dvo@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/24 12:13:35 by saperrie          #+#    #+#             */
-/*   Updated: 2025/02/27 00:51:52 by dvo              ###   ########.fr       */
+/*   Updated: 2025/02/27 16:39:45 by dvo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,7 @@ class Channel
 		std::vector<int> & getOperator();
 		std::string getPassword();
 		void setPassword(std::string pass);
+		Client *operator[](unsigned index);
 
 	private:
 

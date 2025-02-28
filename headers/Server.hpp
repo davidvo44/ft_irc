@@ -6,7 +6,7 @@
 /*   By: dvo <dvo@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/24 12:14:05 by saperrie          #+#    #+#             */
-/*   Updated: 2025/02/27 00:52:45 by dvo              ###   ########.fr       */
+/*   Updated: 2025/02/27 16:26:00 by dvo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@ public:
 	void CloseFds();
 	void ClearClients(int fd);
 	Channel *CreateChannel(Client *client, std::string ChName);
+	Client * operator[](unsigned index);
 
 private:
 	int _Port;

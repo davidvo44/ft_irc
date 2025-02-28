@@ -6,7 +6,7 @@
 /*   By: dvo <dvo@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/24 12:14:14 by saperrie          #+#    #+#             */
-/*   Updated: 2025/02/27 00:44:30 by dvo              ###   ########.fr       */
+/*   Updated: 2025/02/28 02:40:27 by dvo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,9 +31,10 @@ void Command::JoinChannel(Client &client, Message message, Server &server)
 	{
 		std::cout << "creating " << message.getTo() << std::endl;
 		server.getChannel()[message.getTo()] = server.CreateChannel(&client, message.getTo());
+		channel = server.getChannel().findValue(message.getTo());
 	}
 	write_channel(client, message, server);
-	Command::getTopic(message, client, server);
+	Command::getTopic(message, client, *channel);
 }
 
 static void checkmodechann(Client client, Channel &channel, Message message)
@@ -41,7 +42,7 @@ static void checkmodechann(Client client, Channel &channel, Message message)
 	if (channel.viewMode('i') == true)
 	{
 		if (channel.IsWlist(client.GetFd()) == false)
-			throw ProtocolError(ERR_CHANOPRIVSNEEDED, message.getTo(), client.GetNick());
+			throw ProtocolError(ERR_INVITEONLYCHAN, message.getTo(), client.GetNick());
 	}
 	if (channel.viewMode('k') == true)
 	{
@@ -52,16 +53,13 @@ static void checkmodechann(Client client, Channel &channel, Message message)
 
 static void write_channel(Client &client, Message message, Server &server)
 {
-	//: Nick!User@Host JOIN #general
-	std::map<int, Client *>::iterator itclient = server.getClients().begin();
 	std::string response;
-
-	while (itclient != server.getClients().end())
+	unsigned idx = 0;
+	while (server[idx])
 	{
-		int fdcl = itclient->second->GetFd();
-		response = client.GetPrefix();
-		response += "JOIN " + message.getTo() + "\n";
+		int fdcl = server[idx]->GetFd();
+		response = client.GetPrefix() + "JOIN " + message.getTo() + "\n";
 		send(fdcl, response.c_str(), response.length(), MSG_DONTWAIT | MSG_NOSIGNAL);
-		itclient++;
+		idx++;
 	}
 }

@@ -6,7 +6,7 @@
 /*   By: dvo <dvo@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/24 12:11:46 by saperrie          #+#    #+#             */
-/*   Updated: 2025/02/27 00:51:37 by dvo              ###   ########.fr       */
+/*   Updated: 2025/02/27 16:37:58 by dvo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,4 +107,9 @@ Channel *Server::CreateChannel(Client *client, std::string ChName)
 {
 	Channel *NewChannel = new Channel(ChName, client);
 	return (NewChannel);
+}
+
+Client *Server::operator[](unsigned index)
+{
+	return _Clients.GetValueIndx(index);
 }

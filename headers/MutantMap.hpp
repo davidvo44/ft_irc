@@ -16,6 +16,7 @@ public:
 	MutantMap(MutantMap const &src);
 	MutantMap &operator=(MutantMap const &src);
 	Value findValue(const Key &key);
+	Value GetValueIndx(unsigned index);
 
 private:
 };

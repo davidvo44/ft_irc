@@ -6,7 +6,7 @@
 /*   By: dvo <dvo@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/24 12:14:42 by saperrie          #+#    #+#             */
-/*   Updated: 2025/02/26 19:54:25 by dvo              ###   ########.fr       */
+/*   Updated: 2025/02/27 20:12:52 by dvo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,17 +36,28 @@ void ProtocolError::GetError()
 	switch (_code)
 	{
 		case ERR_NOSUCHNICK:
-			return;
-		case ERR_NOSUCHSERVER:
+			_finalMessage = code + " :No such nick/channel";
 			return;
 		case ERR_NOSUCHCHANNEL:
 			_finalMessage = code + " :No such channel";
+			return;
+		case ERR_CANNOTSENDTOCHAN:
+			_finalMessage = code + " :Cannot send to channel";
+			return;
+		case ERR_NORECIPIENT:
+			_finalMessage = " :No recipient given";
+			return;
+		case ERR_NOTEXTTOSEND:
+			_finalMessage = code + " :No text to send";
 			return;
 		case ERR_UNKNOWNCOMMAND:
 			_finalMessage = code + " :Unknown command";
 			return;
 		case ERR_NONICKNAMEGIVEN:
-			_finalMessage = ss.str() + " " + _user + ":No nickname given";
+			_finalMessage = ss.str() + " " + _user + " :No nickname given";
+			return;
+		case ERR_ERRONEUSNICKNAME:
+			_finalMessage = ss.str() + " " + _user + " :Erroneus nickname";
 			return;
 		case ERR_NICKNAMEINUSE:
 			_finalMessage = code + " :Nickname is already in use";
