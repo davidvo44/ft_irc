@@ -6,12 +6,12 @@
 /*   By: dvo <dvo@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/24 12:14:31 by saperrie          #+#    #+#             */
-/*   Updated: 2025/02/28 07:58:10 by dvo              ###   ########.fr       */
+/*   Updated: 2025/02/28 08:58:30 by dvo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "Command.hpp"
-//:thierry!user@host QUIT :Je me déconnecte, à bientôt !
+//:thierry!user@host QUIT :Bye !
 void Command::QuitCommand(Server &server, Client &sender, Message &message)
 {
 	std::string response = sender.GetPrefix() + "QUIT :";
