@@ -6,13 +6,15 @@
 /*   By: dvo <dvo@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/24 12:11:46 by saperrie          #+#    #+#             */
-/*   Updated: 2025/02/27 16:37:58 by dvo              ###   ########.fr       */
+/*   Updated: 2025/02/28 06:18:43 by dvo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "Server.hpp"
 #include "ExceptionError.hpp"
 #include <signal.h>
+#include "RplMessage.hpp"
+#include "DefineList.hpp"
 
 Server::Server()
 {
@@ -93,6 +95,12 @@ int Server::getFD()
 void Server::AcceptNewClient(pollfd &tmp, std::string IpAdd)
 {
 	_Clients[tmp.fd] = new Client(tmp, IpAdd);
+	_Clients[tmp.fd]->GetNick();
+	RplMessage::GetRply(RPL_WELCOME, tmp.fd, 3, _Clients[tmp.fd]->GetNick().c_str(), _Clients[tmp.fd]->GetName().c_str(), \
+	_Clients[tmp.fd]->GetIpAdd().c_str());
+	RplMessage::GetRply(RPL_YOURHOST, tmp.fd, 0, "");
+	RplMessage::GetRply(RPL_CREATED, tmp.fd, 0, "");
+	RplMessage::GetRply(RPL_MYINFO, tmp.fd, 0, "");
 }
 
 void Server::CloseFds()

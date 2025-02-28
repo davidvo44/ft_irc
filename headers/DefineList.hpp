@@ -6,7 +6,7 @@
 /*   By: dvo <dvo@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/25 13:12:18 by saperrie          #+#    #+#             */
-/*   Updated: 2025/02/25 15:07:27 by dvo              ###   ########.fr       */
+/*   Updated: 2025/02/28 06:15:42 by dvo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,11 @@
 
 #define	ERR_UNKNOWNCOMMAND 421
 
+//			WELCOME			//
+#define	RPL_WELCOME 001
+#define RPL_YOURHOST 002
+#define RPL_CREATED 003
+#define RPL_MYINFO 004
 
 //			JOIN			//
 #define	ERR_NEEDMOREPARAMS 461

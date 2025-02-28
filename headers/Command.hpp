@@ -6,7 +6,7 @@
 /*   By: dvo <dvo@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/24 12:13:17 by saperrie          #+#    #+#             */
-/*   Updated: 2025/02/27 18:36:46 by dvo              ###   ########.fr       */
+/*   Updated: 2025/02/28 05:32:46 by dvo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ class Command
 			//Init Command
 		static void			CheckCommand(std::string str, Server &server, int fd);
 		static void			GetLineCommand(char *buffer, int fd, Server &server);
-		static void			SendBySharedChannels(std::string to_send, Client sender, Server &server);
+		static void			SendBySharedChannels(std::string to_send, Client &sender, Server &server);
 		static void CatchErrors(Client *client, const std::exception& e);
 
 			//Command List
@@ -38,7 +38,7 @@ class Command
 		static void Nick(Message message, Client &sender, Server &server);
 		static void Part(Message message, Client &sender, Server &server);
 		static void PrivateMessage(Message &message, Client &sender, Server &server);
-		static void QuitClient(int fd, Poll &server, size_t i);
+		static void QuitClient(int fd, Poll &poll, size_t i, Server &server);
 		static void WhoCommand(int FdCl, Client client, Message message, Server server);
 		static void Topic(Message message, Client &sender, Server &server);
 		static void getTopic(Message message, Client &sender, Channel &chan);

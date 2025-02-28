@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   RplMessage.cpp                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: saperrie <saperrie@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dvo <dvo@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/24 12:14:58 by saperrie          #+#    #+#             */
-/*   Updated: 2025/02/25 15:15:52 by saperrie         ###   ########.fr       */
+/*   Updated: 2025/02/28 06:16:54 by dvo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,18 @@ void RplMessage::GetRply(int code, int fd, int size, const char * value, ...)
 
 	switch (code)
 	{
+		case RPL_WELCOME:
+			final_msg = "::Welcome to the IRC network, " + arg_list[0] + "!" + arg_list[1] + "@" + arg_list[2];
+			break;
+		case RPL_YOURHOST:
+			final_msg = ":Your host is irc.com, running version ft_irc";
+			break;
+		case RPL_CREATED:
+			final_msg = ":This server was created today";
+			break;
+		case RPL_MYINFO:
+			final_msg = ":irc.com ft_irc io tkl";
+			break;
 		case RPL_CHANNELMODEIS:
 			final_msg =  arg_list[1] + " " + arg_list[2];
 			break;

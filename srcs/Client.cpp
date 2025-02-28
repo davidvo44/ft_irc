@@ -6,7 +6,7 @@
 /*   By: dvo <dvo@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/24 12:14:40 by saperrie          #+#    #+#             */
-/*   Updated: 2025/02/27 00:44:08 by dvo              ###   ########.fr       */
+/*   Updated: 2025/02/28 05:43:03 by dvo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ Client::Client() : _name("User"), _nick("NickUser"), _password("0"), _IpAdd("emp
 	std::cout << "Client connectedsss" << std::endl;
 }
 
-Client::Client(pollfd &tmp, std::string IpAddr) : _pollfds(tmp), _name("User"), _password("0"), _IpAdd(IpAddr), _log(true)
+Client::Client(pollfd &tmp, std::string IpAddr) : _pollfds(tmp), _name("User"), _password("0"), _IpAdd(IpAddr)
 {
 	std::string code;
 	std::stringstream ss;
@@ -70,11 +70,6 @@ void Client::SetPassword(std::string pass)
 void Client::setIpAdd(std::string IpAdd)
 {
 	_IpAdd = IpAdd;
-}
-
-void Client::setLog(bool change)
-{
-	_log = change;
 }
 
 std::string Client::GetPrefix()

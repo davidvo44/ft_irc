@@ -6,7 +6,7 @@
 /*   By: dvo <dvo@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/24 12:14:11 by saperrie          #+#    #+#             */
-/*   Updated: 2025/02/27 00:54:20 by dvo              ###   ########.fr       */
+/*   Updated: 2025/02/28 05:33:55 by dvo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,17 +15,16 @@
 
 void Command::CheckCommand(std::string str, Server &server, int fd)
 {
-	std::string array[] = {"JOIN", "USER", "NICK", "PASS", "PRIVMSG", "WHO", "PART", "TOPIC", "KICK", "INVITE", "MODE", "CAP"};
+	std::string array[] = {"JOIN", "USER", "NICK", "PASS", "PRIVMSG", "WHO", "PART", "TOPIC", "KICK", "INVITE", "MODE", "CAP", "QUIT"};
 	int index = 0;
 	Message str_message(str);
-	while (index < 12)
+	while (index < 13)
 	{
 		if (str_message.getCommand().compare(array[index]) == 0)
 		break;
 		index++;
 	}
 	Client *client = server.getClients().findValue(fd);
-	// std::map<int, Client*>::iterator it = server.getClients().find(fd); 
 	try
 	{
 		switch (index)
@@ -64,6 +63,8 @@ void Command::CheckCommand(std::string str, Server &server, int fd)
 				Command::checkMode(str_message, *client, server);
 				break;
 			case 11:
+				break;
+			case 12:
 				break;
 			default:
 				throw ProtocolError(ERR_UNKNOWNCOMMAND, str, client->GetNick());
@@ -107,35 +108,32 @@ void Command::GetLineCommand(char *buffer, int fd, Server &server)
 	}
 }
 
-void	Command::SendBySharedChannels(std::string to_send, Client sender, Server &server)
-{
-	int fdcl;
-	std::map<std::string, Channel*>::iterator it = server.getChannel().begin();
+static void SendClientFromChannel(const std::string to_send, Channel &chan, std::vector<int> &sentclient);
 
+void	Command::SendBySharedChannels(std::string to_send, Client &sender, Server &server)
+{
+	std::vector<int> sentclient;
+
+	sentclient.push_back(sender.GetFd());
+	std::map<std::string, Channel*>::iterator it = server.getChannel().begin();
 	for (;it != server.getChannel().end(); it++)
 	{
-		std::vector<std::string> sentclient;
-		std::map<int, Client*>::iterator itcl = (*it->second).GetClient().begin();
-		sentclient.push_back(sender.GetNick());
-		for (;itcl != (*it->second).GetClient().end(); itcl++)
+		if (it->second->GetClient().findValue(sender.GetFd()))
+			SendClientFromChannel(to_send, *it->second, sentclient);
+	}
+}
+
+static void SendClientFromChannel(const std::string to_send, Channel &chan, std::vector<int> &sentclient)
+{
+	int idx = 0;
+	while (chan[idx])
+	{
+		if (std::find(sentclient.begin(), sentclient.end(), chan[idx]->GetFd()) == sentclient.end())
 		{
-			if ((*itcl->second).GetNick() == sender.GetNick())
-			{
-				std::map<int, Client*>::iterator itcl2 = (*it->second).GetClient().begin();
-				for (;itcl2 != (*it->second).GetClient().end(); itcl2++)
-				{
-					std::vector<std::string>::iterator vit = std::find(sentclient.begin(), sentclient.end(), (*itcl2->second).GetNick());
-					if (vit == sentclient.end())
-					{
-						sentclient.push_back((*itcl2->second).GetNick());
-						std::cout << "We sent by shared channel to " << (*itcl2->second).GetNick() << std::endl;
-						fdcl = (*itcl2->second).GetFd();
-						std::cout << fdcl << std::endl;
-						send(fdcl, to_send.c_str(), to_send.length(), MSG_DONTWAIT | MSG_NOSIGNAL);
-					}
-				}
-				break;
-			}
+			sentclient.push_back(chan[idx]->GetFd());
+			std::cout << "We sent by shared channel to " << chan[idx]->GetNick() << std::endl;
+			send(chan[idx]->GetFd(), to_send.c_str(), to_send.length(), MSG_DONTWAIT | MSG_NOSIGNAL);
 		}
+		idx++;
 	}
 }
