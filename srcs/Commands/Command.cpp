@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Command.cpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dvo <dvo@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: saperrie <saperrie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/24 12:14:11 by saperrie          #+#    #+#             */
-/*   Updated: 2025/02/28 08:07:21 by dvo              ###   ########.fr       */
+/*   Updated: 2025/02/28 15:32:31 by saperrie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,7 @@ void Command::CheckCommand(std::string str, Server &server, int fd)
 				Command::Kick(message, *client, server);
 				break;
 			case 9:
+				Command::Invite(message, *client, server);
 				break;
 			case 10:
 				Command::checkMode(message, *client, server);
@@ -108,4 +109,3 @@ void Command::GetLineCommand(char *buffer, int fd, Server &server)
 		}
 	}
 }
-

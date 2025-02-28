@@ -3,15 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   Message.hpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dvo <dvo@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: saperrie <saperrie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/24 12:13:52 by saperrie          #+#    #+#             */
-/*   Updated: 2025/02/28 08:13:38 by dvo              ###   ########.fr       */
+/*   Updated: 2025/02/28 15:24:19 by saperrie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MESSAGE_HPP
-#define MESSAGE_HPP
+# define MESSAGE_HPP
 
 #include <iostream>
 #include <vector>
@@ -23,7 +23,7 @@ class Message
 
 		Message();
 		Message(std::string buffer);
-	
+
 		const std::string &getCommand()  const;
 		const std::string &getTo()  const;
 		std::string &getContent();

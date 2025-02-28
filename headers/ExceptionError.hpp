@@ -6,12 +6,12 @@
 /*   By: saperrie <saperrie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/24 12:13:47 by saperrie          #+#    #+#             */
-/*   Updated: 2025/02/25 12:47:38 by saperrie         ###   ########.fr       */
+/*   Updated: 2025/02/28 15:24:08 by saperrie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef EXCEPTIONERROR_HPP
-#define EXCEPTIONERROR_HPP
+# define EXCEPTIONERROR_HPP
 
 #include <iostream>
 #include <cstdio>

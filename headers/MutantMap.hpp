@@ -1,5 +1,5 @@
 #ifndef MUTANTMAP_HPP
-#define MUTANTMAP_HPP
+# define MUTANTMAP_HPP
 
 #include <iostream>
 #include <stack>

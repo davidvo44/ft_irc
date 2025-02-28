@@ -6,12 +6,12 @@
 /*   By: saperrie <saperrie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/24 12:13:55 by saperrie          #+#    #+#             */
-/*   Updated: 2025/02/25 12:50:00 by saperrie         ###   ########.fr       */
+/*   Updated: 2025/02/28 15:24:29 by saperrie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef POLL_HPP
-#define POLL_HPP
+# define POLL_HPP
 
 #include "Server.hpp"
 #include "vector"

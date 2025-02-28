@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Message.cpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dvo <dvo@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: saperrie <saperrie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/24 12:14:53 by saperrie          #+#    #+#             */
-/*   Updated: 2025/02/27 00:40:06 by dvo              ###   ########.fr       */
+/*   Updated: 2025/02/28 15:33:31 by saperrie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,10 @@ void Message::parse(std::vector<std::string> _words)
 	i++;
 	if (i == _words.size())
 		return ;
-	if (_command == "PRIVMSG" || _command == "PART" || _command == "TOPIC" || _command == "JOIN" || _command == "MODE" ||  _command == "KICK")
+	if (_command == "PRIVMSG" || _command == "PART" \
+		|| _command == "TOPIC" || _command == "JOIN" \
+		|| _command == "MODE" ||  _command == "KICK" \
+		|| _command == "INVITE")
 	{
 		_to = _words[i];
 		i++;
