@@ -6,7 +6,7 @@
 /*   By: dvo <dvo@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/24 12:13:17 by saperrie          #+#    #+#             */
-/*   Updated: 2025/02/28 07:51:13 by dvo              ###   ########.fr       */
+/*   Updated: 2025/02/28 09:03:11 by dvo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ class Command
 		static void Part(Message message, Client &sender, Server &server);
 		static void PrivateMessage(Message &message, Client &sender, Server &server);
 		static void QuitClient(int fd, Poll &poll, size_t i);
-		static void WhoCommand(int FdCl, Client client, Message message, Server server);
+		static void WhoCommand(int FdCl, Client &client, Message &message, Server &server);
 		static void Topic(Message message, Client &sender, Server &server);
 		static void getTopic(Message message, Client &sender, Channel &chan);
 		static void Kick(Message message, Client &client, Server &server);
