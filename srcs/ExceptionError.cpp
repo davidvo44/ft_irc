@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ExceptionError.cpp                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dvo <dvo@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: saperrie <saperrie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/24 12:14:42 by saperrie          #+#    #+#             */
-/*   Updated: 2025/02/27 20:12:52 by dvo              ###   ########.fr       */
+/*   Updated: 2025/02/28 17:19:39 by saperrie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,9 @@ void ProtocolError::GetError()
 			return;
 		case ERR_NOTONCHANNEL:
 			_finalMessage = code + " :You're not on that channel";
+			return;
+		case ERR_USERONCHANNEL:
+			_finalMessage = code + " :is already on channel";
 			return;
 		case ERR_NEEDMOREPARAMS:
 			_finalMessage = code + " :Not enough parameters";

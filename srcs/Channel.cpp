@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Channel.cpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dvo <dvo@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: saperrie <saperrie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/24 12:14:38 by saperrie          #+#    #+#             */
-/*   Updated: 2025/02/28 02:04:43 by dvo              ###   ########.fr       */
+/*   Updated: 2025/02/28 16:12:03 by saperrie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -153,5 +153,10 @@ void Channel::setPassword(std::string pass)
 
 Client *Channel::operator[](unsigned index)
 {
-	return _Clients.GetValueIndx(index);
+	return _Clients.GetValueIndex(index);
+}
+
+Client *Channel::operator!=(unsigned index)
+{
+	return _Clients.GetValueIndex(index);
 }

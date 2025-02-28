@@ -33,7 +33,7 @@ Value MutantMap<Key, Value>::findValue(const Key &key)
 }
 
 template <typename Key, typename Value>
-Value MutantMap<Key, Value>::GetValueIndx(unsigned index)
+Value MutantMap<Key, Value>::GetValueIndex(unsigned index)
 {
 	if (this->empty() == true)
 		return NULL;
