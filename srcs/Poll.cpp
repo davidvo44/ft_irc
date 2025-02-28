@@ -6,7 +6,7 @@
 /*   By: dvo <dvo@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/24 12:12:44 by saperrie          #+#    #+#             */
-/*   Updated: 2025/02/28 05:34:53 by dvo              ###   ########.fr       */
+/*   Updated: 2025/02/28 07:52:13 by dvo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ void Poll::Start()
 				int valread = recv(_fds[i].fd, buffer, sizeof(buffer), MSG_DONTWAIT);
 				if (valread <= 0)
 				{
-					Command::QuitClient(_fds[i].fd, *this, i, *_server);
+					Command::QuitClient(_fds[i].fd, *this, i);
 					continue;
 				}
 				buffer[valread] = '\0';

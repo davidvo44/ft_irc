@@ -6,7 +6,7 @@
 /*   By: dvo <dvo@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/24 12:14:11 by saperrie          #+#    #+#             */
-/*   Updated: 2025/02/28 05:33:55 by dvo              ###   ########.fr       */
+/*   Updated: 2025/02/28 07:51:57 by dvo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,10 +17,10 @@ void Command::CheckCommand(std::string str, Server &server, int fd)
 {
 	std::string array[] = {"JOIN", "USER", "NICK", "PASS", "PRIVMSG", "WHO", "PART", "TOPIC", "KICK", "INVITE", "MODE", "CAP", "QUIT"};
 	int index = 0;
-	Message str_message(str);
+	Message message(str);
 	while (index < 13)
 	{
-		if (str_message.getCommand().compare(array[index]) == 0)
+		if (message.getCommand().compare(array[index]) == 0)
 		break;
 		index++;
 	}
@@ -30,41 +30,42 @@ void Command::CheckCommand(std::string str, Server &server, int fd)
 		switch (index)
 		{
 			case 0:
-				Command::JoinChannel(*client, str_message, server);
+				Command::JoinChannel(*client, message, server);
 				break;
 			case 1:
-				std::cout << "attribute :" << str_message.getContent() << std::endl;
-				client->SetName(str_message.getContent());
+				std::cout << "attribute :" << message.getContent() << std::endl;
+				client->SetName(message.getContent());
 				break;
 			case 2:
-				Command::Nick(str_message, *client, server);
+				Command::Nick(message, *client, server);
 				break;
 			case 3:
-				client->SetPassword(str_message.getContent());
+				client->SetPassword(message.getContent());
 				break;
 			case 4:
-				Command::PrivateMessage(str_message, *client, server);
+				Command::PrivateMessage(message, *client, server);
 				break;
 			case 5:
-				Command::WhoCommand(fd, *client, str_message, server);
+				Command::WhoCommand(fd, *client, message, server);
 				break;
 			case 6:
-				Command::Part(str_message, *client, server);
+				Command::Part(message, *client, server);
 				break;
 			case 7:
-				Command::Topic(str_message, *client, server);
+				Command::Topic(message, *client, server);
 				break;
 			case 8:
-				Command::Kick(str_message, *client, server);
+				Command::Kick(message, *client, server);
 				break;
 			case 9:
 				break;
 			case 10:
-				Command::checkMode(str_message, *client, server);
+				Command::checkMode(message, *client, server);
 				break;
 			case 11:
 				break;
 			case 12:
+			QuitCommand(server, *client, message);
 				break;
 			default:
 				throw ProtocolError(ERR_UNKNOWNCOMMAND, str, client->GetNick());
