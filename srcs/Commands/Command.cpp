@@ -6,7 +6,7 @@
 /*   By: dvo <dvo@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/24 12:14:11 by saperrie          #+#    #+#             */
-/*   Updated: 2025/02/28 07:51:57 by dvo              ###   ########.fr       */
+/*   Updated: 2025/02/28 08:07:21 by dvo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ void Command::CheckCommand(std::string str, Server &server, int fd)
 			case 11:
 				break;
 			case 12:
-			QuitCommand(server, *client, message);
+				Command::QuitCommand(server, *client, message);
 				break;
 			default:
 				throw ProtocolError(ERR_UNKNOWNCOMMAND, str, client->GetNick());
@@ -109,32 +109,3 @@ void Command::GetLineCommand(char *buffer, int fd, Server &server)
 	}
 }
 
-static void SendClientFromChannel(const std::string to_send, Channel &chan, std::vector<int> &sentclient);
-
-void	Command::SendBySharedChannels(std::string to_send, Client &sender, Server &server)
-{
-	std::vector<int> sentclient;
-
-	sentclient.push_back(sender.GetFd());
-	std::map<std::string, Channel*>::iterator it = server.getChannel().begin();
-	for (;it != server.getChannel().end(); it++)
-	{
-		if (it->second->GetClient().findValue(sender.GetFd()))
-			SendClientFromChannel(to_send, *it->second, sentclient);
-	}
-}
-
-static void SendClientFromChannel(const std::string to_send, Channel &chan, std::vector<int> &sentclient)
-{
-	int idx = 0;
-	while (chan[idx])
-	{
-		if (std::find(sentclient.begin(), sentclient.end(), chan[idx]->GetFd()) == sentclient.end())
-		{
-			sentclient.push_back(chan[idx]->GetFd());
-			std::cout << "We sent by shared channel to " << chan[idx]->GetNick() << std::endl;
-			send(chan[idx]->GetFd(), to_send.c_str(), to_send.length(), MSG_DONTWAIT | MSG_NOSIGNAL);
-		}
-		idx++;
-	}
-}

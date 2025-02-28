@@ -6,7 +6,7 @@
 /*   By: dvo <dvo@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/24 12:13:40 by saperrie          #+#    #+#             */
-/*   Updated: 2025/02/28 05:42:28 by dvo              ###   ########.fr       */
+/*   Updated: 2025/02/28 08:13:07 by dvo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@ class Client
 public:
 	Client();
 	Client(pollfd &tmp, std::string IpAddr);
+
 	int GetFd();
 	std::string GetName();
 	std::string GetNick();

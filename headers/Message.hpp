@@ -6,7 +6,7 @@
 /*   By: dvo <dvo@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/24 12:13:52 by saperrie          #+#    #+#             */
-/*   Updated: 2025/02/27 00:39:37 by dvo              ###   ########.fr       */
+/*   Updated: 2025/02/28 08:13:38 by dvo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@ class Message
 
 		Message();
 		Message(std::string buffer);
+	
 		const std::string &getCommand()  const;
 		const std::string &getTo()  const;
 		std::string &getContent();
