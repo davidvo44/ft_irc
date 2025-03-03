@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Channel.cpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: saperrie <saperrie@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dvo <dvo@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/24 12:14:38 by saperrie          #+#    #+#             */
-/*   Updated: 2025/02/28 16:12:03 by saperrie         ###   ########.fr       */
+/*   Updated: 2025/03/03 02:50:13 by dvo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@ Channel::Channel(std::string name, Client *client) : _name(name), _mode(0)
 {
 	_Clients.insert(std::make_pair(client->GetFd(), client));
 	_operator.push_back(client->GetFd());
+	_bot = new Bot(_name, client->GetPrefix());
 }
 
 Channel::~Channel() {}
@@ -51,6 +52,11 @@ void Channel::setTopic(const std::string topic)
 const std::string Channel::getTopic()
 {
 	return _topic;
+}
+
+Bot *Channel::getBot()
+{
+	return _bot;
 }
 
 void Channel::addMode(char ope)

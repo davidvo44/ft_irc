@@ -6,7 +6,7 @@
 /*   By: dvo <dvo@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/24 12:14:58 by saperrie          #+#    #+#             */
-/*   Updated: 2025/02/28 09:25:18 by dvo              ###   ########.fr       */
+/*   Updated: 2025/03/02 19:37:20 by dvo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,9 @@ void RplMessage::GetRply(int code, int fd, int size, const char * value, ...)
 			break;
 		case RPL_MYINFO:
 			final_msg = ":irc.com ft_irc io tkl";
+			break;
+		case RPL_ENDOFWHO:
+			final_msg = arg_list[1] + " :End of WHO list";
 			break;
 		case RPL_CHANNELMODEIS:
 			final_msg =  arg_list[1] + " " + arg_list[2];

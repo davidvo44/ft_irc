@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Command.cpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: saperrie <saperrie@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dvo <dvo@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/24 12:14:11 by saperrie          #+#    #+#             */
-/*   Updated: 2025/02/28 15:32:31 by saperrie         ###   ########.fr       */
+/*   Updated: 2025/03/03 01:52:52 by dvo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,10 +15,11 @@
 
 void Command::CheckCommand(std::string str, Server &server, int fd)
 {
-	std::string array[] = {"JOIN", "USER", "NICK", "PASS", "PRIVMSG", "WHO", "PART", "TOPIC", "KICK", "INVITE", "MODE", "CAP", "QUIT"};
+	std::string array[] = {"JOIN", "USER", "NICK", "PASS", "PRIVMSG", "WHO"\
+	, "PART", "TOPIC", "KICK", "INVITE", "MODE", "CAP", "QUIT", "CHESS"};
 	int index = 0;
 	Message message(str);
-	while (index < 13)
+	while (index < 14)
 	{
 		if (message.getCommand().compare(array[index]) == 0)
 		break;
@@ -67,6 +68,9 @@ void Command::CheckCommand(std::string str, Server &server, int fd)
 				break;
 			case 12:
 				Command::QuitCommand(server, *client, message);
+				break;
+			case 13:
+				Command::ChessCommand(server, *client, message);
 				break;
 			default:
 				throw ProtocolError(ERR_UNKNOWNCOMMAND, str, client->GetNick());

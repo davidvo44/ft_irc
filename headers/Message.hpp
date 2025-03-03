@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Message.hpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: saperrie <saperrie@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dvo <dvo@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/24 12:13:52 by saperrie          #+#    #+#             */
-/*   Updated: 2025/02/28 15:24:19 by saperrie         ###   ########.fr       */
+/*   Updated: 2025/03/03 02:33:02 by dvo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,7 @@ class Message
 	private:
 
 		void parse(std::vector<std::string> _words);
+		void msgchess(std::vector<std::string> _words, unsigned long i);
 		std::string _prefix;    //  std::string prefix = ":" + clientNick + "!" + clientUser + "@" + clientHost;
 		std::string _command;
 		std::string _to;

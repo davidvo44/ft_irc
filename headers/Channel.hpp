@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Channel.hpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: saperrie <saperrie@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dvo <dvo@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/24 12:13:35 by saperrie          #+#    #+#             */
-/*   Updated: 2025/02/28 16:10:50 by saperrie         ###   ########.fr       */
+/*   Updated: 2025/03/03 01:29:58 by dvo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 # define CHANNEL_HPP
 
 #include "Server.hpp"
+#include "Bot.hpp"
 #include <vector>
 
 class Channel
@@ -42,6 +43,7 @@ class Channel
 		std::vector<int> & getOperator();
 		std::string getPassword();
 		void setPassword(std::string pass);
+		Bot *getBot();
 
 		Client *operator[](unsigned index);
 		Client *operator!=(unsigned index);
@@ -55,6 +57,7 @@ class Channel
 		std::vector<int> _operator;
 		std::vector<int> _wlist;
 		std::string _password;
+		Bot *_bot;
 };
 
 #endif

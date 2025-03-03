@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Message.cpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: saperrie <saperrie@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dvo <dvo@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/24 12:14:53 by saperrie          #+#    #+#             */
-/*   Updated: 2025/02/28 15:33:31 by saperrie         ###   ########.fr       */
+/*   Updated: 2025/03/03 02:33:45 by dvo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,20 +30,28 @@ void Message::parse(std::vector<std::string> _words)
 	unsigned long i = 0;
 	if (i == _words.size())
 		return ;
-	_command = _words[i];
+	if (_words.size() >= 3 && _words[2] == ":!CHESS")
+		_command = "CHESS";
+	else
+		_command = _words[i];
 	i++;
 	if (i == _words.size())
 		return ;
 	if (_command == "PRIVMSG" || _command == "PART" \
 		|| _command == "TOPIC" || _command == "JOIN" \
 		|| _command == "MODE" ||  _command == "KICK" \
-		|| _command == "INVITE")
+		|| _command == "INVITE" || _command == "CHESS")
 	{
 		_to = _words[i];
 		i++;
 	}
 	if (i == _words.size())
 		return ;
+	if (_command == "CHESS")
+	{
+		msgchess(_words, i);
+		return;
+	}
 	_content = _words[i];
 	if (_words[i][0] == ':')
 	{
@@ -57,6 +65,18 @@ void Message::parse(std::vector<std::string> _words)
 	i++;
 	if (_command == "MODE" && i != _words.size())
 		_pass = _words[i];
+}
+
+void Message::msgchess(std::vector<std::string> _words, unsigned long i)
+{
+	i++;
+	if (i == _words.size())
+		return ;
+	_content = _words[i];
+	i++;
+	if (i == _words.size())
+		return ;
+	_pass = _words[i];
 }
 
 const std::string & Message::getCommand() const

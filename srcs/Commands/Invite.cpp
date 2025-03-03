@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Invite.cpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: saperrie <saperrie@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dvo <dvo@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/28 15:15:17 by saperrie          #+#    #+#             */
-/*   Updated: 2025/02/28 17:36:19 by saperrie         ###   ########.fr       */
+/*   Updated: 2025/03/02 19:19:01 by dvo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,11 +60,11 @@ void	Command::Invite(Message message, Client &client, Server &server)
 		if (channel->IsOperator(client.GetFd()) == false)
 			throw ProtocolError(ERR_CHANOPRIVSNEEDED, message.getTo(), client.GetNick());
 
-	if (/* successful to do */)
-	{
-		// addTargetWhitelist();
-		// sendInviteNotifToTarget();
-	}
+	// if (/* successful to do */)
+	// {
+	// 	// addTargetWhitelist();
+	// 	// sendInviteNotifToTarget();
+	// }
 	// unsigned int client_i = 0;
 	// while (channel[client_i] != NULL)
 	// {

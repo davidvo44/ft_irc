@@ -3,39 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   Kick.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: saperrie <saperrie@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dvo <dvo@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/24 12:14:17 by saperrie          #+#    #+#             */
-/*   Updated: 2025/02/28 17:06:19 by saperrie         ###   ########.fr       */
+/*   Updated: 2025/03/02 19:18:50 by dvo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "Command.hpp"
 #include "Channel.hpp"
-
-/*
-	std::map<std::string, Channel*>::iterator channel_it = server.getChannel().find(message.getTo());
-	Channel *channel = channel_it->second;
-	peut etre remplace par:
-	Channel *channel = server.getChannel().findValue(message.getTo());
-
-
-	if (channel_it == server.getChannel().end())
-	peut etre remplace par:
-	if (!channel)
-
-
-	std::map<int, Client*>::iterator client_it = channel->GetClient().begin();
-	for (; client_it != channel->GetClient().end(); client_it++)
-	{}
-	peut etre remplace par:
-	unsigned idx = 0;
-	while (channel[idx])
-	{
-	idx++
-	}
-
-*/
 
 // INSERT REASON FOR KICK AND INSERT KICK MESSAGE (+ CREATE DEFAULT KICK MESSAGE IF NONE PROVIDED)
 

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Command.hpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: saperrie <saperrie@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dvo <dvo@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/24 12:13:17 by saperrie          #+#    #+#             */
-/*   Updated: 2025/02/28 15:24:03 by saperrie         ###   ########.fr       */
+/*   Updated: 2025/03/03 01:27:51 by dvo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,7 @@ class Command
 		static void Invite(Message message, Client &client, Server &server);
 		static void checkMode(Message message, Client &sender, Server &server);
 		static void QuitCommand(Server &server, Client &sender, Message &message);
+		static void ChessCommand(Server &server, Client &sender, Message &message);
 };
 
 #endif

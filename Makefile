@@ -6,7 +6,7 @@
 #    By: dvo <dvo@student.42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/02/24 12:05:22 by saperrie          #+#    #+#              #
-#    Updated: 2025/02/28 08:06:29 by dvo              ###   ########.fr        #
+#    Updated: 2025/03/03 01:30:51 by dvo              ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -38,8 +38,11 @@ OBJECTS = $(patsubst %.cpp,$(OBJECT_DIR)%.o,\
 		srcs/Commands/Topic.cpp \
 		srcs/Commands/Mode.cpp \
 		srcs/Commands/Kick.cpp \
+		srcs/Commands/Invite.cpp \
 		srcs/Commands/SendClientSharedChannels.cpp \
 		srcs/RplMessage.cpp \
+		srcs/Commands/Chess.cpp \
+		srcs/Bot.cpp \
 		)
 
 OBJ_SUBDIRS = $(sort $(dir ${OBJECTS}))
