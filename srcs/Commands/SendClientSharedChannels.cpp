@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   SendClientSharedChannels.cpp                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: saperrie <saperrie@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/03/03 13:58:05 by saperrie          #+#    #+#             */
+/*   Updated: 2025/03/03 13:58:08 by saperrie         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "Command.hpp"
 
 static void SendClientFromChannel(const std::string to_send, Channel &chan, std::vector<int> &sentclient);

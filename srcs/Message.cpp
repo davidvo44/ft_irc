@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Message.cpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dvo <dvo@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: saperrie <saperrie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/24 12:14:53 by saperrie          #+#    #+#             */
-/*   Updated: 2025/03/03 02:33:45 by dvo              ###   ########.fr       */
+/*   Updated: 2025/03/03 16:19:12 by saperrie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@ Message::Message(std::string buffer)
 
 	while (iss >> StrCut)
 		_words.push_back(StrCut);
+
 	Message::parse(_words);
 }
 
@@ -63,7 +64,7 @@ void Message::parse(std::vector<std::string> _words)
 		}
 	}
 	i++;
-	if (_command == "MODE" && i != _words.size())
+	if ((_command == "MODE" || _command == "KICK") && i != _words.size())
 		_pass = _words[i];
 }
 

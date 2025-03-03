@@ -6,7 +6,7 @@
 /*   By: saperrie <saperrie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/28 15:15:17 by saperrie          #+#    #+#             */
-/*   Updated: 2025/03/03 13:13:50 by saperrie         ###   ########.fr       */
+/*   Updated: 2025/03/03 16:52:01 by saperrie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,23 +16,6 @@
 	INVITE user to channel
 	Parameter <nickname> is person to be invited on <channel>.
 
-	Target channel SHOULD exist (at least one user is on it)
-	Otherwise reject with ERR_NOSUCHCHANNEL
-	DONE
-
-	Only channel members allowed to invite
-	Otherwise MUST reject with ERR_NOTONCHANNEL
-	DONE
-
-	Servers MAY reject with ERR_CHANOPRIVSNEEDED
-	If channel has invite-only mode set and user is not operator
-	DONE
-
-	If user already on channel
-		reject with ERR_USERONCHANNEL
-	DONE
-
-
 	When invite is successful,
 		send a RPL_INVITING to the command issuer,
 		send an INVITE message to target user, with issuer as <source>
@@ -40,7 +23,6 @@
 
 	If user tries to join and doesn't have invite
 		they receive ERR_INVITEONLYCHAN (473) command fails
-
 
 	CMD FORMAT:
 	/invite <nickname> <channel>
