@@ -24,3 +24,9 @@ Verifier caracteres interdit et taille max 512 char
 
 Mise en place bot
 transfer fichier
+
+-CHESS:
+	-Nedd 2 player(fd) to play;
+	-!CHESS to check the board;
+	-'!CHESS join' to join the game;
+	-'!CHESS A2 A3' to move de pawn;
