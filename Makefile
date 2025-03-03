@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: dvo <dvo@student.42.fr>                    +#+  +:+       +#+         #
+#    By: saperrie <saperrie@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/02/24 12:05:22 by saperrie          #+#    #+#              #
-#    Updated: 2025/03/03 01:30:51 by dvo              ###   ########.fr        #
+#    Updated: 2025/03/03 13:13:11 by saperrie         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -57,9 +57,9 @@ all: $(NAME)
 -include $(DEPENDENCIES)
 
 $(NAME): $(OBJECTS)
-	$(CC) $(CFLAGS) $(IFLAGS) $(DFLAGS) -o $@ $(OBJECTS) 
+	$(CC) $(CFLAGS) $(IFLAGS) $(DFLAGS) -o $@ $(OBJECTS)
 
-$(OBJECT_DIR)%.o: %.cpp Makefile | $(OBJECT_DIR) 
+$(OBJECT_DIR)%.o: %.cpp Makefile | $(OBJECT_DIR)
 	$(CC) $(CFLAGS) $(IFLAGS) $(DFLAGS) -o $@ -c $<
 
 $(OBJECT_DIR):

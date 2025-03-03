@@ -6,7 +6,11 @@
 /*   By: dvo <dvo@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/24 12:14:38 by saperrie          #+#    #+#             */
+<<<<<<< HEAD
 /*   Updated: 2025/03/03 02:50:13 by dvo              ###   ########.fr       */
+=======
+/*   Updated: 2025/02/28 19:02:20 by saperrie         ###   ########.fr       */
+>>>>>>> 2888216 (quick add :)
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -135,6 +139,11 @@ bool Channel::IsWlist(int client)
 	if (_wlist[i] == client)
 		return true;
 	return false;
+}
+
+void Channel::addToWhitelist(std::string client)
+{
+	_whitelist.push_back(client);
 }
 
 std::vector<int> &Channel::getOperator()

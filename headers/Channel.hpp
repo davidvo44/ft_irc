@@ -6,7 +6,11 @@
 /*   By: dvo <dvo@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/24 12:13:35 by saperrie          #+#    #+#             */
+<<<<<<< HEAD
 /*   Updated: 2025/03/03 01:29:58 by dvo              ###   ########.fr       */
+=======
+/*   Updated: 2025/02/28 19:02:18 by saperrie         ###   ########.fr       */
+>>>>>>> 2888216 (quick add :)
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +40,7 @@ class Channel
 		bool viewMode(char ope);
 		bool IsOperator(int client);
 		bool IsWlist(int client);
+		void addToWhitelist(std::string client);
 
 		std::string getName();
 		const std::string getTopic();
@@ -56,6 +61,7 @@ class Channel
 		int _mode; // binary format 1 1 1 1: -i, -t, -k, -l
 		std::vector<int> _operator;
 		std::vector<int> _wlist;
+		std::vector<std::string> _whitelist;
 		std::string _password;
 		Bot *_bot;
 };

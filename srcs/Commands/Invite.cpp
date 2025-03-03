@@ -3,29 +3,35 @@
 /*                                                        :::      ::::::::   */
 /*   Invite.cpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dvo <dvo@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: saperrie <saperrie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/28 15:15:17 by saperrie          #+#    #+#             */
-/*   Updated: 2025/03/02 19:19:01 by dvo              ###   ########.fr       */
+/*   Updated: 2025/03/03 13:13:50 by saperrie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "Command.hpp"
+#include "Channel.hpp"
 /*
 	INVITE user to channel
 	Parameter <nickname> is person to be invited on <channel>.
 
 	Target channel SHOULD exist (at least one user is on it)
 	Otherwise reject with ERR_NOSUCHCHANNEL
+	DONE
 
 	Only channel members allowed to invite
 	Otherwise MUST reject with ERR_NOTONCHANNEL
+	DONE
 
 	Servers MAY reject with ERR_CHANOPRIVSNEEDED
 	If channel has invite-only mode set and user is not operator
+	DONE
 
 	If user already on channel
 		reject with ERR_USERONCHANNEL
+	DONE
+
 
 	When invite is successful,
 		send a RPL_INVITING to the command issuer,
@@ -34,6 +40,7 @@
 
 	If user tries to join and doesn't have invite
 		they receive ERR_INVITEONLYCHAN (473) command fails
+
 
 	CMD FORMAT:
 	/invite <nickname> <channel>
@@ -60,16 +67,17 @@ void	Command::Invite(Message message, Client &client, Server &server)
 		if (channel->IsOperator(client.GetFd()) == false)
 			throw ProtocolError(ERR_CHANOPRIVSNEEDED, message.getTo(), client.GetNick());
 
-	// if (/* successful to do */)
+	// if (/* successful invite */)
 	// {
-	// 	// addTargetWhitelist();
-	// 	// sendInviteNotifToTarget();
+	channel->addToWhitelist(targetClientNick);
+		// sendInviteNotifToTarget();
 	// }
-	// unsigned int client_i = 0;
-	// while (channel[client_i] != NULL)
-	// {
-	// 	if ((channel[client_i].GetClient()).getNick() == message.getContent())
-	// 	client_i++;
-	// }
-	// TRIED THIS WAY BUT COULDN'T FIGURE OUT HOW TO GET TARGET CLIENT NICK
 }
+
+// unsigned int client_i = 0;
+// while (channel[client_i] != NULL)
+// {
+// 	if ((channel[client_i].GetClient()).getNick() == message.getContent())
+// 	client_i++;
+// }
+// TRIED THIS WAY BUT COULDN'T FIGURE OUT HOW TO GET TARGET CLIENT NICK
