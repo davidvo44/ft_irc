@@ -6,7 +6,7 @@
 /*   By: dvo <dvo@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/24 12:14:19 by saperrie          #+#    #+#             */
-/*   Updated: 2025/02/28 02:36:14 by dvo              ###   ########.fr       */
+/*   Updated: 2025/03/03 19:12:43 by dvo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,6 @@ void Command::checkMode(Message message, Client &sender, Server &server)
 
 static void getMode(Client &sender, Channel &channel)
 {
-	// -i, -t, -k, -l
 	std::string reply = "+";
 	char array[] = {'i', 't', 'k', 'l'};
 	int i = 0;

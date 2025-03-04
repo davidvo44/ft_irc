@@ -6,7 +6,7 @@
 /*   By: dvo <dvo@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/24 12:13:52 by saperrie          #+#    #+#             */
-/*   Updated: 2025/03/03 02:33:02 by dvo              ###   ########.fr       */
+/*   Updated: 2025/03/03 19:41:20 by dvo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ class Message
 
 		void parse(std::vector<std::string> _words);
 		void msgchess(std::vector<std::string> _words, unsigned long i);
-		std::string _prefix;    //  std::string prefix = ":" + clientNick + "!" + clientUser + "@" + clientHost;
+		std::string _prefix;
 		std::string _command;
 		std::string _to;
 		std::string _content;

@@ -6,7 +6,7 @@
 /*   By: dvo <dvo@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/24 12:14:58 by saperrie          #+#    #+#             */
-/*   Updated: 2025/03/02 19:37:20 by dvo              ###   ########.fr       */
+/*   Updated: 2025/03/03 19:13:54 by dvo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,6 @@ void RplMessage::GetRply(int code, int fd, int size, const char * value, ...)
 		case RPL_WHOREPLY:
 			final_msg = arg_list[1];
 	}
-	std::string response = ":irc.com " + scode + " " + arg_list[0] + " " + final_msg + "\n";
+	std::string response = ":irc.com " + scode + " " + arg_list[0] + " " + final_msg + "\r\n";
     send(fd, response.c_str(), response.length(), MSG_DONTWAIT | MSG_NOSIGNAL);
 }

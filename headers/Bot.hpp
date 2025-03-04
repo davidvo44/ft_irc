@@ -26,6 +26,12 @@ public:
 	void Ongame(int fd, Message &message);
 	void WhiteMove(Message &message);
 	void BlackMove(Message &message);
+	bool WhitePawnCondition(int x, int y, int destx, int desty);
+	bool BlackPawnCondition(int x, int y, int destx, int desty);
+	bool TowerCondition(int x, int y, int destx, int desty);
+	bool CollisionCondition(int x, int y);
+	bool KnightCondition(int x, int y, int destx, int desty);
+	bool BishopCondition(int x, int y, int destx, int desty);
 
 private:
 	int _turn;
