@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Message.cpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: saperrie <saperrie@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dvo <dvo@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/24 12:14:53 by saperrie          #+#    #+#             */
-/*   Updated: 2025/03/04 18:56:59 by saperrie         ###   ########.fr       */
+/*   Updated: 2025/03/04 20:31:27 by dvo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,59 +26,59 @@ Message::Message(std::string buffer)
 	parse(_words);
 }
 
-void Message::parse(std::vector<std::string> _words)
-{
-	for (unsigned long i = 0; _words[i] != "" && i ==_words.size(); ++i)
-	{
-		if (_words[i][0] == ':')
-		{
-			_prefix = _words[i++];
-			continue;
-		}
-		_words[i];
-	}
-}
 // void Message::parse(std::vector<std::string> _words)
 // {
-// 	unsigned long i = 0;
-// 	if (i == _words.size())
-// 		return ;
-// 	if (_words.size() >= 3 && _words[2] == ":!CHESS")
-// 		_command = "CHESS";
-// 	else
-// 		_command = _words[i];
-// 	i++;
-// 	if (i == _words.size())
-// 		return ;
-// 	if (_command == "PRIVMSG" || _command == "PART" \
-// 		|| _command == "TOPIC" || _command == "JOIN" \
-// 		|| _command == "MODE" ||  _command == "KICK" \
-// 		|| _command == "INVITE" || _command == "CHESS")
+// 	for (unsigned long i = 0; _words[i] != "" && i ==_words.size(); ++i)
 // 	{
-// 		_target = _words[i];
-// 		i++;
-// 	}
-// 	if (i == _words.size())
-// 		return ;
-// 	if (_command == "CHESS")
-// 	{
-// 		msgchess(_words, i);
-// 		return;
-// 	}
-// 	_content = _words[i];
-// 	if (_words[i][0] == ':')
-// 	{
-// 		_content.erase(0,1);
-// 		i++;
-// 		for (; i != _words.size(); i++)
+// 		if (_words[i][0] == ':')
 // 		{
-// 			_content = _content + " " + _words[i];
+// 			_prefix = _words[i++];
+// 			continue;
 // 		}
+// 		_words[i];
 // 	}
-// 	i++;
-// 	if ((_command == "MODE" || _command == "KICK") && i != _words.size())
-// 		_suffix = _words[i];
 // }
+void Message::parse(std::vector<std::string> _words)
+{
+	unsigned long i = 0;
+	if (i == _words.size())
+		return ;
+	if (_words.size() >= 3 && _words[2] == ":!CHESS")
+		_command = "CHESS";
+	else
+		_command = _words[i];
+	i++;
+	if (i == _words.size())
+		return ;
+	if (_command == "PRIVMSG" || _command == "PART" \
+		|| _command == "TOPIC" || _command == "JOIN" \
+		|| _command == "MODE" ||  _command == "KICK" \
+		|| _command == "INVITE" || _command == "CHESS")
+	{
+		_target = _words[i];
+		i++;
+	}
+	if (i == _words.size())
+		return ;
+	if (_command == "CHESS")
+	{
+		msgchess(_words, i);
+		return;
+	}
+	_content = _words[i];
+	if (_words[i][0] == ':')
+	{
+		_content.erase(0,1);
+		i++;
+		for (; i != _words.size(); i++)
+		{
+			_content = _content + " " + _words[i];
+		}
+	}
+	i++;
+	if ((_command == "MODE" || _command == "KICK") && i != _words.size())
+		_suffix = _words[i];
+}
 
 void Message::msgchess(std::vector<std::string> _words, unsigned long i)
 {
