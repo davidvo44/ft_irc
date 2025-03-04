@@ -73,7 +73,7 @@ void Bot::PrintChess(int fd)
 			if (_blackSpe[i].x != -1)
 				board[_blackSpe[i].x][_blackSpe[i].y] = "♝";
 		}
-		else if (i == 7)
+		else if (i == 6)
 		{
 			if (_whiteSpe[i].x != -1)
 				board[_whiteSpe[i].x][_whiteSpe[i].y] = "♕";
@@ -218,6 +218,7 @@ void Bot::WhiteMove(Message &message)
 		{
 			if (i < 2)
 			{
+				std::cout << "tower\n";
 				if (TowerCondition(x, y, destx, desty) == 0)
 				{
 					response = prefixmsg + "Pawn at :" + message.getContent() + " can't move here\n";
@@ -225,8 +226,9 @@ void Bot::WhiteMove(Message &message)
 					return;
 				}
 			}
-			if (i < 4)
+			else if (i < 4)
 			{
+				std::cout << "knight\n";
 				if (KnightCondition(x, y, destx, desty) == 0)
 				{
 					response = prefixmsg + "Pawn at :" + message.getContent() + " can't move here\n";
@@ -234,8 +236,19 @@ void Bot::WhiteMove(Message &message)
 					return;
 				}
 			}
-			if (i < 6)
+			else if (i < 6)
 			{
+				std::cout << "bishop\n";
+				if (BishopCondition(x, y, destx, desty) == 0)
+				{
+					response = prefixmsg + "Pawn at :" + message.getContent() + " can't move here\n";
+					send(_whitefds, response.c_str(), response.length(), MSG_DONTWAIT | MSG_NOSIGNAL);
+					return;
+				}
+			}
+			else if (i == 6)
+			{
+				std::cout << "queen\n";
 				if (BishopCondition(x, y, destx, desty) == 0)
 				{
 					response = prefixmsg + "Pawn at :" + message.getContent() + " can't move here\n";
@@ -421,27 +434,31 @@ bool Bot::KnightCondition(int x, int y, int destx, int desty)
 
 bool Bot::BishopCondition(int x, int y, int destx, int desty)
 {
+	std::cout << "BISHOP:" << x << "," << y << ". To:" << destx << "," << desty << "\n";
 	int input = y - x;
 	if (destx + input == desty)
 	{
 		if (destx - x > 0)
 		{
+			std::cout << "croissant type:" << input << "\n";
 			for (int i = x + 1; i != destx; i++)
 			{
-				if (CollisionCondition(i + input, i) == 1)
+				if (CollisionCondition(i, i + input) == 1)
 					return 0;
 			}
 		}
 		if (destx - x < 0)
 		{
+			std::cout << "decroissant type:" << input << "\n";
 			for (int i = x + 1; i != destx; i--)
 			{
-				if (CollisionCondition(i + input, i) == 1)
+				if (CollisionCondition(i, i + input) == 1)
 					return 0;
 			}
 		}
 		return 1;
 	}
+
 	input = y + x;
 	if (input - destx == desty)
 	{
@@ -449,7 +466,7 @@ bool Bot::BishopCondition(int x, int y, int destx, int desty)
 		{
 			for (int i = x + 1; i != destx; i++)
 			{
-				if (CollisionCondition(i + input, i) == 1)
+				if (CollisionCondition(i, input - i) == 1)
 					return 0;
 			}
 		}
@@ -457,7 +474,7 @@ bool Bot::BishopCondition(int x, int y, int destx, int desty)
 		{
 			for (int i = x + 1; i != destx; i--)
 			{
-				if (CollisionCondition(i + input, i) == 1)
+				if (CollisionCondition(i, input - i) == 1)
 					return 0;
 			}
 		}
@@ -465,3 +482,28 @@ bool Bot::BishopCondition(int x, int y, int destx, int desty)
 	}
 	return 0;
 }
+
+bool Bot::QueenCondition(int x, int y, int destx, int desty)
+{
+	if (x != destx && y != desty)
+	{
+		if (BishopCondition(x, y, destx, desty) == 0)
+			return 0;
+		return 1;
+	}
+	if (TowerCondition(x, y, destx, desty) == 0)
+			return 0;
+		return 1;
+}
+
+bool Bot::KingCondition(int x, int y, int destx, int desty)
+{
+	if ((std::abs(y - desty) != 1 && std::abs(x - destx) != 1) || std::abs(y - desty) > 1 || std::abs(x - destx) > 1)
+		return 0;
+	return 1;
+}
+
+// bool Bot::isChess(int x, int y)
+// {
+
+// }
