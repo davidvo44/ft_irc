@@ -166,6 +166,10 @@ void Bot::Ongame(int fd, Message &message)
 	else
 		BlackMove(message);
 	response = prefixmsg + "Your turn\n";
+	if (isChess(_whiteSpe[7].x, _whiteSpe[7].y) == 1)
+		send(_whitefds, "CHESS!!\n", 8, MSG_DONTWAIT | MSG_NOSIGNAL);
+	if (isChess(_blackSpe[7].x, _blackSpe[7].y) == 1)
+		send(_blackfds, "CHESS!!\n", 8, MSG_DONTWAIT | MSG_NOSIGNAL);
 	if (_turn % 2 == 0)
 		send(_whitefds, response.c_str(), response.length(), MSG_DONTWAIT | MSG_NOSIGNAL);
 	else
@@ -251,7 +255,16 @@ void Bot::WhiteMove(Message &message)
 				std::cout << "queen\n";
 				if (BishopCondition(x, y, destx, desty) == 0)
 				{
-					response = prefixmsg + "Pawn at :" + message.getContent() + " can't move here\n";
+					response = prefixmsg + "Queen at :" + message.getContent() + " can't move here\n";
+					send(_whitefds, response.c_str(), response.length(), MSG_DONTWAIT | MSG_NOSIGNAL);
+					return;
+				}
+			}
+			else
+			{
+				if (KingCondition(x, y, destx, desty) == 0)
+				{
+					response = prefixmsg + "King at :" + message.getContent() + " can't move here\n";
 					send(_whitefds, response.c_str(), response.length(), MSG_DONTWAIT | MSG_NOSIGNAL);
 					return;
 				}
@@ -500,10 +513,53 @@ bool Bot::KingCondition(int x, int y, int destx, int desty)
 {
 	if ((std::abs(y - desty) != 1 && std::abs(x - destx) != 1) || std::abs(y - desty) > 1 || std::abs(x - destx) > 1)
 		return 0;
+	_whiteSpe[7].x = destx;
+	_whiteSpe[7].y = desty;
+	if (isChess(destx, desty) == 1)
+	{
+		_whiteSpe[7].x = x;
+		_whiteSpe[7].y = y;
+		return 0;
+	}
 	return 1;
 }
 
-// bool Bot::isChess(int x, int y)
-// {
-
-// }
+bool Bot::isChess(int x, int y)
+{
+	if (_blackSpe[7].x == x && _blackSpe[7].y == y)
+	{
+		for (int i = 0; i < 8; i++)
+			if (WhitePawnCondition(_whitePawn[i].x, _whitePawn[i].y, x, y) == 1)
+				return 1;
+		if (TowerCondition(_whiteSpe[0].x, _whiteSpe[0].y, x, y) == 1 ||\
+		TowerCondition(_whiteSpe[1].x, _whiteSpe[1].y, x, y) == 1 ||\
+		KnightCondition(_whiteSpe[2].x, _whiteSpe[2].y, x, y) == 1 ||\
+		KnightCondition(_whiteSpe[3].x, _whiteSpe[3].y, x, y) == 1 ||\
+		BishopCondition(_whiteSpe[4].x, _whiteSpe[4].y, x, y) == 1 ||\
+		BishopCondition(_whiteSpe[5].x, _whiteSpe[5].y, x, y) == 1 ||\
+		QueenCondition(_whiteSpe[6].x, _whiteSpe[6].y, x, y) == 1 ||\
+		KingCondition(_whiteSpe[7].x, _whiteSpe[7].y, x, y) == 1 )
+			return 1;
+		return 0;
+	}
+	if (_whiteSpe[7].x == x && _whiteSpe[7].y == y)
+		std::cout << "check for white colors\n";
+	for (int i = 0; i < 8; i++)
+		if (BlackPawnCondition(_blackPawn[i].x, _blackPawn[i].y, x, y) == 1)
+			return 1;
+	if (TowerCondition(_blackSpe[0].x, _blackSpe[0].y, x, y) == 1 ||\
+		TowerCondition(_blackSpe[1].x, _blackSpe[1].y, x, y) == 1 ||\
+		KnightCondition(_blackSpe[2].x, _blackSpe[2].y, x, y) == 1 ||\
+		KnightCondition(_blackSpe[3].x, _blackSpe[3].y, x, y) == 1 ||\
+		BishopCondition(_blackSpe[4].x, _blackSpe[4].y, x, y) == 1 ||\
+		BishopCondition(_blackSpe[5].x, _blackSpe[5].y, x, y) == 1 ||\
+		QueenCondition(_blackSpe[6].x, _blackSpe[6].y, x, y) == 1 ||\
+		KingCondition(_blackSpe[7].x, _blackSpe[7].y, x, y) == 1 )
+		{
+			std::cout << "CHESS\n";
+			return 1;
+		}
+	std::cout << "NO CONDITION\n";
+	return 0;
+}
+// isChess(_whiteSpe[7].x, _whiteSpe[7].y)
