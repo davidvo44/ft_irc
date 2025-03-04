@@ -6,7 +6,7 @@
 /*   By: dvo <dvo@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/24 12:14:53 by saperrie          #+#    #+#             */
-/*   Updated: 2025/03/03 02:33:45 by dvo              ###   ########.fr       */
+/*   Updated: 2025/03/04 20:31:27 by dvo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,14 +17,27 @@ Message::Message(){}
 Message::Message(std::string buffer)
 {
 	std::istringstream iss(buffer);
-    std::string StrCut;
+    std::string subStr;
 	std::vector<std::string> _words;
 
-	while (iss >> StrCut)
-		_words.push_back(StrCut);
-	Message::parse(_words);
+	while (iss >> subStr)
+		_words.push_back(subStr);
+	_words.push_back("");
+	parse(_words);
 }
 
+// void Message::parse(std::vector<std::string> _words)
+// {
+// 	for (unsigned long i = 0; _words[i] != "" && i ==_words.size(); ++i)
+// 	{
+// 		if (_words[i][0] == ':')
+// 		{
+// 			_prefix = _words[i++];
+// 			continue;
+// 		}
+// 		_words[i];
+// 	}
+// }
 void Message::parse(std::vector<std::string> _words)
 {
 	unsigned long i = 0;
@@ -42,7 +55,7 @@ void Message::parse(std::vector<std::string> _words)
 		|| _command == "MODE" ||  _command == "KICK" \
 		|| _command == "INVITE" || _command == "CHESS")
 	{
-		_to = _words[i];
+		_target = _words[i];
 		i++;
 	}
 	if (i == _words.size())
@@ -63,8 +76,8 @@ void Message::parse(std::vector<std::string> _words)
 		}
 	}
 	i++;
-	if (_command == "MODE" && i != _words.size())
-		_pass = _words[i];
+	if ((_command == "MODE" || _command == "KICK") && i != _words.size())
+		_suffix = _words[i];
 }
 
 void Message::msgchess(std::vector<std::string> _words, unsigned long i)
@@ -76,7 +89,7 @@ void Message::msgchess(std::vector<std::string> _words, unsigned long i)
 	i++;
 	if (i == _words.size())
 		return ;
-	_pass = _words[i];
+	_suffix = _words[i];
 }
 
 const std::string & Message::getCommand() const
@@ -84,9 +97,9 @@ const std::string & Message::getCommand() const
 	return _command;
 }
 
-const std::string & Message::getTo() const
+const std::string & Message::getTarget() const
 {
-	return _to;
+	return _target;
 }
 
 std::string & Message::getContent()
@@ -94,7 +107,7 @@ std::string & Message::getContent()
 	return _content;
 }
 
-const std::string &Message::getPass() const
+const std::string &Message::getSuffix() const
 {
-	return _pass;
+	return _suffix;
 }

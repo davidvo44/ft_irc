@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Quit.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dvo <dvo@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: saperrie <saperrie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/24 12:14:31 by saperrie          #+#    #+#             */
-/*   Updated: 2025/02/28 08:58:30 by dvo              ###   ########.fr       */
+/*   Updated: 2025/03/04 18:30:54 by saperrie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 //:thierry!user@host QUIT :Bye !
 void Command::QuitCommand(Server &server, Client &sender, Message &message)
 {
-	std::string response = sender.GetPrefix() + "QUIT :";
+	std::string response = sender.getPrefix() + "QUIT :";
 	if (message.getContent().empty() == true)
 		response += "bye\n";
 	else

@@ -6,7 +6,7 @@
 /*   By: dvo <dvo@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/24 12:14:19 by saperrie          #+#    #+#             */
-/*   Updated: 2025/03/03 19:12:43 by dvo              ###   ########.fr       */
+/*   Updated: 2025/03/04 20:35:25 by dvo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ void Command::checkMode(Message message, Client &sender, Server &server)
 	else if (message.getContent()[0] == '-')
 		functptr = &Channel::deleteMode;
 	else
-		throw ProtocolError(ERR_UNKNOWNMODE, message.getContent().erase(1), sender.GetNick());
+		throw ProtocolError(ERR_UNKNOWNMODE, message.getContent().erase(1), sender.getNick());
 	for (int i = 1; message.getContent()[i] != '\0'; i++)
 	{
 		if (CheckChar(message.getContent()[i], message, sender, *channel) == 0)
@@ -53,23 +53,23 @@ static void getMode(Client &sender, Channel &channel)
 		}
 		i++;
 	}
-	RplMessage::GetRply(RPL_CHANNELMODEIS, sender.GetFd(), 3, sender.GetNick().c_str(), channel.getName().c_str(), reply.c_str());
+	RplMessage::GetRply(RPL_CHANNELMODEIS, sender.getFd(), 3, sender.getNick().c_str(), channel.getName().c_str(), reply.c_str());
 }
 
 static Channel *parseMode(Message &message, Client &sender, Server &server)
 {
-	if (message.getTo().empty() == true)
-		throw ProtocolError(ERR_NEEDMOREPARAMS, message.getCommand(), sender.GetNick());
-	Channel *channel = server.getChannel().findValue(message.getTo());
+	if (message.getTarget().empty() == true)
+		throw ProtocolError(ERR_NEEDMOREPARAMS, message.getCommand(), sender.getNick());
+	Channel *channel = server.getChannel().findValue(message.getTarget());
 	if (channel == NULL)
-		throw ProtocolError(ERR_NOSUCHCHANNEL, message.getTo(), sender.GetNick());
-	if (channel->IsOperator(sender.GetFd()) == false)
-		throw ProtocolError(ERR_CHANOPRIVSNEEDED, message.getTo(), sender.GetNick());
-	if (message.getContent()[0] == '+' && message.getContent().find('o') != std::string::npos && \
-	message.getContent().find('k') != std::string::npos)
+		throw ProtocolError(ERR_NOSUCHCHANNEL, message.getTarget(), sender.getNick());
+	if (channel->isOperator(sender.getFd()) == false)
+		throw ProtocolError(ERR_CHANOPRIVSNEEDED, message.getTarget(), sender.getNick());
+	if (message.getContent()[0] == '+' && message.getContent().find('o') != std::string::npos &&
+		message.getContent().find('k') != std::string::npos)
 	{
 		std::string str = "o";
-		throw ProtocolError(ERR_UNKNOWNMODE, str, sender.GetNick());
+		throw ProtocolError(ERR_UNKNOWNMODE, str, sender.getNick());
 	}
 	return (channel);
 }
@@ -88,18 +88,18 @@ static int CheckChar(char c, Message &message, Client &sender, Channel &channel)
 		setPass(channel, message.getContent()[0], message);
 	if (ichar == 4)
 	{
-		setOpe(sender, channel ,message.getContent()[0], message);
+		setOpe(sender, channel, message.getContent()[0], message);
 		return 1;
 	}
 	if (ichar == 5)
 	{
 		std::string str(1, c);
-		throw ProtocolError(ERR_UNKNOWNMODE, str, sender.GetNick());
+		throw ProtocolError(ERR_UNKNOWNMODE, str, sender.getNick());
 	}
 	if (message.getContent()[0] == '+' && ichar == 2)
 	{
-		std::cout << "PASS IS:" << message.getPass() << std::endl;
-		channel.setPassword(message.getPass());
+		std::cout << "PASS IS:" << message.getSuffix() << std::endl;
+		channel.setPassword(message.getSuffix());
 	}
 	return 0;
 }
@@ -110,35 +110,35 @@ static void setOpe(Client &sender, Channel &channel, char sign, Message &message
 	std::string response;
 	while (channel[idx])
 	{
-		if (channel[idx]->GetNick() == message.getPass())
+		if (channel[idx]->getNick() == message.getSuffix())
 			break;
 		idx++;
 	}
 	if (!channel[idx])
-		throw ProtocolError(ERR_NOSUCHNICK, message.getPass(), sender.GetNick());
+		throw ProtocolError(ERR_NOSUCHNICK, message.getSuffix(), sender.getNick());
 	if (sign == '+')
-		channel.getOperator().push_back(channel[idx]->GetFd());
+		channel.getOperator().push_back(channel[idx]->getFd());
 	else
 	{
-		std::vector<int>::iterator it = std::find(channel.getOperator().begin(), channel.getOperator().end(), channel[idx]->GetFd());
-    	if (it != channel.getOperator().end())
+		std::vector<int>::iterator it = std::find(channel.getOperator().begin(), channel.getOperator().end(), channel[idx]->getFd());
+		if (it != channel.getOperator().end())
 			channel.getOperator().erase(it);
 		else
 			return;
 	}
-	response = sender.GetPrefix() +" MODE " + channel.getName() + " " + sign + "o " + message.getPass();
+	response = sender.getPrefix() + " MODE " + channel.getName() + " " + sign + "o " + message.getSuffix();
 	idx = 0;
 	while (channel[idx])
 	{
-		send(channel[idx]->GetFd(), response.c_str(), response.length(), MSG_DONTWAIT | MSG_NOSIGNAL);
+		send(channel[idx]->getFd(), response.c_str(), response.length(), MSG_DONTWAIT | MSG_NOSIGNAL);
 		idx++;
 	}
 }
 
 static void setPass(Channel &channel, char sign, Message &message)
 {
-	if (message.getPass().empty() == true)
+	if (message.getSuffix().empty() == true)
 		return;
 	if (sign == '+')
-		channel.setPassword(message.getPass());
+		channel.setPassword(message.getSuffix());
 }

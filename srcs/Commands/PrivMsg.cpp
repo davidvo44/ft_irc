@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   PrivMsg.cpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dvo <dvo@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: saperrie <saperrie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/24 12:14:28 by saperrie          #+#    #+#             */
-/*   Updated: 2025/02/27 18:21:01 by dvo              ###   ########.fr       */
+/*   Updated: 2025/03/04 18:43:48 by saperrie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,20 +17,20 @@ void PrivmsgChan(Message &message, Client &sender, Channel &chan);
 
 void Command::PrivateMessage(Message &message, Client &sender, Server &server)
 {
-	if (message.getTo().empty() == true)
-		throw ProtocolError(ERR_NORECIPIENT, "", sender.GetNick());
+	if (message.getTarget().empty() == true)
+		throw ProtocolError(ERR_NORECIPIENT, "", sender.getNick());
 	if (message.getContent().empty() == true)
-		throw ProtocolError(ERR_NOTEXTTOSEND, "", sender.GetNick());
-	if (message.getTo().find('#') != 0 && message.getTo().find('&') != 0)
+		throw ProtocolError(ERR_NOTEXTTOSEND, "", sender.getNick());
+	if (message.getTarget().find('#') != 0 && message.getTarget().find('&') != 0)
 	{
 		PrivmsgUser(message, sender, server);
 		return;
 	}
-	Channel *chan = server.getChannel().findValue(message.getTo());
+	Channel *chan = server.getChannel().findValue(message.getTarget());
 	if (chan == NULL)
-		throw ProtocolError(ERR_NOSUCHCHANNEL, message.getTo(), sender.GetNick());
-	if (chan->GetClient().findValue(sender.GetFd()) == NULL)
-		throw ProtocolError(ERR_CANNOTSENDTOCHAN, message.getTo(), sender.GetNick());
+		throw ProtocolError(ERR_NOSUCHCHANNEL, message.getTarget(), sender.getNick());
+	if (chan->getClient().findValue(sender.getFd()) == NULL)
+		throw ProtocolError(ERR_CANNOTSENDTOCHAN, message.getTarget(), sender.getNick());
 	PrivmsgChan(message, sender, *chan);
 }
 
@@ -40,15 +40,15 @@ void PrivmsgUser(Message &message, Client &sender, Server &server)
 
 	while (server[idx] != NULL)
 	{
-		if (server[idx]->GetName() == message.getTo())
+		if (server[idx]->getName() == message.getTarget())
 			break;
 		idx++;
 	}
 	if (server[idx] == NULL)
-		throw ProtocolError(ERR_NOSUCHNICK, message.getTo(), sender.GetNick());
+		throw ProtocolError(ERR_NOSUCHNICK, message.getTarget(), sender.getNick());
 	std::string response;
-	response = sender.GetPrefix() + "PRIVMSG " + message.getTo() + " " + message.getContent() + "\n";
-	send(server[idx]->GetFd(), response.c_str(), response.length(), MSG_DONTWAIT | MSG_NOSIGNAL);
+	response = sender.getPrefix() + "PRIVMSG " + message.getTarget() + " " + message.getContent() + "\n";
+	send(server[idx]->getFd(), response.c_str(), response.length(), MSG_DONTWAIT | MSG_NOSIGNAL);
 }
 
 void PrivmsgChan(Message &message, Client &sender, Channel &chan)
@@ -57,13 +57,13 @@ void PrivmsgChan(Message &message, Client &sender, Channel &chan)
 	std::string response;
 	while (chan[idx] != NULL)
 	{
-		if (chan[idx]->GetFd() == sender.GetFd())
+		if (chan[idx]->getFd() == sender.getFd())
 		{
 			idx++;
 			continue;
 		}
-		response = sender.GetPrefix() + "PRIVMSG " + message.getTo() + " " + message.getContent() + "\n";
-		send(chan[idx]->GetFd(), response.c_str(), response.length(), MSG_DONTWAIT | MSG_NOSIGNAL);
+		response = sender.getPrefix() + "PRIVMSG " + message.getTarget() + " " + message.getContent() + "\n";
+		send(chan[idx]->getFd(), response.c_str(), response.length(), MSG_DONTWAIT | MSG_NOSIGNAL);
 		idx++;
 	}
 }

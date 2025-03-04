@@ -6,7 +6,7 @@
 /*   By: dvo <dvo@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/24 12:14:38 by saperrie          #+#    #+#             */
-/*   Updated: 2025/03/04 17:36:44 by dvo              ###   ########.fr       */
+/*   Updated: 2025/03/04 20:35:06 by dvo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,44 +14,44 @@
 
 Channel::Channel() {}
 
-Channel::Channel(std::string name, Client *client) : _name(name), _mode(0)
+Channel::Channel(std::string name, Client *client) : _username(name), _mode(0)
 {
-	_Clients.insert(std::make_pair(client->GetFd(), client));
-	_operator.push_back(client->GetFd());
-	_bot = new Bot(_name, client->GetPrefix());
+	_Clients.insert(std::make_pair(client->getFd(), client));
+	_operator.push_back(client->getFd());
+	_bot = new Bot(_username, client->getPrefix());
 }
 
 Channel::~Channel() {}
 
-void Channel::AddClient(Client *client)
+void Channel::addClient(Client *client)
 {
-	_Clients[client->GetFd()] = client;
+	_Clients[client->getFd()] = client;
 }
 
-void Channel::JoinChannel(Client *client)
+void Channel::joinChannel(Client *client)
 {
-	_Clients.insert(std::make_pair(client->GetFd(), client));
+	_Clients.insert(std::make_pair(client->getFd(), client));
 }
 
-void Channel::PartChannel(Client client)
+void Channel::partChannel(Client client)
 {
-	std::cout << client.GetNick() << " LEFT" << std::endl;
-	_Clients.erase(client.GetFd());
+	std::cout << client.getNick() << " LEFT" << std::endl;
+	_Clients.erase(client.getFd());
 }
 
-MutantMap<int, Client *> &Channel::GetClient()
+MutantMap<int, Client *> &Channel::getClient()
 {
 	return _Clients;
 }
 
 void Channel::setTopic(const std::string topic)
 {
-	_topic = topic;
+	_targetpic = topic;
 }
 
 const std::string Channel::getTopic()
 {
-	return _topic;
+	return _targetpic;
 }
 
 Bot *Channel::getBot()
@@ -103,7 +103,7 @@ bool Channel::viewMode(char ope)
 	return (_mode & (1 << bit_position));
 }
 
-bool Channel::IsOperator(int client)
+bool Channel::isOperator(int client)
 {
 	int i = 0;
 
@@ -120,7 +120,7 @@ bool Channel::IsOperator(int client)
 	return false;
 }
 
-bool Channel::IsWlist(int client)
+bool Channel::isInWhitelist(int client)
 {
 	int i = 0;
 
@@ -137,9 +137,9 @@ bool Channel::IsWlist(int client)
 	return false;
 }
 
-void Channel::addToWhitelist(std::string client)
+void Channel::addToWhitelist(int client)
 {
-	_whitelist.push_back(client);
+	_wlist.push_back(client);
 }
 
 std::vector<int> &Channel::getOperator()
@@ -149,17 +149,17 @@ std::vector<int> &Channel::getOperator()
 
 std::string Channel::getName()
 {
-	return _name;
+	return _username;
 }
 
-std::string Channel::getPassword()
+std::string Channel::getSuffixword()
 {
-	return (_password);
+	return (_suffixword);
 }
 
 void Channel::setPassword(std::string pass)
 {
-	_password = pass;
+	_suffixword = pass;
 }
 
 Client *Channel::operator[](unsigned index)

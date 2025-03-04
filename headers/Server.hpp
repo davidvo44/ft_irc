@@ -6,7 +6,7 @@
 /*   By: saperrie <saperrie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/24 12:14:05 by saperrie          #+#    #+#             */
-/*   Updated: 2025/02/28 15:23:32 by saperrie         ###   ########.fr       */
+/*   Updated: 2025/03/04 18:36:13 by saperrie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ class Server
 {
 public:
 	Server();
-	int getFD();
+	int getFd();
 	Client getIdxClients(int idx);
 	MutantMap<int, Client *> &getClients();
 	MutantMap<std::string, Channel *> &getChannel();

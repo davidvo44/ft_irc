@@ -7,4 +7,5 @@
 !*.tpp
 !*.hpp
 !*.h
+!*.txt
 README.md

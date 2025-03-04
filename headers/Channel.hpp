@@ -6,7 +6,7 @@
 /*   By: dvo <dvo@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/24 12:13:35 by saperrie          #+#    #+#             */
-/*   Updated: 2025/03/04 17:36:53 by dvo              ###   ########.fr       */
+/*   Updated: 2025/03/04 20:34:55 by dvo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,39 +24,45 @@ public:
 	Channel();
 	~Channel();
 
-	void AddClient(Client *client);
-	void JoinChannel(Client *client);
+	void addClient(Client *client);
+	void joinChannel(Client *client);
 
-	void PartChannel(Client client);
+	void partChannel(Client client);
 	void setTopic(const std::string topic);
 
 	void addMode(char ope);
 	void deleteMode(char ope);
 	bool viewMode(char ope);
-	bool IsOperator(int client);
-	bool IsWlist(int client);
-	void addToWhitelist(std::string client);
+	bool isOperator(int client);
+	bool isInWhitelist(int client);
+	void addToWhitelist(int client);
 
 	std::string getName();
 	const std::string getTopic();
-	MutantMap<int, Client *> &GetClient();
-	std::vector<int> &getOperator();
-	std::string getPassword();
+	std::string getSuffixword();
 	void setPassword(std::string pass);
+
+	MutantMap<int, Client *> &getClient();
+
+	std::vector<int> &getOperator();
+
 	Bot *getBot();
 
 	Client *operator[](unsigned index);
 	Client *operator!=(unsigned index);
 
 private:
-	std::string _name;
+	std::string _username;
+	std::string _targetpic;
+	std::string _suffixword;
+
 	MutantMap<int, Client *> _Clients;
-	std::string _topic;
-	int _mode;
+
 	std::vector<int> _operator;
 	std::vector<int> _wlist;
-	std::vector<std::string> _whitelist;
-	std::string _password;
+
+	int _mode;
+
 	Bot *_bot;
 };
 
