@@ -32,7 +32,9 @@ public:
 	bool CollisionCondition(int x, int y);
 	bool KnightCondition(int x, int y, int destx, int desty);
 	bool BishopCondition(int x, int y, int destx, int desty);
-
+	bool QueenCondition(int x, int y, int destx, int desty);
+	bool KingCondition(int x, int y, int destx, int desty);
+	bool isChess(int x, int y);
 private:
 	int _turn;
 	bool _start;
