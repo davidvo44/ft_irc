@@ -6,7 +6,7 @@
 /*   By: saperrie <saperrie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/24 12:11:46 by saperrie          #+#    #+#             */
-/*   Updated: 2025/02/28 16:12:03 by saperrie         ###   ########.fr       */
+/*   Updated: 2025/03/04 18:36:13 by saperrie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,7 +87,7 @@ sockaddr_in Server::getServerAddr()
 {
 	return (_ServerAddr);
 }
-int Server::getFD()
+int Server::getFd()
 {
 	return _SerSocketFd;
 }
@@ -95,9 +95,9 @@ int Server::getFD()
 void Server::AcceptNewClient(pollfd &tmp, std::string IpAdd)
 {
 	_Clients[tmp.fd] = new Client(tmp, IpAdd);
-	_Clients[tmp.fd]->GetNick();
-	RplMessage::GetRply(RPL_WELCOME, tmp.fd, 3, _Clients[tmp.fd]->GetNick().c_str(), _Clients[tmp.fd]->GetName().c_str(), \
-	_Clients[tmp.fd]->GetIpAdd().c_str());
+	_Clients[tmp.fd]->getNick();
+	RplMessage::GetRply(RPL_WELCOME, tmp.fd, 3, _Clients[tmp.fd]->getNick().c_str(), _Clients[tmp.fd]->getName().c_str(), \
+	_Clients[tmp.fd]->getIpAddr().c_str());
 	RplMessage::GetRply(RPL_YOURHOST, tmp.fd, 0, "");
 	RplMessage::GetRply(RPL_CREATED, tmp.fd, 0, "");
 	RplMessage::GetRply(RPL_MYINFO, tmp.fd, 0, "");

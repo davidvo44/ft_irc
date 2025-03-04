@@ -6,7 +6,7 @@
 /*   By: saperrie <saperrie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/24 12:13:40 by saperrie          #+#    #+#             */
-/*   Updated: 2025/02/28 15:24:00 by saperrie         ###   ########.fr       */
+/*   Updated: 2025/03/04 18:44:17 by saperrie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,23 +22,22 @@ public:
 	Client();
 	Client(pollfd &tmp, std::string IpAddr);
 
-	int GetFd();
-	std::string GetName();
-	std::string GetNick();
-	std::string GetPassword();
-	std::string GetIpAdd();
-	void SetName(const std::string name);
-	void SetNick(const std::string nick);
-	void SetPassword(const std::string pass);
-	void setIpAdd(const std::string ipadd);
-	std::string GetPrefix();
+	int getFd();
+	std::string getName();
+	std::string getNick();
+	std::string getIpAddr();
+	void setName(const std::string name);
+	void setNick(const std::string nick);
+	void setPassword(const std::string pass);
+	void setIpAddr(const std::string ipadd);
+	std::string getPrefix();
 
 private:
 	pollfd _pollfds;
-	std::string _name;
+	std::string _username;
 	std::string _nick;
-	std::string _password;
-	std::string _IpAdd;
+	std::string _suffixword;
+	std::string _IpAddr;
 };
 
 #endif

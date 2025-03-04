@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Poll.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dvo <dvo@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: saperrie <saperrie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/24 12:12:44 by saperrie          #+#    #+#             */
-/*   Updated: 2025/02/28 07:52:13 by dvo              ###   ########.fr       */
+/*   Updated: 2025/03/04 18:27:20 by saperrie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ Poll::Poll(Server *server) : _server(server)
 {
 	pollfd tmp;
 	tmp.events = POLLIN;
-	tmp.fd = server->getFD();
+	tmp.fd = server->getFd();
 	tmp.revents = 0;
 	_fds.push_back(tmp);
 }
@@ -64,7 +64,7 @@ void Poll::NewUser()
 	pollfd newfd;
 	int fdNewClient;
 
-	fdNewClient = accept(_server->getFD(), (struct sockaddr *)&tmp, &addrlen);
+	fdNewClient = accept(_server->getFd(), (struct sockaddr *)&tmp, &addrlen);
 	if (fdNewClient < 0)
 		throw ExceptionError("Accept Fail");
 	std::cout << "New client accepted : " << inet_ntoa(tmp.sin_addr) << std::endl;

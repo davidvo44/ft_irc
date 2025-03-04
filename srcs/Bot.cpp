@@ -6,7 +6,7 @@
 /*   By: saperrie <saperrie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/03 13:58:25 by saperrie          #+#    #+#             */
-/*   Updated: 2025/03/03 13:58:26 by saperrie         ###   ########.fr       */
+/*   Updated: 2025/03/04 18:44:54 by saperrie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -165,7 +165,7 @@ void Bot::Ongame(int fd, Message &message)
 		send(fd, response.c_str(), response.length(), MSG_DONTWAIT | MSG_NOSIGNAL);
 		return;
 	}
-	if (message.getContent().empty() == true || message.getPass().empty() == true)
+	if (message.getContent().empty() == true || message.getSuffix().empty() == true)
 	{
 		response = prefixmsg + "Need more parameter!!!\n";
 		send(fd, response.c_str(), response.length(), MSG_DONTWAIT | MSG_NOSIGNAL);
@@ -188,8 +188,8 @@ void Bot::WhiteMove(Message &message)
 	std::string response;
 	int x = message.getContent()[1] - '1';
 	int y = message.getContent()[0] - 'A';
-	int destx = message.getPass()[1] - '1';
-	int desty = message.getPass()[0] - 'A';
+	int destx = message.getSuffix()[1] - '1';
+	int desty = message.getSuffix()[0] - 'A';
 	for (int i = 0; i < 8; i++)
 	{
 		if ((_whitePawn[i].x == destx && _whitePawn[i].y == desty) || \
@@ -236,8 +236,8 @@ void Bot::BlackMove(Message &message)
 	std::string response;
 	int x = message.getContent()[1] - '1';
 	int y = message.getContent()[0] - 'A';
-	int destx = message.getPass()[1] - '1';
-	int desty = message.getPass()[0] - 'A';
+	int destx = message.getSuffix()[1] - '1';
+	int desty = message.getSuffix()[0] - 'A';
 	for (int i = 0; i < 8; i++)
 	{
 		if ((_blackPawn[i].x == destx && _blackPawn[i].y == desty) || \
