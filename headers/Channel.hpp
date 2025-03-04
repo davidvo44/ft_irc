@@ -6,7 +6,7 @@
 /*   By: dvo <dvo@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/24 12:13:35 by saperrie          #+#    #+#             */
-/*   Updated: 2025/03/03 17:04:19 by dvo              ###   ########.fr       */
+/*   Updated: 2025/03/04 17:14:22 by dvo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ class Channel
 		std::string _name;
 		MutantMap<int, Client *> _Clients;
 		std::string _topic;
-		int _mode; // binary format 1 1 1 1: -i, -t, -k, -l
+		int _mode;
 		std::vector<int> _operator;
 		std::vector<int> _wlist;
 		std::vector<std::string> _whitelist;
