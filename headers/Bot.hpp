@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Bot.hpp                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: saperrie <saperrie@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dvo <dvo@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/03 13:57:17 by saperrie          #+#    #+#             */
-/*   Updated: 2025/03/03 13:57:20 by saperrie         ###   ########.fr       */
+/*   Updated: 2025/03/05 23:14:41 by dvo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@
 #include <vector>
 #include <sstream>
 #include <map>
+#include <sys/socket.h>
+#include <cstdlib>
 #include <unistd.h>
 #include "Message.hpp"
 
@@ -35,8 +37,10 @@ public:
 	void PrintChess(int fd);
 	void JoinChess(int fd);
 	void Ongame(int fd, Message &message);
-	void WhiteMove(Message &message);
-	void BlackMove(Message &message);
+	void MovePiece(std::map<int, PiecePosition> &Pawn, std::map<int, PiecePosition> &Spe, Message &message);
+	void send_error(int fd);
+	bool isChess(int x, int y);
+
 	bool WhitePawnCondition(int x, int y, int destx, int desty);
 	bool BlackPawnCondition(int x, int y, int destx, int desty);
 	bool TowerCondition(int x, int y, int destx, int desty);
@@ -45,7 +49,7 @@ public:
 	bool BishopCondition(int x, int y, int destx, int desty);
 	bool QueenCondition(int x, int y, int destx, int desty);
 	bool KingCondition(int x, int y, int destx, int desty);
-	bool isChess(int x, int y);
+	bool Check_Kill_n_Chess(PiecePosition &piece, int fd, int x, int y, int destx, int desty);
 private:
 	int _turn;
 	bool _start;
@@ -58,6 +62,7 @@ private:
 	std::map<int, PiecePosition> _blackSpe;
 	std::string _prefix;
 	std::string _chan;
+	bool _ischess;
 };
 
 #endif

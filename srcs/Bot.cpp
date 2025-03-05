@@ -162,175 +162,19 @@ void Bot::Ongame(int fd, Message &message)
 		return;
 	}
 	if (_turn % 2 == 0)
-		WhiteMove(message);
+		MovePiece(_whitePawn, _whiteSpe, message);
 	else
-		BlackMove(message);
+		MovePiece(_blackPawn, _blackSpe, message);
 	response = prefixmsg + "Your turn\n";
-	if (isChess(_whiteSpe[7].x, _whiteSpe[7].y) == 1)
-		send(_whitefds, "CHESS!!\n", 8, MSG_DONTWAIT | MSG_NOSIGNAL);
-	if (isChess(_blackSpe[7].x, _blackSpe[7].y) == 1)
-		send(_blackfds, "CHESS!!\n", 8, MSG_DONTWAIT | MSG_NOSIGNAL);
 	if (_turn % 2 == 0)
 		send(_whitefds, response.c_str(), response.length(), MSG_DONTWAIT | MSG_NOSIGNAL);
 	else
 		send(_blackfds, response.c_str(), response.length(), MSG_DONTWAIT | MSG_NOSIGNAL);
-}
-
-void Bot::WhiteMove(Message &message)
-{
-	std::string prefixmsg = _prefix + "PRIVMSG " + _chan + " ";
-	std::string response;
-	int x = message.getContent()[1] - '1';
-	int y = message.getContent()[0] - 'A';
-	int destx = message.getSuffix()[1] - '1';
-	int desty = message.getSuffix()[0] - 'A';
-	for (int i = 0; i < 8; i++)
-	{
-		if ((_whitePawn[i].x == destx && _whitePawn[i].y == desty) || \
-		 (_whiteSpe[i].x == destx && _whiteSpe[i].y == desty))
-		{
-			response = prefixmsg + "Pawn at :" + message.getContent() + " can't move here\n";
-			send(_whitefds, response.c_str(), response.length(), MSG_DONTWAIT | MSG_NOSIGNAL);
-			return;
-		}
-		if (_blackPawn[i].x == destx && _blackPawn[i].y == desty)
-			_blackPawn[i].x = -1;
-    	if (_blackSpe[i].x == destx && _blackSpe[i].y == desty)
-			_blackPawn[i].x = -1;
-	}
-	for (int i = 0; i < 9; i++)
-	{
-		if (i == 8)
-		{
-			response = prefixmsg + "Pawn not found\n";
-			send(_whitefds, response.c_str(), response.length(), MSG_DONTWAIT | MSG_NOSIGNAL);
-			return;
-		}
-		if (_whitePawn[i].x == x && _whitePawn[i].y == y)
-		{
-			if (WhitePawnCondition(x, y, destx, desty) == 0)
-			{
-				response = prefixmsg + "Pawn at :" + message.getContent() + " can't move here\n";
-				send(_whitefds, response.c_str(), response.length(), MSG_DONTWAIT | MSG_NOSIGNAL);
-				return;
-			}
-			_whitePawn[i].x = destx;
-			_whitePawn[i].y = desty;
-			break;
-		}
-		if (_whiteSpe[i].x == x && _whiteSpe[i].y == y)
-		{
-			if (i < 2)
-			{
-				std::cout << "tower\n";
-				if (TowerCondition(x, y, destx, desty) == 0)
-				{
-					response = prefixmsg + "Pawn at :" + message.getContent() + " can't move here\n";
-					send(_whitefds, response.c_str(), response.length(), MSG_DONTWAIT | MSG_NOSIGNAL);
-					return;
-				}
-			}
-			else if (i < 4)
-			{
-				std::cout << "knight\n";
-				if (KnightCondition(x, y, destx, desty) == 0)
-				{
-					response = prefixmsg + "Pawn at :" + message.getContent() + " can't move here\n";
-					send(_whitefds, response.c_str(), response.length(), MSG_DONTWAIT | MSG_NOSIGNAL);
-					return;
-				}
-			}
-			else if (i < 6)
-			{
-				std::cout << "bishop\n";
-				if (BishopCondition(x, y, destx, desty) == 0)
-				{
-					response = prefixmsg + "Pawn at :" + message.getContent() + " can't move here\n";
-					send(_whitefds, response.c_str(), response.length(), MSG_DONTWAIT | MSG_NOSIGNAL);
-					return;
-				}
-			}
-			else if (i == 6)
-			{
-				std::cout << "queen\n";
-				if (BishopCondition(x, y, destx, desty) == 0)
-				{
-					response = prefixmsg + "Queen at :" + message.getContent() + " can't move here\n";
-					send(_whitefds, response.c_str(), response.length(), MSG_DONTWAIT | MSG_NOSIGNAL);
-					return;
-				}
-			}
-			else
-			{
-				if (KingCondition(x, y, destx, desty) == 0)
-				{
-					response = prefixmsg + "King at :" + message.getContent() + " can't move here\n";
-					send(_whitefds, response.c_str(), response.length(), MSG_DONTWAIT | MSG_NOSIGNAL);
-					return;
-				}
-			}
-			_whiteSpe[i].x = destx;
-			_whiteSpe[i].y = desty;
-			break;
-		}
-	}
-	_turn++;
-	PrintChess(_whitefds);
-	PrintChess(_blackfds);
-}
-
-void Bot::BlackMove(Message &message)
-{
-	std::string prefixmsg = _prefix + "PRIVMSG " + _chan + " ";
-	std::string response;
-	int x = message.getContent()[1] - '1';
-	int y = message.getContent()[0] - 'A';
-	int destx = message.getSuffix()[1] - '1';
-	int desty = message.getSuffix()[0] - 'A';
-	for (int i = 0; i < 8; i++)
-	{
-		if ((_blackPawn[i].x == destx && _blackPawn[i].y == desty) || \
-		 (_blackSpe[i].x == destx && _blackSpe[i].y == desty))
-		{
-			response = prefixmsg + "Pawn at :" + message.getContent() + "can't move here\n";
-			send(_blackfds, response.c_str(), response.length(), MSG_DONTWAIT | MSG_NOSIGNAL);
-			return;
-		}
-		if (_whitePawn[i].x == destx && _whitePawn[i].y == desty)
-			_whitePawn[i].x = -1;
-    	if (_whiteSpe[i].x == destx && _whiteSpe[i].y == desty)
-			_whitePawn[i].x = -1;
-	}
-	for (int i = 0; i < 9; i++)
-	{
-		if (i == 8)
-		{
-			response = prefixmsg + "Pawn not found\n";
-			send(_blackfds, response.c_str(), response.length(), MSG_DONTWAIT | MSG_NOSIGNAL);
-			return;
-		}
-		if (_blackPawn[i].x == x && _blackPawn[i].y == y)
-		{
-			if (BlackPawnCondition(x,  y, destx, desty) == 0)
-			{
-				response = prefixmsg + "Pawn at :" + message.getContent() + " can't move here\n";
-				send(_whitefds, response.c_str(), response.length(), MSG_DONTWAIT | MSG_NOSIGNAL);
-				return;
-			}
-			_blackPawn[i].x = destx;
-			_blackPawn[i].y = desty;
-			break;
-		}
-		if (_blackSpe[i].x == x && _blackSpe[i].y == y)
-		{
-			_blackSpe[i].x = destx;
-			_blackSpe[i].y = desty;
-			break;
-		}
-	}
-	_turn++;
-	PrintChess(_whitefds);
-	PrintChess(_blackfds);
+	response = prefixmsg + "CHESS!!\n";
+	if (isChess(_whiteSpe[7].x, _whiteSpe[7].y) == 1)	
+		send(_whitefds, response.c_str(), response.length(), MSG_DONTWAIT | MSG_NOSIGNAL);
+	if (isChess(_blackSpe[7].x, _blackSpe[7].y) == 1)
+		send(_blackfds, response.c_str(), response.length(), MSG_DONTWAIT | MSG_NOSIGNAL);
 }
 
 bool Bot::CollisionCondition(int x, int y)
@@ -344,184 +188,6 @@ bool Bot::CollisionCondition(int x, int y)
 			return 1;
 	}
 	return 0;
-}
-bool Bot::WhitePawnCondition(int x, int y, int destx, int desty)
-{
-	if (x == 1)
-	{
-		if (destx == 3)
-		{
-			if (desty == y)
-				if (CollisionCondition(2, y) == 0 || CollisionCondition(3, y) == 0)
-					return 1;
-			return 0;
-		}
-	}
-	if (x + 1 != destx)
-		return 0;
-	if (std::abs(y - desty) > 1)
-		return 0;
-	if (std::abs(y - desty) == 1)
-		if (CollisionCondition(destx, desty) == 1)
-			return 1;
-	if (desty == y)
-	if (CollisionCondition(destx, desty) == 0)
-		return 1;
-	return 0;
-}
-
-bool Bot::BlackPawnCondition(int x, int y, int destx, int desty)
-{
-	if (x == 6)
-	{
-		if (destx == 4)
-		{
-			if (desty == y)
-				if (CollisionCondition(5, y) == 0 || CollisionCondition(4, y) == 0)
-					return 1;
-			return 0;
-		}
-	}
-	if (x - 1 != destx)
-		return 0;
-	if (std::abs(y - desty) > 1)
-		return 0;
-	if (std::abs(y - desty) == 1)
-		if (CollisionCondition(destx, desty) == 1)
-			return 1;
-	if (desty == y)
-	if (CollisionCondition(destx, desty) == 0)
-		return 1;
-	return 0;
-}
-
-
-bool Bot::TowerCondition(int x, int y, int destx, int desty)
-{
-	if (x != destx && y != desty)
-		return 0;
-	if (destx - x > 0)
-	{
-		for (int i = x + 1; i != destx; i++)
-		{
-			if (CollisionCondition(i, y) == 1)
-				return 0;
-		}
-	}
-	else if (destx - x < 0)
-	{
-		for (int i = x - 1; i != destx; i--)
-		{
-			if (CollisionCondition(i, y) == 1)
-				return 0;
-		}
-	}
-	else if (desty - y > 0)
-	{
-		for (int i = y + 1; i != desty; i++)
-		{
-			if (CollisionCondition(x, i) == 1)
-				return 0;
-		}
-	}
-	else if (desty - y < 0)
-	{
-		for (int i = y - 1; i != desty; i--)
-		{
-			if (CollisionCondition(x, i) == 1)
-				return 0;
-		}
-	}
-	return 1;
-}
-
-bool Bot::KnightCondition(int x, int y, int destx, int desty)
-{
-	if (std::abs(x - destx) == 1 && std::abs(y - desty) == 2)
-		return 1;
-	if (std::abs(x - destx) == 2 && std::abs(y - desty) == 1)
-		return 1;
-	else
-		return 0;
-}
-
-bool Bot::BishopCondition(int x, int y, int destx, int desty)
-{
-	std::cout << "BISHOP:" << x << "," << y << ". To:" << destx << "," << desty << "\n";
-	int input = y - x;
-	if (destx + input == desty)
-	{
-		if (destx - x > 0)
-		{
-			std::cout << "croissant type:" << input << "\n";
-			for (int i = x + 1; i != destx; i++)
-			{
-				if (CollisionCondition(i, i + input) == 1)
-					return 0;
-			}
-		}
-		if (destx - x < 0)
-		{
-			std::cout << "decroissant type:" << input << "\n";
-			for (int i = x + 1; i != destx; i--)
-			{
-				if (CollisionCondition(i, i + input) == 1)
-					return 0;
-			}
-		}
-		return 1;
-	}
-
-	input = y + x;
-	if (input - destx == desty)
-	{
-		if (destx - x > 0)
-		{
-			for (int i = x + 1; i != destx; i++)
-			{
-				if (CollisionCondition(i, input - i) == 1)
-					return 0;
-			}
-		}
-		if (destx - x < 0)
-		{
-			for (int i = x + 1; i != destx; i--)
-			{
-				if (CollisionCondition(i, input - i) == 1)
-					return 0;
-			}
-		}
-		return 1;
-	}
-	return 0;
-}
-
-bool Bot::QueenCondition(int x, int y, int destx, int desty)
-{
-	if (x != destx && y != desty)
-	{
-		if (BishopCondition(x, y, destx, desty) == 0)
-			return 0;
-		return 1;
-	}
-	if (TowerCondition(x, y, destx, desty) == 0)
-			return 0;
-		return 1;
-}
-
-bool Bot::KingCondition(int x, int y, int destx, int desty)
-{
-	if ((std::abs(y - desty) != 1 && std::abs(x - destx) != 1) || std::abs(y - desty) > 1 || std::abs(x - destx) > 1)
-		return 0;
-	_whiteSpe[7].x = destx;
-	_whiteSpe[7].y = desty;
-	if (isChess(destx, desty) == 1)
-	{
-		_whiteSpe[7].x = x;
-		_whiteSpe[7].y = y;
-		return 0;
-	}
-	return 1;
 }
 
 bool Bot::isChess(int x, int y)
@@ -542,8 +208,6 @@ bool Bot::isChess(int x, int y)
 			return 1;
 		return 0;
 	}
-	if (_whiteSpe[7].x == x && _whiteSpe[7].y == y)
-		std::cout << "check for white colors\n";
 	for (int i = 0; i < 8; i++)
 		if (BlackPawnCondition(_blackPawn[i].x, _blackPawn[i].y, x, y) == 1)
 			return 1;
@@ -555,11 +219,14 @@ bool Bot::isChess(int x, int y)
 		BishopCondition(_blackSpe[5].x, _blackSpe[5].y, x, y) == 1 ||\
 		QueenCondition(_blackSpe[6].x, _blackSpe[6].y, x, y) == 1 ||\
 		KingCondition(_blackSpe[7].x, _blackSpe[7].y, x, y) == 1 )
-		{
-			std::cout << "CHESS\n";
 			return 1;
-		}
-	std::cout << "NO CONDITION\n";
 	return 0;
 }
-// isChess(_whiteSpe[7].x, _whiteSpe[7].y)
+
+void Bot::send_error(int fd)
+{
+	std::string prefixmsg = _prefix + "PRIVMSG " + _chan + " ";
+	std::string response;
+	response = prefixmsg + "Invalid Move\n";
+			send(fd, response.c_str(), response.length(), MSG_DONTWAIT | MSG_NOSIGNAL);
+}

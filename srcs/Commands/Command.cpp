@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Command.cpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: saperrie <saperrie@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dvo <dvo@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/24 12:14:11 by saperrie          #+#    #+#             */
-/*   Updated: 2025/03/04 18:36:13 by saperrie         ###   ########.fr       */
+/*   Updated: 2025/03/05 20:54:45 by dvo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,6 @@ void Command::CheckCommand(std::string str, Server &server, int fd)
 				Command::joinChannel(*client, message, server);
 				break;
 			case 1:
-				std::cout << "attribute :" << message.getContent() << std::endl;
 				client->setName(message.getContent());
 				break;
 			case 2:
