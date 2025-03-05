@@ -7,8 +7,8 @@ void Bot::MovePiece(std::map<int, PiecePosition> &Pawn, std::map<int, PiecePosit
 		fd = _whitefds;
 	else
 		fd = _blackfds;
-	int x = message.getContent()[1] - '1';
-	int y = message.getContent()[0] - 'A';
+	int x = message.getParameter()[1] - '1';
+	int y = message.getParameter()[0] - 'A';
 	int destx = message.getSuffix()[1] - '1';
 	int desty = message.getSuffix()[0] - 'A';
 	for (int i = 0; i < 8; i++)

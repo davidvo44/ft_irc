@@ -155,7 +155,7 @@ void Bot::Ongame(int fd, Message &message)
 		send(fd, response.c_str(), response.length(), MSG_DONTWAIT | MSG_NOSIGNAL);
 		return;
 	}
-	if (message.getContent().empty() == true || message.getSuffix().empty() == true)
+	if (message.getParameter().empty() == true || message.getSuffix().empty() == true)
 	{
 		response = prefixmsg + "Need more parameter!!!\n";
 		send(fd, response.c_str(), response.length(), MSG_DONTWAIT | MSG_NOSIGNAL);

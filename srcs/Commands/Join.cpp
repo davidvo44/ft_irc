@@ -6,18 +6,19 @@
 /*   By: saperrie <saperrie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/24 12:14:14 by saperrie          #+#    #+#             */
-/*   Updated: 2025/03/04 18:44:54 by saperrie         ###   ########.fr       */
+/*   Updated: 2025/03/05 19:03:06 by saperrie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "Command.hpp"
 #include "MutantMap.hpp"
 
-static void checkmodechann(Client client, Channel &channel, Message message);
-static void write_channel(Client &client, Message message, Server &server);
+static void checkmodechann(Client client, Channel &channel, Message& message);
+static void write_channel(Client &client, Message& message, Server &server);
 
-void Command::joinChannel(Client &client, Message message, Server &server)
+void Command::joinChannel(Client &client, Message& message, Server &server)
 {
+	message.parseJOIN();
 	if (message.getTarget().find('#') != 0 && message.getTarget().find('&') != 0)
 		throw ProtocolError(ERR_BADCHANMASK, message.getTarget(), client.getNick());
 	Channel *channel = server.getChannel().findValue(message.getTarget());
@@ -37,7 +38,7 @@ void Command::joinChannel(Client &client, Message message, Server &server)
 	Command::getTopic(message, client, *channel);
 }
 
-static void checkmodechann(Client client, Channel &channel, Message message)
+static void checkmodechann(Client client, Channel &channel, Message& message)
 {
 	if (channel.viewMode('i') == true)
 	{
@@ -46,12 +47,12 @@ static void checkmodechann(Client client, Channel &channel, Message message)
 	}
 	if (channel.viewMode('k') == true)
 	{
-		if (message.getContent() != channel.getSuffixword())
+		if (message.getParameter() != channel.getSuffixword())
 			throw ProtocolError(ERR_BADCHANNELKEY, message.getTarget(), client.getNick());
 	}
 }
 
-static void write_channel(Client &client, Message message, Server &server)
+static void write_channel(Client &client, Message& message, Server &server)
 {
 	std::string response;
 	unsigned idx = 0;

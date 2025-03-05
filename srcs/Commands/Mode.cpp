@@ -6,7 +6,7 @@
 /*   By: dvo <dvo@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/24 12:14:19 by saperrie          #+#    #+#             */
-/*   Updated: 2025/03/04 20:35:25 by dvo              ###   ########.fr       */
+/*   Updated: 2025/03/05 23:24:01 by dvo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,25 +18,25 @@ static int CheckChar(char c, Message &message, Client &sender, Channel &channel)
 static void setOpe(Client &sender, Channel &channel, char sign, Message &message);
 static void setPass(Channel &channel, char sign, Message &message);
 
-void Command::checkMode(Message message, Client &sender, Server &server)
+void Command::checkMode(Message& message, Client &sender, Server &server)
 {
 	Channel *channel = parseMode(message, sender, server);
-	if (message.getContent().empty() == true)
+	if (message.getParameter().empty() == true)
 	{
 		getMode(sender, *channel);
 		return;
 	}
 	void (Channel::*functptr)(char s);
-	if (message.getContent()[0] == '+')
+	if (message.getParameter()[0] == '+')
 		functptr = &Channel::addMode;
-	else if (message.getContent()[0] == '-')
+	else if (message.getParameter()[0] == '-')
 		functptr = &Channel::deleteMode;
 	else
-		throw ProtocolError(ERR_UNKNOWNMODE, message.getContent().erase(1), sender.getNick());
-	for (int i = 1; message.getContent()[i] != '\0'; i++)
+		throw ProtocolError(ERR_UNKNOWNMODE, message.getParameter().erase(1), sender.getNick());
+	for (int i = 1; message.getParameter()[i] != '\0'; i++)
 	{
-		if (CheckChar(message.getContent()[i], message, sender, *channel) == 0)
-			(*channel.*functptr)(message.getContent()[i]);
+		if (CheckChar(message.getParameter()[i], message, sender, *channel) == 0)
+			(*channel.*functptr)(message.getParameter()[i]);
 	}
 }
 
@@ -65,8 +65,8 @@ static Channel *parseMode(Message &message, Client &sender, Server &server)
 		throw ProtocolError(ERR_NOSUCHCHANNEL, message.getTarget(), sender.getNick());
 	if (channel->isOperator(sender.getFd()) == false)
 		throw ProtocolError(ERR_CHANOPRIVSNEEDED, message.getTarget(), sender.getNick());
-	if (message.getContent()[0] == '+' && message.getContent().find('o') != std::string::npos &&
-		message.getContent().find('k') != std::string::npos)
+	if (message.getParameter()[0] == '+' && message.getParameter().find('o') != std::string::npos && \
+	message.getParameter().find('k') != std::string::npos)
 	{
 		std::string str = "o";
 		throw ProtocolError(ERR_UNKNOWNMODE, str, sender.getNick());
@@ -85,10 +85,10 @@ static int CheckChar(char c, Message &message, Client &sender, Channel &channel)
 		ichar++;
 	}
 	if (ichar == 2)
-		setPass(channel, message.getContent()[0], message);
+		setPass(channel, message.getParameter()[0], message);
 	if (ichar == 4)
 	{
-		setOpe(sender, channel, message.getContent()[0], message);
+		setOpe(sender, channel ,message.getParameter()[0], message);
 		return 1;
 	}
 	if (ichar == 5)
@@ -96,7 +96,7 @@ static int CheckChar(char c, Message &message, Client &sender, Channel &channel)
 		std::string str(1, c);
 		throw ProtocolError(ERR_UNKNOWNMODE, str, sender.getNick());
 	}
-	if (message.getContent()[0] == '+' && ichar == 2)
+	if (message.getParameter()[0] == '+' && ichar == 2)
 	{
 		std::cout << "PASS IS:" << message.getSuffix() << std::endl;
 		channel.setPassword(message.getSuffix());

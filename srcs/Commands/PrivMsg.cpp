@@ -6,7 +6,7 @@
 /*   By: saperrie <saperrie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/24 12:14:28 by saperrie          #+#    #+#             */
-/*   Updated: 2025/03/04 18:43:48 by saperrie         ###   ########.fr       */
+/*   Updated: 2025/03/05 19:10:51 by saperrie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,9 +17,11 @@ void PrivmsgChan(Message &message, Client &sender, Channel &chan);
 
 void Command::PrivateMessage(Message &message, Client &sender, Server &server)
 {
+	message.parsePRIVMSG_PART_TOPIC();
+
 	if (message.getTarget().empty() == true)
 		throw ProtocolError(ERR_NORECIPIENT, "", sender.getNick());
-	if (message.getContent().empty() == true)
+	if (message.getParameter().empty() == true)
 		throw ProtocolError(ERR_NOTEXTTOSEND, "", sender.getNick());
 	if (message.getTarget().find('#') != 0 && message.getTarget().find('&') != 0)
 	{
@@ -47,7 +49,7 @@ void PrivmsgUser(Message &message, Client &sender, Server &server)
 	if (server[idx] == NULL)
 		throw ProtocolError(ERR_NOSUCHNICK, message.getTarget(), sender.getNick());
 	std::string response;
-	response = sender.getPrefix() + "PRIVMSG " + message.getTarget() + " " + message.getContent() + "\n";
+	response = sender.getPrefix() + "PRIVMSG " + message.getTarget() + " " + message.getParameter() + "\n";
 	send(server[idx]->getFd(), response.c_str(), response.length(), MSG_DONTWAIT | MSG_NOSIGNAL);
 }
 
@@ -62,7 +64,7 @@ void PrivmsgChan(Message &message, Client &sender, Channel &chan)
 			idx++;
 			continue;
 		}
-		response = sender.getPrefix() + "PRIVMSG " + message.getTarget() + " " + message.getContent() + "\n";
+		response = sender.getPrefix() + "PRIVMSG " + message.getTarget() + " " + message.getParameter() + "\n";
 		send(chan[idx]->getFd(), response.c_str(), response.length(), MSG_DONTWAIT | MSG_NOSIGNAL);
 		idx++;
 	}
