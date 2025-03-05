@@ -6,7 +6,7 @@
 /*   By: dvo <dvo@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/24 12:13:52 by saperrie          #+#    #+#             */
-/*   Updated: 2025/03/05 23:23:25 by dvo              ###   ########.fr       */
+/*   Updated: 2025/03/05 23:32:30 by dvo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ public:
 	// void	parseINVITE(void);
 	// void	parseMODE(void);
 
-	// void	parseCHESS(void);
+	void	parseCHESS(void);
 
 private:
 	void msgchess(std::vector<std::string> _words, unsigned long i);

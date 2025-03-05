@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Chess.cpp                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: saperrie <saperrie@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dvo <dvo@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/03 13:57:09 by saperrie          #+#    #+#             */
-/*   Updated: 2025/03/05 16:28:09 by saperrie         ###   ########.fr       */
+/*   Updated: 2025/03/05 23:43:20 by dvo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,8 @@
 
 void Command::ChessCommand(Server &server, Client &sender, Message &message)
 {
+	message.parseCHESS();
+	std::cout << message.getCommand() << "|" << message.getParameter() << "|" << message.getTarget() << "|" << message.getSuffix() << "\n";
 	Channel *chan = server.getChannel().findValue(message.getTarget());
 	if (chan == NULL)
 		throw ProtocolError(ERR_NOSUCHCHANNEL, message.getParameter(), sender.getNick());

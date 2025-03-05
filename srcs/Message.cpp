@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Message.cpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: saperrie <saperrie@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dvo <dvo@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/24 12:14:53 by saperrie          #+#    #+#             */
-/*   Updated: 2025/03/05 19:41:57 by saperrie         ###   ########.fr       */
+/*   Updated: 2025/03/05 23:44:10 by dvo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,12 +20,14 @@ Message::Message(std::string buffer)
     std::string subStr;
 	while (iss >> subStr)
 		_words.push_back(subStr);
-
 	std::vector<std::string>::iterator it = _words.begin();
 	if (_words[0][0] != ':')
 		_words.insert(it, "");
 	else
 		_prefix = (_words.size() > 0 && !_words[0].empty()) ? _words[0] : "";
+	if (_words.size() >= 4 && _words[3] == ":!CHESS")
+		_command = "CHESS";
+	else
     _command = (_words.size() > 1 && !_words[1].empty()) ? _words[1] : "";
 }
 
@@ -83,6 +85,13 @@ void	Message::parseQUIT(void)
 	}
 	else
 		_parameter = (_words.size() > 2 && !_words[2].empty()) ? _words[2] : "";
+}
+
+	void	Message::parseCHESS(void)
+{
+	_target = (_words.size() > 2 && !_words[2].empty()) ? _words[2] : "";
+	_parameter = (_words.size() > 4 && !_words[4].empty()) ? _words[4] : "";
+	_suffix = (_words.size() > 5 && !_words[5].empty()) ? _words[5] : "";
 }
 
 /* 	std::cout << "suffix : " << _suffix << std::endl;
