@@ -6,7 +6,7 @@
 /*   By: saperrie <saperrie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/24 12:14:31 by saperrie          #+#    #+#             */
-/*   Updated: 2025/03/04 18:30:54 by saperrie         ###   ########.fr       */
+/*   Updated: 2025/03/05 19:33:50 by saperrie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,11 +14,13 @@
 //:thierry!user@host QUIT :Bye !
 void Command::QuitCommand(Server &server, Client &sender, Message &message)
 {
+	message.parseQUIT();
+
 	std::string response = sender.getPrefix() + "QUIT :";
-	if (message.getContent().empty() == true)
+	if (message.getParameter().empty() == true)
 		response += "bye\n";
 	else
-		response += message.getContent();
+		response += message.getParameter();
 	std::cout << "MESSAGE IS: " << response << std::endl;
 	Command::SendBySharedChannels(response, sender, server);
 }

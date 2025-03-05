@@ -6,7 +6,7 @@
 /*   By: saperrie <saperrie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/24 12:14:17 by saperrie          #+#    #+#             */
-/*   Updated: 2025/03/04 18:44:54 by saperrie         ###   ########.fr       */
+/*   Updated: 2025/03/05 16:39:08 by saperrie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,12 +16,12 @@
 
 // INSERT REASON FOR KICK AND INSERT KICK MESSAGE (+ CREATE DEFAULT KICK MESSAGE IF NONE PROVIDED)
 
-void Command::Kick(Message message, Client &opClient, Server &server)
+void Command::Kick(Message& message, Client &opClient, Server &server)
 {
 	std::string	response;
 	std::string	reasonForKick = "Inappropriate behaviour";
 	std::cout << "KICK cmd :" << std::endl;
-	std::string targetClientNick = message.getContent();
+	std::string targetClientNick = message.getParameter();
 
 	std::map<std::string, Channel*>::iterator channel_it = server.getChannel().find(message.getTarget());
 	Channel *channel = channel_it->second;

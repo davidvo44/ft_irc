@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Message.cpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dvo <dvo@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: saperrie <saperrie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/24 12:14:53 by saperrie          #+#    #+#             */
-/*   Updated: 2025/03/04 20:31:27 by dvo              ###   ########.fr       */
+/*   Updated: 2025/03/05 19:41:57 by saperrie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,74 +18,140 @@ Message::Message(std::string buffer)
 {
 	std::istringstream iss(buffer);
     std::string subStr;
-	std::vector<std::string> _words;
-
 	while (iss >> subStr)
 		_words.push_back(subStr);
-	_words.push_back("");
-	parse(_words);
+
+	std::vector<std::string>::iterator it = _words.begin();
+	if (_words[0][0] != ':')
+		_words.insert(it, "");
+	else
+		_prefix = (_words.size() > 0 && !_words[0].empty()) ? _words[0] : "";
+    _command = (_words.size() > 1 && !_words[1].empty()) ? _words[1] : "";
 }
+
+void	Message::parseNICK_USER_PASS(void)
+{
+    _parameter = (_words.size() > 2 && !_words[2].empty()) ? _words[2] : "";
+}
+
+void	Message::parseWHO(void)
+{
+    _target = (_words.size() > 2 && !_words[2].empty()) ? _words[2] : "";
+}
+
+void	Message::parsePRIVMSG_PART_TOPIC(void)
+{
+	_target = (_words.size() > 2 && !_words[2].empty()) ? _words[2] : "";
+
+	if (_words.size() > 3 && _words[3][0] == ':')
+	{
+		_words[3].erase(0, 1);
+		for (unsigned int i = 3; i < _words.size(); ++i)
+			_parameter += _words[i] + " ";
+	}
+	else
+		_parameter = (_words.size() > 3 && !_words[3].empty()) ? _words[3] : "";
+}
+
+void	Message::parseJOIN(void) // TO BE CONTINUED
+{
+	_target = (_words.size() > 2 && !_words[2].empty()) ? _words[2] : "";
+}
+
+void	Message::parseKICK(void) // TO BE CONTINUED
+{
+	_target = (_words.size() > 2 && !_words[2].empty()) ? _words[2] : "";
+	_parameter = (_words.size() > 3 && !_words[3].empty()) ? _words[3] : "";
+
+	if (_words.size() > 4 && _words[4][0] == ':')
+	{
+		_words[4].erase(0, 1);
+		for (unsigned int i = 4; i < _words.size(); ++i)
+			_suffix += _words[i] + " ";
+	}
+	else
+		_suffix = (_words.size() > 4 && !_words[4].empty()) ? _words[4] : "";
+}
+
+void	Message::parseQUIT(void)
+{
+	if (_words.size() > 2 && _words[2][0] == ':')
+	{
+		_words[2].erase(0, 1);
+		for (unsigned int i = 2; i < _words.size(); ++i)
+			_parameter += _words[i] + " ";
+	}
+	else
+		_parameter = (_words.size() > 2 && !_words[2].empty()) ? _words[2] : "";
+}
+
+/* 	std::cout << "suffix : " << _suffix << std::endl;
+	std::cout << "CMD : " << _command << std::endl;
+	std::cout << "target : " << _target << std::endl;
+	std::cout << "param : " << _parameter<< std::endl;
+ */
+
+// void Message::parse(std::vector<std::string>& _words)
+// {
+// 	std::vector<std::string>::iterator it = _words.begin();
+// 	if (_words[0][0] != ':')
+// 		_words.insert(it, "");
+// 	else
+// 		_prefix = (_words.size() > PREFIX && !_words[PREFIX].empty()) ? _words[PREFIX] : "";
+//     _command = (_words.size() > COMMAND && !_words[COMMAND].empty()) ? _words[COMMAND] : "";
+//     // _target = (_words.size() > TARGET && !_words[TARGET].empty()) ? _words[TARGET] : "";
+//     // _parameter = (_words.size() > PARAMETER && !_words[PARAMETER].empty()) ? _words[PARAMETER] : "";
+//     // _suffix = (_words.size() > SUFFIX && !_words[SUFFIX].empty()) ? _words[SUFFIX] : "";
+// }
 
 // void Message::parse(std::vector<std::string> _words)
 // {
-// 	for (unsigned long i = 0; _words[i] != "" && i ==_words.size(); ++i)
+// 	unsigned long i = 0;
+// 	if (i == _words.size())
+// 		return ;
+// 	if (_words.size() >= 3 && _words[2] == ":!CHESS")
+// 		_command = "CHESS";
+// 	else
+// 		_command = _words[i];
+// 	i++;
+// 	if (i == _words.size())
+// 		return ;
+// 	if (_command == "PRIVMSG" || _command == "PART" \
+// 		|| _command == "TOPIC" || _command == "JOIN" \
+// 		|| _command == "MODE" ||  _command == "KICK" \
+// 		|| _command == "INVITE" || _command == "CHESS")
 // 	{
-// 		if (_words[i][0] == ':')
-// 		{
-// 			_prefix = _words[i++];
-// 			continue;
-// 		}
-// 		_words[i];
+// 		_target = _words[i];
+// 		i++;
 // 	}
+// 	if (i == _words.size())
+// 		return ;
+// 	if (_command == "CHESS")
+// 	{
+// 		msgchess(_words, i);
+// 		return;
+// 	}
+// 	_parameter = _words[i];
+// 	if (_words[i][0] == ':')
+// 	{
+// 		_parameter.erase(0,1);
+// 		i++;
+// 		for (; i != _words.size(); i++)
+// 		{
+// 			_parameter = _parameter + " " + _words[i];
+// 		}
+// 	}
+// 	i++;
+// 	if ((_command == "MODE" || _command == "KICK") && i != _words.size())
+// 		_suffix = _words[i];
 // }
-void Message::parse(std::vector<std::string> _words)
-{
-	unsigned long i = 0;
-	if (i == _words.size())
-		return ;
-	if (_words.size() >= 3 && _words[2] == ":!CHESS")
-		_command = "CHESS";
-	else
-		_command = _words[i];
-	i++;
-	if (i == _words.size())
-		return ;
-	if (_command == "PRIVMSG" || _command == "PART" \
-		|| _command == "TOPIC" || _command == "JOIN" \
-		|| _command == "MODE" ||  _command == "KICK" \
-		|| _command == "INVITE" || _command == "CHESS")
-	{
-		_target = _words[i];
-		i++;
-	}
-	if (i == _words.size())
-		return ;
-	if (_command == "CHESS")
-	{
-		msgchess(_words, i);
-		return;
-	}
-	_content = _words[i];
-	if (_words[i][0] == ':')
-	{
-		_content.erase(0,1);
-		i++;
-		for (; i != _words.size(); i++)
-		{
-			_content = _content + " " + _words[i];
-		}
-	}
-	i++;
-	if ((_command == "MODE" || _command == "KICK") && i != _words.size())
-		_suffix = _words[i];
-}
 
 void Message::msgchess(std::vector<std::string> _words, unsigned long i)
 {
 	i++;
 	if (i == _words.size())
 		return ;
-	_content = _words[i];
+	_parameter = _words[i];
 	i++;
 	if (i == _words.size())
 		return ;
@@ -102,9 +168,9 @@ const std::string & Message::getTarget() const
 	return _target;
 }
 
-std::string & Message::getContent()
+std::string & Message::getParameter()
 {
-	return _content;
+	return _parameter;
 }
 
 const std::string &Message::getSuffix() const

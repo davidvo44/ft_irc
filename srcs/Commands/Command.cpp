@@ -6,7 +6,7 @@
 /*   By: saperrie <saperrie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/24 12:14:11 by saperrie          #+#    #+#             */
-/*   Updated: 2025/03/04 18:36:13 by saperrie         ###   ########.fr       */
+/*   Updated: 2025/03/05 19:08:08 by saperrie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,14 +34,14 @@ void Command::CheckCommand(std::string str, Server &server, int fd)
 				Command::joinChannel(*client, message, server);
 				break;
 			case 1:
-				std::cout << "attribute :" << message.getContent() << std::endl;
-				client->setName(message.getContent());
+				std::cout << "attribute :" << message.getParameter() << std::endl;
+				client->setName(message.getParameter());
 				break;
 			case 2:
 				Command::Nick(message, *client, server);
 				break;
 			case 3:
-				client->setPassword(message.getContent());
+				client->setPassword(message.getParameter());
 				break;
 			case 4:
 				Command::PrivateMessage(message, *client, server);
@@ -95,6 +95,8 @@ void Command::GetLineCommand(char *buffer, int fd, Server &server)
 {
 	std::string str;
 	char *tmp = buffer;
+
+	std::cout << "BUFFER : " << buffer << std::endl;
 
 	while (*tmp)
 	{

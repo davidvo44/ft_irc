@@ -6,7 +6,7 @@
 /*   By: saperrie <saperrie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/24 12:12:44 by saperrie          #+#    #+#             */
-/*   Updated: 2025/03/04 18:27:20 by saperrie         ###   ########.fr       */
+/*   Updated: 2025/03/05 18:05:46 by saperrie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ void Poll::Start()
 			{
 				std::cout << "\n\n" << "NEW COMMAND:\n";
 				char buffer[1024] = {0};
-				int valread = recv(_fds[i].fd, buffer, sizeof(buffer), MSG_DONTWAIT);
+				int valread = recv(_fds[i].fd, buffer, sizeof(buffer), MSG_DONTWAIT | MSG_NOSIGNAL);
 				if (valread <= 0)
 				{
 					Command::QuitClient(_fds[i].fd, *this, i);

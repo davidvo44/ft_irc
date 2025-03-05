@@ -6,7 +6,7 @@
 /*   By: saperrie <saperrie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/24 12:13:52 by saperrie          #+#    #+#             */
-/*   Updated: 2025/03/04 18:44:54 by saperrie         ###   ########.fr       */
+/*   Updated: 2025/03/05 19:42:03 by saperrie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,17 +26,30 @@ class Message
 
 		const std::string &getCommand()  const;
 		const std::string &getTarget()  const;
-		std::string &getContent();
+		std::string &getParameter();
 		const std::string &getSuffix()  const;
+
+		void	parseNICK_USER_PASS(void);
+		void	parseWHO(void);
+		void	parsePRIVMSG_PART_TOPIC(void);
+		void	parseQUIT(void);
+
+		void	parseJOIN(void); // TO BE CONTINUED
+		void	parseKICK(void); // TO BE CONTINUED
+
+		// void	parseINVITE(void);
+		// void	parseMODE(void);
+
+		// void	parseCHESS(void);
 
 	private:
 
-		void parse(std::vector<std::string> _words);
 		void msgchess(std::vector<std::string> _words, unsigned long i);
+		std::vector<std::string> _words;
 		std::string _prefix;    //  std::string prefix = ":" + clientNick + "!" + clientUser + "@" + clientHost;
 		std::string _command;
 		std::string _target;
-		std::string _content;
+		std::string _parameter;
 		std::string _suffix;
 };
 

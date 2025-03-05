@@ -6,7 +6,7 @@
 /*   By: saperrie <saperrie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/28 15:15:17 by saperrie          #+#    #+#             */
-/*   Updated: 2025/03/04 18:43:48 by saperrie         ###   ########.fr       */
+/*   Updated: 2025/03/05 16:39:08 by saperrie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,10 +27,10 @@
 	CMD FORMAT:
 	/invite <nickname> <channel>
 */
-void	Command::Invite(Message message, Client &client, Server &server)
+void	Command::Invite(Message& message, Client &client, Server &server)
 {
 	std::cout << "INVITE cmd :" << std::endl;
-	std::string targetClientNick = message.getContent();
+	std::string targetClientNick = message.getParameter();
 
 	Channel *channel = server.getChannel().findValue(message.getTarget());
 	if (!channel)
@@ -51,7 +51,7 @@ void	Command::Invite(Message message, Client &client, Server &server)
 
 	// if (/* successful invite */)
 	// {
-	channel->addToWhitelist(targetClientNick);
+	// channel->addToWhitelist(targetClientNick);
 		// sendInviteNotifToTarget();
 	// }
 }
@@ -59,7 +59,7 @@ void	Command::Invite(Message message, Client &client, Server &server)
 // unsigned int client_i = 0;
 // while (channel[client_i] != NULL)
 // {
-// 	if ((channel[client_i].getClient()).getNick() == message.getContent())
+// 	if ((channel[client_i].getClient()).getNick() == message.getParameter())
 // 	client_i++;
 // }
 // TRIED THIS WAY BUT COULDN'T FIGURE OUT HOW TO GET TARGET CLIENT NICK
