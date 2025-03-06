@@ -6,7 +6,7 @@
 /*   By: saperrie <saperrie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/24 12:14:33 by saperrie          #+#    #+#             */
-/*   Updated: 2025/03/05 19:11:04 by saperrie         ###   ########.fr       */
+/*   Updated: 2025/03/06 18:18:05 by saperrie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,11 @@
 void Command::Topic(Message& message, Client &sender, Server &server)
 {
 	message.parsePRIVMSG_PART_TOPIC();
+
+	std::cout << "suffix : " << message.getSuffix() << std::endl;
+	std::cout << "CMD : " << message.getCommand() << std::endl;
+	std::cout << "target : " << message.getTarget() << std::endl;
+	std::cout << "param : " << message.getParameter() << std::endl;
 
 	Channel *chan = server.getChannel().findValue(message.getTarget());
 	if (message.getTarget() == "ft_irc")

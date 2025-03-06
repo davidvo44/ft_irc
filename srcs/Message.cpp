@@ -6,7 +6,7 @@
 /*   By: saperrie <saperrie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/24 12:14:53 by saperrie          #+#    #+#             */
-/*   Updated: 2025/03/06 16:07:46 by saperrie         ###   ########.fr       */
+/*   Updated: 2025/03/06 18:26:13 by saperrie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ Message::Message(std::string buffer)
     _command = (_words.size() > 1 && !_words[1].empty()) ? _words[1] : "";
 }
 
-void	Message::handleMultipleWordArgs(std::string argName, unsigned int vectorIndex)
+void	Message::handleMultipleWordArgs(std::string& argName, unsigned int vectorIndex)
 {
 	if (_words.size() > vectorIndex && _words[vectorIndex][0] == ':')
 	{
@@ -58,8 +58,21 @@ void	Message::parsePRIVMSG_PART_TOPIC(void)
 	handleMultipleWordArgs(_parameter, 3);
 }
 
+
+/*
+JOIN #1,#2,#3 password1,,password3		#1 and #3 have passwords
+JOIN #1,#2,#3 password1,password2,		#1 and #2 have passwords
+JOIN #1,#2,#3 ,password2,				#2 has a password
+
+for N channels joined, if any requires a password, N-1 commas are needed for passwords
+*/
 void	Message::parseJOIN(void) // TO BE CONTINUED
 {
+	// std::string channelList;
+	// std::istringstream iss(channelList);
+    // std::string channel;
+	// while (iss >> channel)
+	// 	_words.push_back(channel);
 	_target = (_words.size() > 2 && !_words[2].empty()) ? _words[2] : "";
 }
 
@@ -80,19 +93,6 @@ void	Message::parseQUIT(void)
 	std::cout << "target : " << _target << std::endl;
 	std::cout << "param : " << _parameter<< std::endl;
  */
-
-// void Message::parse(std::vector<std::string>& _words)
-// {
-// 	std::vector<std::string>::iterator it = _words.begin();
-// 	if (_words[0][0] != ':')
-// 		_words.insert(it, "");
-// 	else
-// 		_prefix = (_words.size() > PREFIX && !_words[PREFIX].empty()) ? _words[PREFIX] : "";
-//     _command = (_words.size() > COMMAND && !_words[COMMAND].empty()) ? _words[COMMAND] : "";
-//     // _target = (_words.size() > TARGET && !_words[TARGET].empty()) ? _words[TARGET] : "";
-//     // _parameter = (_words.size() > PARAMETER && !_words[PARAMETER].empty()) ? _words[PARAMETER] : "";
-//     // _suffix = (_words.size() > SUFFIX && !_words[SUFFIX].empty()) ? _words[SUFFIX] : "";
-// }
 
 // void Message::parse(std::vector<std::string> _words)
 // {
