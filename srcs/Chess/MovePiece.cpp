@@ -1,3 +1,4 @@
+
 #include "Bot.hpp"
 
 void Bot::MovePiece(std::map<int, PiecePosition> &Pawn, std::map<int, PiecePosition> &Spe, Message &message)

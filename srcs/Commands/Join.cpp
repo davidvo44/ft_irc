@@ -1,14 +1,3 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   Join.cpp                                           :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: dvo <dvo@student.42.fr>                    +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/02/24 12:14:14 by saperrie          #+#    #+#             */
-/*   Updated: 2025/03/06 20:25:31 by dvo              ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
 
 #include "Command.hpp"
 #include "MutantMap.hpp"
@@ -18,28 +7,34 @@ static void write_channel(Client &client, Message& message, Server &server);
 
 void Command::joinChannel(Client &client, Message& message, Server &server)
 {
-	message.parseJOIN();
-	std::istringstream issParam(message.getTarget()); 
-	std::istringstream issSuff(message.getParameter());
+	if (!message.parseJOIN())
+		throw ProtocolError(ERR_NEEDMOREPARAMS, message.getCommand(), client.getNick());
+
+	std::istringstream issChannels(message.getTarget());
+	std::istringstream issPasswords(message.getParameter());
 	Message subMsg;
 
-    while (issParam)
+    while (issChannels)
 	{
-		std::string str;
-		std::getline(issParam, str, ',');
-		std::cout << "YO:" << str << "\n";
-		subMsg.setParameter(str);
-		if (message.getParameter().empty() == false &&  issSuff)
+		std::string channelAndPassword;
+		std::getline(issChannels, channelAndPassword, ',');
+		subMsg.setTarget(channelAndPassword);
+		if (message.getTarget().empty() == false && issPasswords)
 		{
-			std::getline(issSuff, str, ',');
-			subMsg.setSuffix(str);
+			std::getline(issPasswords, channelAndPassword, ',');
+			subMsg.setParameter(channelAndPassword);
 		}
 		else
-			subMsg.setSuffix("");
+			subMsg.setParameter("");
 		// if (!issSuff)
 		// 	throw ProtocolError(ERR_NEEDMOREPARAMS, message.getCommand(), client.getNick());
-		std::cout << "Target: " << subMsg.getParameter() << "| Pass: " << subMsg.getSuffix() << "\n";
+		// std::cout << "Target: " << subMsg.getTarget() << "| Pass: " << subMsg.getParameter() << "\n";
 	}
+
+
+
+
+
 	if (message.getTarget().find('#') != 0 && message.getTarget().find('&') != 0)
 		throw ProtocolError(ERR_BADCHANMASK, message.getTarget(), client.getNick());
 	Channel *channel = server.getChannel().findValue(message.getTarget());

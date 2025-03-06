@@ -1,5 +1,5 @@
-#include "Bot.hpp"
 
+#include "Bot.hpp"
 
 bool Bot::WhitePawnCondition(int x, int y, int destx, int desty)
 {

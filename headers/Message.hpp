@@ -1,14 +1,3 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   Message.hpp                                        :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: dvo <dvo@student.42.fr>                    +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/02/24 12:13:52 by saperrie          #+#    #+#             */
-/*   Updated: 2025/03/06 19:27:04 by dvo              ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
 
 #ifndef MESSAGE_HPP
 #define MESSAGE_HPP
@@ -16,10 +5,12 @@
 #include <iostream>
 #include <vector>
 #include <sstream>
+#include <map>
 
 class Message
 {
 public:
+
 	Message();
 	Message(std::string buffer);
 
@@ -27,7 +18,8 @@ public:
 	const std::string &getTarget() const;
 	std::string &getParameter();
 	const std::string &getSuffix() const;
-	void setSuffix(const std::string suffix);
+
+	void setTarget(const std::string target);
 	void setParameter(const std::string parameter);
 
 	void handleMultipleWordArgs(std::string &argName, unsigned int vectorIndex);
@@ -37,7 +29,7 @@ public:
 	void parsePRIVMSG_PART_TOPIC(void);
 	void parseQUIT(void);
 
-	void parseJOIN(void); // TO BE CONTINUED
+	std::map<std::string, std::string>* parseJOIN(void);
 	void parseKICK(void); // TO BE CONTINUED
 
 	// void	parseINVITE(void);
@@ -45,8 +37,13 @@ public:
 
 	void parseCHESS(void);
 
+	unsigned int countCommas(std::string channels);
+
+
 private:
+
 	void msgchess(std::vector<std::string> _words, unsigned long i);
+	std::map<std::string, std::string> _channelsAndPasswords;
 	std::vector<std::string> _words;
 	std::string _prefix; //  std::string prefix = ":" + clientNick + "!" + clientUser + "@" + clientHost;
 	std::string _command;

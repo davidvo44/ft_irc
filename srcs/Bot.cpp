@@ -1,3 +1,4 @@
+
 #include "Bot.hpp"
 #include <sys/socket.h>
 #include <cstdlib>
@@ -171,7 +172,7 @@ void Bot::Ongame(int fd, Message &message)
 	else
 		send(_blackfds, response.c_str(), response.length(), MSG_DONTWAIT | MSG_NOSIGNAL);
 	response = prefixmsg + "CHESS!!\n";
-	if (isChess(_whiteSpe[7].x, _whiteSpe[7].y) == 1)	
+	if (isChess(_whiteSpe[7].x, _whiteSpe[7].y) == 1)
 		send(_whitefds, response.c_str(), response.length(), MSG_DONTWAIT | MSG_NOSIGNAL);
 	if (isChess(_blackSpe[7].x, _blackSpe[7].y) == 1)
 		send(_blackfds, response.c_str(), response.length(), MSG_DONTWAIT | MSG_NOSIGNAL);

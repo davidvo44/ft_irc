@@ -1,14 +1,3 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   Message.cpp                                        :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: dvo <dvo@student.42.fr>                    +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/02/24 12:14:53 by saperrie          #+#    #+#             */
-/*   Updated: 2025/03/06 20:23:19 by dvo              ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
 
 #include "Message.hpp"
 
@@ -68,10 +57,46 @@ JOIN #1,#2,#3 ,password2,				#2 has a password
 
 for N channels joined, if any requires a password, N-1 commas are needed for passwords
 */
-void	Message::parseJOIN(void)
+
+unsigned int Message::countCommas(std::string channels)
 {
-	_target = (_words.size() > 2 && !_words[2].empty()) ? _words[2] : "";
-	_parameter = (_words.size() > 3 && !_words[3].empty()) ? _words[3] : "";
+	unsigned int channelCount = 0;
+	for(std::string::size_type index = 0; index != std::string::npos;)
+	{
+		if (channelCount != 0)
+			index++;
+		index = channels.find(",", index);
+		channelCount++;
+	}
+	 std::cout << "COUNT : " << channelCount << std::endl;
+	return channelCount;
+}
+
+std::map<std::string, std::string>*	Message::parseJOIN(void)
+{
+	std::string channel;
+	std::string password;
+	if (_words.size() > 3 && !_words[3].empty())
+	{
+		if (countCommas(_words[2]) != countCommas(_words[3]))
+			return NULL;
+		std::istringstream issChannels(_words[2]);
+		std::istringstream issPasswords(_words[3]);
+		while (issChannels)
+		{
+			std::getline(issChannels, channel, ',');
+			std::getline(issPasswords, password, ',');
+			_channelsAndPasswords[channel] = password;
+		}
+		// return &_channelsAndPasswords;
+	}
+	std::map<std::string, std::string>::iterator it = _channelsAndPasswords.begin();
+	while (it != _channelsAndPasswords.end())
+	{
+		std::cout << "CHANNEL IS: "  <<it->first << "| PASS IS: " << it->second << "\n";
+		it++;
+	}
+	return &_channelsAndPasswords;
 }
 
 void	Message::parseKICK(void) // TO BE CONTINUED
@@ -98,61 +123,6 @@ void Message::parseCHESS(void)
 	std::cout << "target : " << _target << std::endl;
 	std::cout << "param : " << _parameter<< std::endl;
  */
-
-// void Message::parse(std::vector<std::string>& _words)
-// {
-// 	std::vector<std::string>::iterator it = _words.begin();
-// 	if (_words[0][0] != ':')
-// 		_words.insert(it, "");
-// 	else
-// 		_prefix = (_words.size() > PREFIX && !_words[PREFIX].empty()) ? _words[PREFIX] : "";
-//     _command = (_words.size() > COMMAND && !_words[COMMAND].empty()) ? _words[COMMAND] : "";
-//     // _target = (_words.size() > TARGET && !_words[TARGET].empty()) ? _words[TARGET] : "";
-//     // _parameter = (_words.size() > PARAMETER && !_words[PARAMETER].empty()) ? _words[PARAMETER] : "";
-//     // _suffix = (_words.size() > SUFFIX && !_words[SUFFIX].empty()) ? _words[SUFFIX] : "";
-// }
-
-// void Message::parse(std::vector<std::string> _words)
-// {
-// 	unsigned long i = 0;
-// 	if (i == _words.size())
-// 		return ;
-// 	if (_words.size() >= 3 && _words[2] == ":!CHESS")
-// 		_command = "CHESS";
-// 	else
-// 		_command = _words[i];
-// 	i++;
-// 	if (i == _words.size())
-// 		return ;
-// 	if (_command == "PRIVMSG" || _command == "PART" \
-// 		|| _command == "TOPIC" || _command == "JOIN" \
-// 		|| _command == "MODE" ||  _command == "KICK" \
-// 		|| _command == "INVITE" || _command == "CHESS")
-// 	{
-// 		_target = _words[i];
-// 		i++;
-// 	}
-// 	if (i == _words.size())
-// 		return ;
-// 	if (_command == "CHESS")
-// 	{
-// 		msgchess(_words, i);
-// 		return;
-// 	}
-// 	_parameter = _words[i];
-// 	if (_words[i][0] == ':')
-// 	{
-// 		_parameter.erase(0,1);
-// 		i++;
-// 		for (; i != _words.size(); i++)
-// 		{
-// 			_parameter = _parameter + " " + _words[i];
-// 		}
-// 	}
-// 	i++;
-// 	if ((_command == "MODE" || _command == "KICK") && i != _words.size())
-// 		_suffix = _words[i];
-// }
 
 void Message::msgchess(std::vector<std::string> _words, unsigned long i)
 {
@@ -186,13 +156,12 @@ const std::string &Message::getSuffix() const
 	return _suffix;
 }
 
-void Message::setSuffix(const std::string suffix)
-{
-	_suffix = suffix;
-}
-
 void Message::setParameter(const std::string parameter)
 {
 	_parameter = parameter;
 }
 
+void Message::setTarget(const std::string target)
+{
+	_target = target;
+}
