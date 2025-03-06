@@ -1,8 +1,18 @@
 #include <iostream>
+#include <sstream>
+#include <string>
 
 int main() {
-	std::string s = "test";
-	s.erase(3);
-	 s.erase(0,2);
-	std::cout << s << "\n"; 
+    std::string input = "hello";  // Example input
+    std::istringstream iss(input);
+
+    while (iss)
+	{
+        std::string wordParam;
+    	std::getline(iss, wordParam, ',');
+   		std::cout << "Extracted: " << wordParam << std::endl;
+    }
+
+    return 0;
 }
+

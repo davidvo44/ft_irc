@@ -6,7 +6,7 @@
 /*   By: dvo <dvo@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/24 12:13:52 by saperrie          #+#    #+#             */
-/*   Updated: 2025/03/06 18:51:54 by dvo              ###   ########.fr       */
+/*   Updated: 2025/03/06 19:27:04 by dvo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,8 @@ public:
 	const std::string &getTarget() const;
 	std::string &getParameter();
 	const std::string &getSuffix() const;
+	void setSuffix(const std::string suffix);
+	void setParameter(const std::string parameter);
 
 	void handleMultipleWordArgs(std::string &argName, unsigned int vectorIndex);
 

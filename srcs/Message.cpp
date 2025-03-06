@@ -6,7 +6,7 @@
 /*   By: dvo <dvo@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/24 12:14:53 by saperrie          #+#    #+#             */
-/*   Updated: 2025/03/06 18:58:15 by dvo              ###   ########.fr       */
+/*   Updated: 2025/03/06 20:23:19 by dvo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,11 +68,10 @@ JOIN #1,#2,#3 ,password2,				#2 has a password
 
 for N channels joined, if any requires a password, N-1 commas are needed for passwords
 */
-void	Message::parseJOIN(void) // TO BE CONTINUED
+void	Message::parseJOIN(void)
 {
 	_target = (_words.size() > 2 && !_words[2].empty()) ? _words[2] : "";
 	_parameter = (_words.size() > 3 && !_words[3].empty()) ? _words[3] : "";
-	_suffix = (_words.size() > 4 && !_words[4].empty()) ? _words[4] : "";
 }
 
 void	Message::parseKICK(void) // TO BE CONTINUED
@@ -186,3 +185,14 @@ const std::string &Message::getSuffix() const
 {
 	return _suffix;
 }
+
+void Message::setSuffix(const std::string suffix)
+{
+	_suffix = suffix;
+}
+
+void Message::setParameter(const std::string parameter)
+{
+	_parameter = parameter;
+}
+
