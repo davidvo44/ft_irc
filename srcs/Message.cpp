@@ -6,13 +6,14 @@
 /*   By: dvo <dvo@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/24 12:14:53 by saperrie          #+#    #+#             */
-/*   Updated: 2025/03/05 23:44:10 by dvo              ###   ########.fr       */
+/*   Updated: 2025/03/06 18:58:15 by dvo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "Message.hpp"
 
-Message::Message(){}
+
+Message::Message() : _prefix(""), _command(""), _target(""), _parameter(""), _suffix("") {}
 
 Message::Message(std::string buffer)
 {
@@ -31,6 +32,18 @@ Message::Message(std::string buffer)
     _command = (_words.size() > 1 && !_words[1].empty()) ? _words[1] : "";
 }
 
+void	Message::handleMultipleWordArgs(std::string& argName, unsigned int vectorIndex)
+{
+	if (_words.size() > vectorIndex && _words[vectorIndex][0] == ':')
+	{
+		_words[vectorIndex].erase(0, 1);
+		for (unsigned int i = vectorIndex; i < _words.size(); ++i)
+			argName += _words[i] + " ";
+	}
+	else
+		argName = (_words.size() > vectorIndex && !_words[vectorIndex].empty()) ? _words[vectorIndex] : "";
+}
+
 void	Message::parseNICK_USER_PASS(void)
 {
     _parameter = (_words.size() > 2 && !_words[2].empty()) ? _words[2] : "";
@@ -44,50 +57,37 @@ void	Message::parseWHO(void)
 void	Message::parsePRIVMSG_PART_TOPIC(void)
 {
 	_target = (_words.size() > 2 && !_words[2].empty()) ? _words[2] : "";
-
-	if (_words.size() > 3 && _words[3][0] == ':')
-	{
-		_words[3].erase(0, 1);
-		for (unsigned int i = 3; i < _words.size(); ++i)
-			_parameter += _words[i] + " ";
-	}
-	else
-		_parameter = (_words.size() > 3 && !_words[3].empty()) ? _words[3] : "";
+	handleMultipleWordArgs(_parameter, 3);
 }
 
+
+/*
+JOIN #1,#2,#3 password1,,password3		#1 and #3 have passwords
+JOIN #1,#2,#3 password1,password2,		#1 and #2 have passwords
+JOIN #1,#2,#3 ,password2,				#2 has a password
+
+for N channels joined, if any requires a password, N-1 commas are needed for passwords
+*/
 void	Message::parseJOIN(void) // TO BE CONTINUED
 {
 	_target = (_words.size() > 2 && !_words[2].empty()) ? _words[2] : "";
+	_parameter = (_words.size() > 3 && !_words[3].empty()) ? _words[3] : "";
+	_suffix = (_words.size() > 4 && !_words[4].empty()) ? _words[4] : "";
 }
 
 void	Message::parseKICK(void) // TO BE CONTINUED
 {
 	_target = (_words.size() > 2 && !_words[2].empty()) ? _words[2] : "";
 	_parameter = (_words.size() > 3 && !_words[3].empty()) ? _words[3] : "";
-
-	if (_words.size() > 4 && _words[4][0] == ':')
-	{
-		_words[4].erase(0, 1);
-		for (unsigned int i = 4; i < _words.size(); ++i)
-			_suffix += _words[i] + " ";
-	}
-	else
-		_suffix = (_words.size() > 4 && !_words[4].empty()) ? _words[4] : "";
+	handleMultipleWordArgs(_suffix, 4);
 }
 
 void	Message::parseQUIT(void)
 {
-	if (_words.size() > 2 && _words[2][0] == ':')
-	{
-		_words[2].erase(0, 1);
-		for (unsigned int i = 2; i < _words.size(); ++i)
-			_parameter += _words[i] + " ";
-	}
-	else
-		_parameter = (_words.size() > 2 && !_words[2].empty()) ? _words[2] : "";
+	handleMultipleWordArgs(_parameter, 2);
 }
 
-	void	Message::parseCHESS(void)
+void Message::parseCHESS(void)
 {
 	_target = (_words.size() > 2 && !_words[2].empty()) ? _words[2] : "";
 	_parameter = (_words.size() > 4 && !_words[4].empty()) ? _words[4] : "";

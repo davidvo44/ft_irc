@@ -6,7 +6,7 @@
 /*   By: dvo <dvo@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/24 12:13:52 by saperrie          #+#    #+#             */
-/*   Updated: 2025/03/05 23:32:30 by dvo              ###   ########.fr       */
+/*   Updated: 2025/03/06 18:51:54 by dvo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,8 @@ public:
 	std::string &getParameter();
 	const std::string &getSuffix() const;
 
+	void handleMultipleWordArgs(std::string &argName, unsigned int vectorIndex);
+
 	void parseNICK_USER_PASS(void);
 	void parseWHO(void);
 	void parsePRIVMSG_PART_TOPIC(void);
@@ -39,7 +41,7 @@ public:
 	// void	parseINVITE(void);
 	// void	parseMODE(void);
 
-	void	parseCHESS(void);
+	void parseCHESS(void);
 
 private:
 	void msgchess(std::vector<std::string> _words, unsigned long i);

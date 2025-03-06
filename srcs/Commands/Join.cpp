@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Join.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: saperrie <saperrie@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dvo <dvo@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/24 12:14:14 by saperrie          #+#    #+#             */
-/*   Updated: 2025/03/05 19:03:06 by saperrie         ###   ########.fr       */
+/*   Updated: 2025/03/06 18:59:41 by dvo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,8 @@ static void write_channel(Client &client, Message& message, Server &server);
 void Command::joinChannel(Client &client, Message& message, Server &server)
 {
 	message.parseJOIN();
+	std::cout << message.getCommand() << "|" << message.getParameter() << "|" << message.getTarget() << "|" << message.getSuffix() << "\n";
+	
 	if (message.getTarget().find('#') != 0 && message.getTarget().find('&') != 0)
 		throw ProtocolError(ERR_BADCHANMASK, message.getTarget(), client.getNick());
 	Channel *channel = server.getChannel().findValue(message.getTarget());
