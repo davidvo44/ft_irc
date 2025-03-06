@@ -6,7 +6,7 @@
 /*   By: saperrie <saperrie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/24 12:13:52 by saperrie          #+#    #+#             */
-/*   Updated: 2025/03/05 19:42:03 by saperrie         ###   ########.fr       */
+/*   Updated: 2025/03/06 16:07:46 by saperrie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,8 @@ class Message
 		const std::string &getTarget()  const;
 		std::string &getParameter();
 		const std::string &getSuffix()  const;
+
+		void	handleMultipleWordArgs(std::string argName, unsigned int vectorIndex);
 
 		void	parseNICK_USER_PASS(void);
 		void	parseWHO(void);
