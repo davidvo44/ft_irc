@@ -36,6 +36,7 @@ void	Message::handleMultipleWordArgs(std::string& argName, unsigned int vectorIn
 void	Message::parseNICK_USER_PASS(void)
 {
     _parameter = (_words.size() > 2 && !_words[2].empty()) ? _words[2] : "";
+	std::cout << "NICK IS: " << _parameter;
 }
 
 void	Message::parseWHO(void)
@@ -76,6 +77,8 @@ std::map<std::string, std::string>*	Message::parseJOIN(void)
 {
 	std::string channel;
 	std::string password;
+	if (_words.size() < 2)
+		return NULL;
 	if (_words.size() > 3 && !_words[3].empty())
 	{
 		if (countCommas(_words[2]) != countCommas(_words[3]))
@@ -88,15 +91,24 @@ std::map<std::string, std::string>*	Message::parseJOIN(void)
 			std::getline(issPasswords, password, ',');
 			_channelsAndPasswords[channel] = password;
 		}
-		// return &_channelsAndPasswords;
 	}
-	std::map<std::string, std::string>::iterator it = _channelsAndPasswords.begin();
-	while (it != _channelsAndPasswords.end())
+	else
 	{
-		std::cout << "CHANNEL IS: "  <<it->first << "| PASS IS: " << it->second << "\n";
-		it++;
+		std::istringstream issChannels(_words[2]);
+		while (issChannels)
+		{
+			std::getline(issChannels, channel, ',');
+			_channelsAndPasswords[channel] = "";
+		}
 	}
 	return &_channelsAndPasswords;
+}
+
+void Message::parseMode(void)
+{
+	_target = (_words.size() > 2 && !_words[2].empty()) ? _words[2] : "";
+	_parameter = (_words.size() > 3 && !_words[3].empty()) ? _words[3] : "";
+	_suffix = (_words.size() > 4 && !_words[4].empty()) ? _words[4] : "";
 }
 
 void	Message::parseKICK(void) // TO BE CONTINUED

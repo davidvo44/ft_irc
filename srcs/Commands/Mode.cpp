@@ -9,6 +9,7 @@ static void setPass(Channel &channel, char sign, Message &message);
 
 void Command::checkMode(Message& message, Client &sender, Server &server)
 {
+	message.parseMode();
 	Channel *channel = parseMode(message, sender, server);
 	if (message.getParameter().empty() == true)
 	{

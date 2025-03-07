@@ -28,6 +28,7 @@ public:
 	void parseWHO(void);
 	void parsePRIVMSG_PART_TOPIC(void);
 	void parseQUIT(void);
+	void parseMode(void);
 
 	std::map<std::string, std::string>* parseJOIN(void);
 	void parseKICK(void); // TO BE CONTINUED

@@ -3,6 +3,7 @@
 
 void Command::Nick(Message& message, Client &sender, Server &server)
 {
+	message.parseNICK_USER_PASS();
 	std::string	response;
 	unsigned idx = 0;
 
