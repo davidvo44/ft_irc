@@ -8,6 +8,8 @@ void Command::PrivateMessage(Message &message, Client &sender, Server &server)
 {
 	message.parsePRIVMSG_PART_TOPIC();
 
+	if (sender.getLogStep() != 3)
+		throw ProtocolError(ERR_NOTREGISTERED, sender.getNick(), sender.getNick());
 	if (message.getTarget().empty() == true)
 		throw ProtocolError(ERR_NORECIPIENT, "", sender.getNick());
 	if (message.getParameter().empty() == true)

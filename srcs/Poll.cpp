@@ -38,7 +38,7 @@ void Poll::Start()
 					continue;
 				}
 				buffer[valread] = '\0';
-				std::cout << "RECEIVED : < " << buffer << " > from FD: " << _fds[i].fd << std::endl;
+				std::cout << "RECEIVED : < " << buffer;
 				Command::GetLineCommand(buffer, _fds[i].fd, *_server);
     		}
 		}
@@ -60,7 +60,7 @@ void Poll::NewUser()
 	newfd.events = POLLIN;
 	newfd.fd = fdNewClient;
 	newfd.revents = 0;
-	_server->AcceptNewClient(newfd, inet_ntoa(tmp.sin_addr));
+	_server->CheckNewClient(newfd, inet_ntoa(tmp.sin_addr));
 	_fds.push_back(newfd);
 }
 

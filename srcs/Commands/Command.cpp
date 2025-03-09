@@ -22,14 +22,13 @@ void Command::CheckCommand(std::string str, Server &server, int fd)
 			Command::joinChannel(*client, message, server);
 			break;
 		case 1:
-			std::cout << "attribute :" << message.getParameter() << std::endl;
-			client->setName(message.getParameter());
+			Command::UserCommand(*client, message, server);
 			break;
 		case 2:
 			Command::Nick(message, *client, server);
 			break;
 		case 3:
-			client->setPassword(message.getParameter());
+			Command::PassCommand(server, *client, message);
 			break;
 		case 4:
 			Command::PrivateMessage(message, *client, server);
@@ -83,8 +82,6 @@ void Command::GetLineCommand(char *buffer, int fd, Server &server)
 {
 	std::string str;
 	char *tmp = buffer;
-
-	std::cout << "BUFFER : " << buffer << std::endl;
 
 	while (*tmp)
 	{

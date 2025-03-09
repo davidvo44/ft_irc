@@ -2,15 +2,17 @@
 #include "Command.hpp"
 
 static void getMode(Client &sender, Channel &channel);
-static Channel *parseMode(Message &message, Client &sender, Server &server);
+static Channel *parseModeBuffer(Message &message, Client &sender, Server &server);
 static int CheckChar(char c, Message &message, Client &sender, Channel &channel);
 static void setOpe(Client &sender, Channel &channel, char sign, Message &message);
 static void setPass(Channel &channel, char sign, Message &message);
 
 void Command::checkMode(Message& message, Client &sender, Server &server)
 {
+	if (sender.getLogStep() != 3)
+		throw ProtocolError(ERR_NOTREGISTERED, sender.getNick(), sender.getNick());
 	message.parseMode();
-	Channel *channel = parseMode(message, sender, server);
+	Channel *channel = parseModeBuffer(message, sender, server);
 	if (message.getParameter().empty() == true)
 	{
 		getMode(sender, *channel);
@@ -43,10 +45,11 @@ static void getMode(Client &sender, Channel &channel)
 		}
 		i++;
 	}
-	RplMessage::GetRply(RPL_CHANNELMODEIS, sender.getFd(), 3, sender.getNick().c_str(), channel.getName().c_str(), reply.c_str());
+	if (reply != "+")
+		RplMessage::GetRply(RPL_CHANNELMODEIS, sender.getFd(), 3, sender.getNick().c_str(), channel.getName().c_str(), reply.c_str());
 }
 
-static Channel *parseMode(Message &message, Client &sender, Server &server)
+static Channel *parseModeBuffer(Message &message, Client &sender, Server &server)
 {
 	if (message.getTarget().empty() == true)
 		throw ProtocolError(ERR_NEEDMOREPARAMS, message.getCommand(), sender.getNick());
@@ -58,7 +61,7 @@ static Channel *parseMode(Message &message, Client &sender, Server &server)
 	if (message.getParameter()[0] == '+' && message.getParameter().find('o') != std::string::npos && \
 	message.getParameter().find('k') != std::string::npos)
 	{
-		std::string str = "o";
+		std::string str = "+ok";
 		throw ProtocolError(ERR_UNKNOWNMODE, str, sender.getNick());
 	}
 	return (channel);

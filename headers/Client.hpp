@@ -15,10 +15,12 @@ public:
 	std::string getName();
 	std::string getNick();
 	std::string getIpAddr();
+	unsigned int getLogStep();
 	void setName(const std::string name);
 	void setNick(const std::string nick);
 	void setPassword(const std::string pass);
 	void setIpAddr(const std::string ipadd);
+	void setLogStep(unsigned int nbr); // 0, pass.
 	std::string getPrefix();
 
 private:
@@ -27,6 +29,7 @@ private:
 	std::string _nick;
 	std::string _suffixword;
 	std::string _IpAddr;
+	unsigned int _logStep;
 };
 
 #endif

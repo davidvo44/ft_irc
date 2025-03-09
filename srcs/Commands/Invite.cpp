@@ -21,6 +21,8 @@ void Command::Invite(Message &message, Client &client, Server &server)
 	std::cout << "INVITE cmd :" << std::endl;
 	std::string targetClientNick = message.getParameter();
 
+	if (client.getLogStep() != 3)
+		throw ProtocolError(ERR_NOTREGISTERED, client.getNick(), client.getNick());
 	Channel *channel = server.getChannel().findValue(message.getTarget());
 	if (!channel)
 		throw ProtocolError(ERR_NOSUCHCHANNEL, message.getTarget(), client.getNick());

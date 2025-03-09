@@ -12,13 +12,16 @@ class Server
 {
 public:
 	Server();
+	Server(const char *argPort, const  char *argPass);
 	int getFd();
 	Client getIdxClients(int idx);
+	std::string getPassword();
 	MutantMap<int, Client *> &getClients();
 	MutantMap<std::string, Channel *> &getChannel();
 	sockaddr_in getServerAddr();
 	void ServerInit();
-	void AcceptNewClient(pollfd &tmp, std::string IpAdd);
+	void CheckNewClient(pollfd &tmp, std::string IpAdd);
+	void AcceptNewClient(int fd);
 	void CloseFds();
 	void ClearClients(int fd);
 	Channel *CreateChannel(Client *client, std::string ChName);
@@ -27,6 +30,7 @@ public:
 private:
 	int _Port;
 	int _SerSocketFd;
+	std::string _password;
 	MutantMap<int, Client *> _Clients;
 	MutantMap<std::string, Channel *> _Channel;
 	struct sockaddr_in _ServerAddr;

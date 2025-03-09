@@ -12,6 +12,8 @@ void Command::Kick(Message& message, Client &opClient, Server &server)
 	std::cout << "KICK cmd :" << std::endl;
 	std::string targetClientNick = message.getParameter();
 
+	if (opClient.getLogStep() != 3)
+		throw ProtocolError(ERR_NOTREGISTERED, opClient.getNick(), opClient.getNick());
 	std::map<std::string, Channel*>::iterator channel_it = server.getChannel().find(message.getTarget());
 	Channel *channel = channel_it->second;
 

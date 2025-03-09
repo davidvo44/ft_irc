@@ -5,6 +5,8 @@ void Command::Part(Message& message, Client &sender, Server &server)
 {
 	message.parsePRIVMSG_PART_TOPIC();
 
+	if (sender.getLogStep() != 3)
+		throw ProtocolError(ERR_NOTREGISTERED, sender.getNick(), sender.getNick());
 	std::string	response;
 	unsigned idx = 0;
 	std::cout << "PART cmd :" << std::endl;

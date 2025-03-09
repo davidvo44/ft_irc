@@ -36,6 +36,8 @@ class Command
 		static void checkMode(Message& message, Client &sender, Server &server);
 		static void QuitCommand(Server &server, Client &sender, Message &message);
 		static void ChessCommand(Server &server, Client &sender, Message &message);
+		static void PassCommand(Server &server, Client &sender, Message &message);
+		static void UserCommand(Client &sender, Message &message, Server &server);
 };
 
 #endif

@@ -7,6 +7,9 @@ void Command::WhoCommand(int FdCl, Client &client, Message &message, Server &ser
 	std::string nickList = "";
 	std::string response;
 
+	if (client.getLogStep() != 3)
+		throw ProtocolError(ERR_NOTREGISTERED, client.getNick(), client.getNick());
+	message.parseWHO();
 	if (message.getParameter().empty() == true)
 		throw ProtocolError(ERR_NEEDMOREPARAMS, message.getParameter(), client.getNick());
 	Channel *chan = server.getChannel().findValue(message.getParameter());

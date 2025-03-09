@@ -60,8 +60,17 @@ void ProtocolError::GetError()
 		case ERR_USERONCHANNEL:
 			_finalMessage = code + " :is already on channel";
 			return;
+		case ERR_NOTREGISTERED:
+			_finalMessage = code + "  :You have not registered";
+			return;
 		case ERR_NEEDMOREPARAMS:
 			_finalMessage = code + " :Not enough parameters";
+			return;
+		case ERR_ALREADYREGISTERED:
+			_finalMessage = code + " :You may not reregister";
+			return;
+		case ERR_PASSWDMISMATCH:
+			_finalMessage = code + " :Password incorrect";
 			return;
 		case ERR_UNKNOWNMODE:
 			_finalMessage = code + " :is unknown mode char to me";

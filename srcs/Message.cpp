@@ -36,7 +36,6 @@ void	Message::handleMultipleWordArgs(std::string& argName, unsigned int vectorIn
 void	Message::parseNICK_USER_PASS(void)
 {
     _parameter = (_words.size() > 2 && !_words[2].empty()) ? _words[2] : "";
-	std::cout << "NICK IS: " << _parameter;
 }
 
 void	Message::parseWHO(void)

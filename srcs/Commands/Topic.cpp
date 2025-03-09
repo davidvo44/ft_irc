@@ -4,7 +4,8 @@
 void Command::Topic(Message& message, Client &sender, Server &server)
 {
 	message.parsePRIVMSG_PART_TOPIC();
-
+	if (sender.getLogStep() != 3)
+		throw ProtocolError(ERR_NOTREGISTERED, sender.getNick(), sender.getNick());
 	std::cout << "suffix : " << message.getSuffix() << std::endl;
 	std::cout << "CMD : " << message.getCommand() << std::endl;
 	std::cout << "target : " << message.getTarget() << std::endl;

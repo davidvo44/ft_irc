@@ -28,6 +28,8 @@ OBJECTS = $(patsubst %.cpp,$(OBJECT_DIR)%.o,\
 		srcs/Commands/Mode.cpp \
 		srcs/Commands/Kick.cpp \
 		srcs/Commands/Invite.cpp \
+		srcs/Commands/Pass.cpp \
+		srcs/Commands/User.cpp \
 		srcs/Commands/SendClientSharedChannels.cpp \
 		srcs/RplMessage.cpp \
 		srcs/Commands/Chess.cpp \

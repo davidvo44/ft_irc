@@ -11,13 +11,19 @@ Server::Server()
 	ServerInit();
 }
 
+Server::Server(const char *argPort, const char *argPass)
+{
+	_Port = atoi(argPort);
+	_password = argPass;
+	ServerInit();
+}
+
 static int serverSocket = -1;
 
 static void signalHandler(int signum)
 {
 	if (signum == SIGINT)
 	{
-
 		std::cout << "\nServer closed" << std::endl;
 		if (serverSocket != -1)
 			close(serverSocket);
@@ -81,15 +87,19 @@ int Server::getFd()
 	return _SerSocketFd;
 }
 
-void Server::AcceptNewClient(pollfd &tmp, std::string IpAdd)
+void Server::CheckNewClient(pollfd &tmp, std::string IpAdd)
 {
 	_Clients[tmp.fd] = new Client(tmp, IpAdd);
 	_Clients[tmp.fd]->getNick();
-	RplMessage::GetRply(RPL_WELCOME, tmp.fd, 3, _Clients[tmp.fd]->getNick().c_str(), _Clients[tmp.fd]->getName().c_str(), \
-	_Clients[tmp.fd]->getIpAddr().c_str());
-	RplMessage::GetRply(RPL_YOURHOST, tmp.fd, 0, "");
-	RplMessage::GetRply(RPL_CREATED, tmp.fd, 0, "");
-	RplMessage::GetRply(RPL_MYINFO, tmp.fd, 0, "");
+}
+
+void Server::AcceptNewClient(int fd)
+{
+	RplMessage::GetRply(RPL_WELCOME, fd, 3, _Clients[fd]->getNick().c_str(), _Clients[fd]->getName().c_str(), \
+	_Clients[fd]->getIpAddr().c_str());
+	RplMessage::GetRply(RPL_YOURHOST, fd, 0, "");
+	RplMessage::GetRply(RPL_CREATED, fd, 0, "");
+	RplMessage::GetRply(RPL_MYINFO, fd, 0, "");
 }
 
 void Server::CloseFds()
@@ -109,4 +119,9 @@ Channel *Server::CreateChannel(Client *client, std::string ChName)
 Client *Server::operator[](unsigned index)
 {
 	return _Clients.GetValueIndex(index);
+}
+
+std::string Server::getPassword()
+{
+	return _password;
 }

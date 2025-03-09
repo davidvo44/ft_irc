@@ -9,6 +9,8 @@ static void getTopicJoin(const std::string target, Client &sender, Channel &chan
 
 void Command::joinChannel(Client &client, Message& message, Server &server)
 {
+	if (client.getLogStep() != 3)
+		throw ProtocolError(ERR_NOTREGISTERED, client.getNick(), client.getNick());
 	std::map<std::string, std::string>* messageJoin = message.parseJOIN();
 	if (!messageJoin)
 		throw ProtocolError(ERR_NEEDMOREPARAMS, message.getCommand(), client.getNick());
