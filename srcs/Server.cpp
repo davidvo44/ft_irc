@@ -18,7 +18,7 @@ Server::Server(const char *argPort, const char *argPass)
 	ServerInit();
 }
 
-static int serverSocket = -1;
+static int serverSocket = 3;
 
 static void signalHandler(int signum)
 {
@@ -124,4 +124,21 @@ Client *Server::operator[](unsigned index)
 std::string Server::getPassword()
 {
 	return _password;
+}
+
+void Server::freeCloseAll()
+{
+	MutantMap<int, Client *>::iterator itCl = _Clients.begin();
+	while (itCl != _Clients.end())
+	{
+		close (itCl->second->getFd());
+		delete itCl->second;
+		itCl++;
+	}
+	MutantMap<std::string, Channel *>::iterator itCh = _Channel.begin();
+	while (itCh != _Channel.end())
+	{
+		delete itCl->second;
+		itCh++;
+	}
 }

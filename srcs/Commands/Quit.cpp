@@ -24,14 +24,7 @@ void Command::QuitClientfromPoll(int fd, Server &server)
 
 	std::string response = sender->getPrefix() + "QUIT :bye\n";
 	Command::SendBySharedChannels(response, *sender, server);
-	std::map<std::string, Channel*>::iterator it = server.getChannel().begin();
-	for (;it != server.getChannel().end(); it++)
-	{
-		if (it->second->getClient().findValue(fd))
-			it->second->getClient().erase(fd);
-	}
-	server.getClients().erase(fd);
-	close(fd);
+	eraseClient(fd, server);
 }
 
 static void eraseClient(int fd, Server &server)
@@ -40,7 +33,7 @@ static void eraseClient(int fd, Server &server)
 	for (;it != server.getChannel().end(); it++)
 	{
 		if (it->second->getClient().findValue(fd))
-			it->second->getClient().erase(fd);
+			it->second->partChannel(*(it->second->getClient().findValue(fd)));
 	}
 	Client *clToDel = server.getClients().findValue(fd);
 	server.getClients().erase(fd);

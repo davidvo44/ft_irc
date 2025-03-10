@@ -91,20 +91,20 @@ void Bot::PrintChess(int fd)
 	}
 	std::string response = prefixmsg + "\n";
 	send(fd, response.c_str(), response.length(), MSG_DONTWAIT | MSG_NOSIGNAL);
-	response = prefixmsg + "   A | B | C | D | E | F | G | H\n";
+	response = prefixmsg + "   A ┃ B ┃ C ┃ D ┃ E ┃ F ┃ G ┃ H\n";
 	send(fd, response.c_str(), response.length(), MSG_DONTWAIT | MSG_NOSIGNAL);
-	response = prefixmsg + " +-------------------------------+\n";
+	response = prefixmsg + " ┏━━━╋━━━╋━━━╋━━━╋━━━╋━━━╋━━━╋━━━┓\n";
 	send(fd, response.c_str(), response.length(), MSG_DONTWAIT | MSG_NOSIGNAL);
     for (int i = 0; i < 8; i++)
 	{
 		std::ostringstream oss;
 		oss << (1 + i);
-		response = oss.str() + "| ";
+		response = oss.str() + "┃ ";
         for (int j = 0; j < 8; j++)
-            response += board[i][j] + " | ";
+            response += board[i][j] + " ┃ ";
         response = prefixmsg + response + "\n";
 		send(fd, response.c_str(), response.length(), MSG_DONTWAIT | MSG_NOSIGNAL);
-		response = prefixmsg + " +-------------------------------+\n";
+		response = prefixmsg + "━╋━━━╋━━━╋━━━╋━━━╋━━━╋━━━╋━━━╋━━━┫\n";
 		send(fd, response.c_str(), response.length(), MSG_DONTWAIT | MSG_NOSIGNAL);
     }
 }

@@ -26,6 +26,11 @@ void Channel::partChannel(Client client)
 {
 	std::cout << client.getNick() << " LEFT" << std::endl;
 	_Clients.erase(client.getFd());
+	std::vector<int>::iterator it = std::find(_operator.begin(), _operator.end(), client.getFd());
+	if (it != _operator.end())
+		_operator.erase(it);
+	else
+		return;
 }
 
 MutantMap<int, Client *> &Channel::getClient()

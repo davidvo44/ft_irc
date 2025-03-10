@@ -42,10 +42,7 @@ void Poll::Start()
 				std::cout << "RECEIVED : < " << buffer;
 				Command::GetLineCommand(buffer, _fds[i].fd, *_server);
 				if (write(_fds[i].fd, "", 0) == -1)
-				{
-
 					DisconnectClientPoll(i);
-				}
     		}
 		}
 	}

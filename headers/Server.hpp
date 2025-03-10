@@ -26,6 +26,7 @@ public:
 	void ClearClients(int fd);
 	Channel *CreateChannel(Client *client, std::string ChName);
 	Client * operator[](unsigned index);
+	void freeCloseAll();
 
 private:
 	int _Port;

@@ -4,6 +4,7 @@
 
 #include "Server.hpp"
 #include "Bot.hpp"
+#include <algorithm>
 #include <vector>
 
 class Channel

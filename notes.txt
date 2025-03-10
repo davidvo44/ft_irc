@@ -1,3 +1,5 @@
+TYPING SPACE THEN ENTER IN A CHANNEL == SEGFAULT
+
 - rethink project structure
 	use one container format accross all project (map or mutant)
 
@@ -21,3 +23,14 @@ password for each channel:   #1    #2     #3
 						<operator> has kicked user3 from <channel> (reasonForKick)
 
 - make whitelist for INVITE (Channels will contain both a clientList and invitedClientList (AKA the whitelist))
+
+PASS ok
+NICK op
+USER operator
+JOIN #oui
+
+
+PASS ok
+NICK tej
+USER virezMoi
+JOIN #oui
