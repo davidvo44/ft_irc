@@ -3,7 +3,7 @@
 #include "Channel.hpp"
 #include <sstream>
 
-static void searchTargetClient(Message &message, Channel &channel, Client &source);
+static void searchTargetAndKick(Message &message, Channel &channel, Client &source, std::string targetToKick);
 static void sendKickMessageToAllClientsOnChannel(Channel &channel, std::string response);
 
 void Command::Kick(Message& message, Client &source, Server &server)
@@ -12,7 +12,7 @@ void Command::Kick(Message& message, Client &source, Server &server)
 
 	message.parseKICK();
 
-	std::string targetNick = message.getParameter();
+	std::string allClientsToKick = message.getParameter();
 
 	if (source.getLogStep() != 3)
 		throw ProtocolError(ERR_NOTREGISTERED, source.getNick(), source.getNick());
@@ -28,35 +28,39 @@ void Command::Kick(Message& message, Client &source, Server &server)
 	if (channel->isOperator(source.getFd()) == false)
 		throw ProtocolError(ERR_CHANOPRIVSNEEDED, message.getTarget(), source.getNick());
 
-	if (targetNick.empty() == true)
+	if (allClientsToKick.empty() == true)
 		throw ProtocolError(ERR_NEEDMOREPARAMS, message.getCommand(), source.getNick());
 
-	// for (size_t i = 0; i < Message::_targetsToKick.size(); ++i) {
-	// 	std
-	searchTargetClient(message, *channel, source);
+	std::string singleClientToKick;
+	std::istringstream issClientsToKick(allClientsToKick);
+	while (issClientsToKick)
+	{
+		if (std::getline(issClientsToKick, singleClientToKick, ',').eof())
+			break;
+		searchTargetAndKick(message, *channel, source, singleClientToKick);
+	}
 }
 
-void searchTargetClient(Message &message, Channel &channel, Client &source) // ADD TARGETNICK TO PARAMS AND INCREMENT IT FOR EACH KICKEE
+void searchTargetAndKick(Message &message, Channel &channel, Client &source, std::string clientToKick)
 {
 	std::string	response;
 	std::string	reasonForKick = "Inappropriate behaviour";
-	std::string targetNick = message.getParameter();
 	unsigned int i = 0;
 
 	while (channel[i])
 	{
-		if (channel[i]->getNick() == targetNick)
+		if (channel[i]->getNick() == clientToKick)
 			break;
 		i++;
 	}
 
-	std::string sourceNickPlusClientNick = source.getNick() + " " + targetNick;
+	std::string sourceNickPlusClientNick = source.getNick() + " " + clientToKick;
 	if (!channel[i])
 		throw ProtocolError(ERR_USERNOTINCHANNEL, message.getTarget(), sourceNickPlusClientNick);
 
 	reasonForKick = message.getSuffix();
 	response = source.getPrefix();
-	response += " KICK " + message.getTarget() + " " + targetNick + " " + reasonForKick + "\r\n";
+	response += " KICK " + message.getTarget() + " " + clientToKick + " " + reasonForKick + "\r\n";
 	send(channel[i]->getFd(), response.c_str(), response.length(), MSG_DONTWAIT | MSG_NOSIGNAL);
 	channel.partChannel(*channel[i]);
 

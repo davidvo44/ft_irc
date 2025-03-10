@@ -104,14 +104,6 @@ void	Message::parseKICK(void)
 {
 	_target = (_words.size() > 2 && !_words[2].empty()) ? _words[2] : "";
 	_parameter = (_words.size() > 3 && !_words[3].empty()) ? _words[3] : "";
-
-	// std::string target;
-	// std::istringstream issTargets(_words[3]);
-	// while (issTargets)
-	// {
-	// 	std::getline(issTargets, target, ',');
-	// 	_targetsToKick.push_back(target);
-	// }
 	handleMultipleWordArgs(_suffix, 4);
 }
 
