@@ -1,56 +1,49 @@
 
 #include "Command.hpp"
 #include "Channel.hpp"
-/*
-	INVITE user to channel
-	Parameter <nickname> is person to be invited on <channel>.
 
-	When invite is successful,
-		send a RPL_INVITING to the command issuer,
-		send an INVITE message to target user, with issuer as <source>
-		Other channel members SHOULD NOT be notified.
+static void	addTargetToChannelClientList(Message& message, Client& source, Server &server, Channel &channel, std::string targetNick);
 
-	If user tries to join and doesn't have invite
-		they receive ERR_INVITEONLYCHAN (473) command fails
-
-	CMD FORMAT:
-	/invite <nickname> <channel>
-*/
-void Command::Invite(Message &message, Client &client, Server &server)
+void Command::Invite(Message &message, Client &source, Server &server)
 {
 	std::cout << "INVITE cmd :" << std::endl;
-	std::string targetClientNick = message.getParameter();
 
-	if (client.getLogStep() != 3)
-		throw ProtocolError(ERR_NOTREGISTERED, client.getNick(), client.getNick());
+	message.parseINVITE();
+
+	std::string targetNick = message.getParameter();
+
+	if (source.getLogStep() != 3)
+		throw ProtocolError(ERR_NOTREGISTERED, source.getNick(), source.getNick());
+
 	Channel *channel = server.getChannel().findValue(message.getTarget());
 	if (!channel)
-		throw ProtocolError(ERR_NOSUCHCHANNEL, message.getTarget(), client.getNick());
+		throw ProtocolError(ERR_NOSUCHCHANNEL, message.getTarget(), source.getNick());
 
-	std::map<int, Client *>::iterator client_it = channel->getClient().begin();
-	for (; client_it != channel->getClient().end(); client_it++)
-	{
-		if ((*client_it->second).getNick() == targetClientNick)
-			throw ProtocolError(ERR_USERONCHANNEL, message.getTarget(), targetClientNick);
-	}
-	if (client_it == channel->getClient().end())
-		throw ProtocolError(ERR_NOTONCHANNEL, message.getTarget(), client.getNick());
+	Client	*sourceClient = channel->getClient().findValue(source.getFd());
+	if (!sourceClient)
+		throw ProtocolError(ERR_NOTONCHANNEL, message.getTarget(), source.getNick());
 
 	if ((channel->viewMode('i')))
-		if (channel->isOperator(client.getFd()) == false)
-			throw ProtocolError(ERR_CHANOPRIVSNEEDED, message.getTarget(), client.getNick());
+		if (channel->isOperator(source.getFd()) == false)
+			throw ProtocolError(ERR_CHANOPRIVSNEEDED, message.getTarget(), source.getNick());
 
-	// if (/* successful invite */)
-	// {
-	// channel->addToWhitelist(targetClientNick);
-	// sendInviteNotifToTarget();
-	// }
+	std::map<int, Client *>::iterator target_it = channel->getClient().begin();
+	for (; target_it != channel->getClient().end(); target_it++)
+		if ((*target_it->second).getNick() == targetNick)
+			throw ProtocolError(ERR_USERONCHANNEL, message.getTarget(), targetNick);
+
+	addTargetToChannelClientList(message, source, server, *channel, targetNick);
 }
 
-// unsigned int client_i = 0;
-// while (channel[client_i] != NULL)
-// {
-// 	if ((channel[client_i].getClient()).getNick() == message.getParameter())
-// 	client_i++;
-// }
-// TRIED THIS WAY BUT COULDN'T FIGURE OUT HOW TO GET TARGET CLIENT NICK
+void	addTargetToChannelClientList( Message &message, Client& source, Server &server, Channel &channel, std::string targetNick)
+{
+	for (unsigned int i = 0; server[i]; ++i)
+	{
+		if (server[i]->getNick() == targetNick)
+		{
+			channel.addToWhitelist(server[i]->getFd());
+			RplMessage::GetRply(RPL_INVITING, server[i]->getFd(), 3, source.getNick().c_str(), targetNick.c_str(), message.getTarget().c_str());
+			break;
+		}
+	}
+}

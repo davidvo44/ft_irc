@@ -76,7 +76,7 @@ void ProtocolError::GetError()
 			_finalMessage = code + " :is unknown mode char to me";
 			return;
 		case ERR_INVITEONLYCHAN:
-			_finalMessage = code + " :Cannot join channel (+b)";
+			_finalMessage = code + " :Cannot join channel (+i)";
 			return;
 		case ERR_BADCHANNELKEY:
 			_finalMessage = code + " :Cannot join channel (+k)";
