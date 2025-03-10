@@ -22,7 +22,7 @@ void Poll::Start()
 	{
 		int activity = poll(_fds.data(), _fds.size(), -1);
 		if (activity < 0)
-			throw ExceptionError("Poll Error");
+			throw ExceptionError("Poll");
 		if (_fds[0].revents & POLLIN)
 			NewUser();
 		for (size_t i = 1; i < _fds.size(); i++)

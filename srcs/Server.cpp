@@ -15,6 +15,10 @@ Server::Server(const char *argPort, const char *argPass)
 {
 	_Port = atoi(argPort);
 	_password = argPass;
+	memset(&_ServerAddr, 0, sizeof(_ServerAddr));
+	_ServerAddr.sin_family = AF_INET;
+	_ServerAddr.sin_addr.s_addr = INADDR_ANY;
+	_ServerAddr.sin_port = htons(_Port);
 	ServerInit();
 }
 
@@ -51,7 +55,6 @@ void Server::ServerInit()
 	_SerSocketFd = socket(AF_INET, SOCK_STREAM, 0);
 	serverSocket = _SerSocketFd;
 	int opt = 1;
-
 	if (setsockopt(serverSocket, SOL_SOCKET, SO_REUSEADDR, &opt, sizeof(opt)) == -1)
 	{
 		close(serverSocket);
@@ -60,17 +63,14 @@ void Server::ServerInit()
 	if (_SerSocketFd < 0)
 		throw ExceptionError("socket");
 	signal(SIGINT, signalHandler);
-	memset(&_ServerAddr, 0, sizeof(_ServerAddr));
-	_ServerAddr.sin_family = AF_INET;
-	_ServerAddr.sin_addr.s_addr = INADDR_ANY;
-	_ServerAddr.sin_port = htons(_Port);
 
 	if (bind(_SerSocketFd, (struct sockaddr *)&_ServerAddr, sizeof(_ServerAddr)) < 0)
 	{
 		close(_SerSocketFd);
 		throw ExceptionError("bind");
 	}
-	if (listen(_SerSocketFd, 5) < 0)
+
+	if (listen(_SerSocketFd, 128) < 0)
 	{
 		close(_SerSocketFd);
 		throw ExceptionError("listen");
