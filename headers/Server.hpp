@@ -12,6 +12,8 @@ class Server
 {
 public:
 	Server();
+	static Server* getInstance(const char *argPort, const  char *argPass);
+	static Server* getInstance();
 	Server(const char *argPort, const  char *argPass);
 	int getFd();
 	Client getIdxClients(int idx);
@@ -35,6 +37,7 @@ private:
 	MutantMap<int, Client *> _Clients;
 	MutantMap<std::string, Channel *> _Channel;
 	struct sockaddr_in _ServerAddr;
+	static Server* _instance;
 };
 
 #include "Client.hpp"

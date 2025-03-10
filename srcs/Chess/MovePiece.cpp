@@ -22,62 +22,26 @@ void Bot::MovePiece(std::map<int, PiecePosition> &Pawn, std::map<int, PiecePosit
 	{
 		if (Pawn[i].x == x && Pawn[i].y == y)
 		{
-			std::cout << "Pawn deteccted\n";
-			if (fd == _whitefds)
-			{
-				if (WhitePawnCondition(x, y, destx, desty) == 0)
-				{
-					std::cout << "error detected\n";
-					return (send_error(fd));
-				}
-			}
-			else
-			{
-				if (BlackPawnCondition(x, y, destx, desty) == 0)
-					return (send_error(fd));
-			}
-			std::cout << "Succefull\n";
+			if (checkPawnPieceMove(fd, message) == false)
+				return (send_error(fd));
 			Pawn[i].x = destx;
 			Pawn[i].y = desty;
-			Check_Kill_n_Chess(Pawn[i], fd, x, y, destx, desty);
+			if (Check_Kill_n_Chess(Pawn[i], fd, x, y, destx, desty) == 0)
+				return (send_error(fd));
 			break;
 		}
 		if (Spe[i].x == x && Spe[i].y == y)
 		{
-			if (i < 2)
-			{
-				std::cout << "tower\n";
-				if (TowerCondition(x, y, destx, desty) == 0)
-					return (send_error(fd));
-			}
-			else if (i < 4)
-			{
-				std::cout << "knight\n";
-				if (KnightCondition(x, y, destx, desty) == 0)
-					return (send_error(fd));
-			}
-			else if (i < 6)
-			{
-				std::cout << "bishop\n";
-				if (BishopCondition(x, y, destx, desty) == 0)
-					return (send_error(fd));
-			}
-			else if (i == 6)
-			{
-				std::cout << "queen\n";
-				if (BishopCondition(x, y, destx, desty) == 0)
-					return (send_error(fd));
-			}
-			else
-			{
-				if (KingCondition(x, y, destx, desty) == 0)
-					return (send_error(fd));
-			}
+			if (checkSpecialPieceMove(message, i) == false)
+				return (send_error(fd));
 			Spe[i].x = destx;
 			Spe[i].y = desty;
-			Check_Kill_n_Chess(Spe[i], fd, x, y, destx, desty);
+			if (Check_Kill_n_Chess(Spe[i], fd, x, y, destx, desty) == 0)
+				return (send_error(fd));
 			break;
 		}
+		if (i == 8)
+			return (send_error(fd));
 	}
 	for (int i = 0; i < 8; i++)
 	{
@@ -155,4 +119,62 @@ bool Bot::Check_Kill_n_Chess(PiecePosition &piece, int fd, int x, int y, int des
 			_blackSpe[i].x = -1;
 	}
 	return 1;
+}
+
+bool Bot::checkSpecialPieceMove(Message &message, int i)
+{
+	int x = message.getParameter()[1] - '1';
+	int y = message.getParameter()[0] - 'A';
+	int destx = message.getSuffix()[1] - '1';
+	int desty = message.getSuffix()[0] - 'A';
+	if (i < 2)
+	{
+		std::cout << "tower\n";
+		if (TowerCondition(x, y, destx, desty) == 0)
+			return false;
+	}
+	else if (i < 4)
+	{
+		std::cout << "knight\n";
+		if (KnightCondition(x, y, destx, desty) == 0)
+			return false;
+	}
+	else if (i < 6)
+	{
+		std::cout << "bishop\n";
+		if (BishopCondition(x, y, destx, desty) == 0)
+			return false;
+	}
+	else if (i == 6)
+	{
+		std::cout << "queen\n";
+		if (BishopCondition(x, y, destx, desty) == 0)
+			return false;
+	}
+	else
+	{
+		if (KingCondition(x, y, destx, desty) == 0)
+			return false;
+	}
+	return true;
+}
+
+bool Bot::checkPawnPieceMove(int fd, Message &message)
+{
+	int x = message.getParameter()[1] - '1';
+	int y = message.getParameter()[0] - 'A';
+	int destx = message.getSuffix()[1] - '1';
+	int desty = message.getSuffix()[0] - 'A';
+	std::cout << "Pawn deteccted\n";
+	if (fd == _whitefds)
+	{
+		if (WhitePawnCondition(x, y, destx, desty) == 0)
+			return false;
+	}
+	else
+	{
+		if (BlackPawnCondition(x, y, destx, desty) == 0)
+			return false;
+	}
+	return true;
 }

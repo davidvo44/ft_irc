@@ -18,7 +18,20 @@ Server::Server(const char *argPort, const char *argPass)
 	ServerInit();
 }
 
-static int serverSocket = 3;
+Server* Server::getInstance(const char *argPort, const  char *argPass)
+{
+	if (!_instance)
+		_instance = new Server(argPort, argPass);
+	return _instance;
+}
+Server* Server::getInstance()
+{
+	if (!_instance)
+		_instance = new Server();
+	return _instance;
+}
+
+static int serverSocket = -1;
 
 static void signalHandler(int signum)
 {
@@ -27,6 +40,8 @@ static void signalHandler(int signum)
 		std::cout << "\nServer closed" << std::endl;
 		if (serverSocket != -1)
 			close(serverSocket);
+		Server::getInstance()->freeCloseAll();
+		delete Server::getInstance();
 		throw ExceptionError("SIGINT");
 	}
 }

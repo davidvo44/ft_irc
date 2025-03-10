@@ -39,6 +39,8 @@ public:
 	bool QueenCondition(int x, int y, int destx, int desty);
 	bool KingCondition(int x, int y, int destx, int desty);
 	bool Check_Kill_n_Chess(PiecePosition &piece, int fd, int x, int y, int destx, int desty);
+	bool checkSpecialPieceMove(Message &message, int i);
+	bool checkPawnPieceMove(int fd, Message &message);
 private:
 	int _turn;
 	bool _start;
