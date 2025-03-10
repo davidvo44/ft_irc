@@ -11,6 +11,7 @@ void Command::Kick(Message& message, Client &source, Server &server)
 	std::cout << "KICK cmd :" << std::endl;
 
 	message.parseKICK();
+
 	std::string targetNick = message.getParameter();
 
 	if (source.getLogStep() != 3)

@@ -117,6 +117,12 @@ void	Message::parseKICK(void) // TO BE CONTINUED
 	handleMultipleWordArgs(_suffix, 4);
 }
 
+void	Message::parseINVITE(void)
+{
+	_target = (_words.size() > 3 && !_words[3].empty()) ? _words[3] : "";
+	_parameter = (_words.size() > 2 && !_words[2].empty()) ? _words[2] : "";
+}
+
 void	Message::parseQUIT(void)
 {
 	handleMultipleWordArgs(_parameter, 2);

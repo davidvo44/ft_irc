@@ -47,6 +47,7 @@ void RplMessage::GetRply(int code, int fd, int size, const char * value, ...)
 			final_msg = arg_list[1] + " :" + arg_list[2];
 			break;
 		case RPL_INVITING:
+			final_msg = arg_list[1] + " " + arg_list[2];
 			break;
 		case RPL_WHOREPLY:
 			final_msg = arg_list[1];

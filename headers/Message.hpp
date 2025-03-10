@@ -33,7 +33,7 @@ public:
 	std::map<std::string, std::string>* parseJOIN(void);
 	void parseKICK(void); // TO BE CONTINUED
 
-	// void	parseINVITE(void);
+	void	parseINVITE(void);
 	// void	parseMODE(void);
 
 	void parseCHESS(void);
