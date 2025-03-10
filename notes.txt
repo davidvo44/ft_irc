@@ -1,28 +1,27 @@
-TYPING SPACE THEN ENTER IN A CHANNEL == SEGFAULT
+- TYPING SPACE THEN ENTER IN A CHANNEL == SEGFAULT
+- handle CTRL+D (New Poll)
 
-- rethink project structure
-	use one container format accross all project (map or mutant)
+- fix POLL (listen must be inside poll and handle other operations (see subject))
+
+- Leaks lol
 
 - rename variables with EXPLICIT variable names
 - refactor functions
 
-- fix ProtocolError output : for KICK, format is <nick> <client> <channel> but it's not an option yet
+- fix ProtocolError output :
 	use DEFINES for error formating (source ihabiby)
-
-- rework commands parsing (have format for basic commands, and custom parsing for more complex commands)
 
 - fix WHO :
 	new client that joins channel is not aware of others clients already in channel
-
-- fix JOIN : /join #1 #2 #3  mdp passwd mo2pass
-password for each channel:   #1    #2     #3
 
 - add KICK multiple users : /kick user1, user2, user3 <reasonForKick>
 	output has to be :	<operator> has kicked user1 from <channel> (reasonForKick)
 						<operator> has kicked user2 from <channel> (reasonForKick)
 						<operator> has kicked user3 from <channel> (reasonForKick)
 
-- make whitelist for INVITE (Channels will contain both a clientList and invitedClientList (AKA the whitelist))
+- BONUS:
+	Transfer files
+	CHESS!!
 
 PASS ok
 NICK op
