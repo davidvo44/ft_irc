@@ -46,6 +46,7 @@ private:
 	void msgchess(std::vector<std::string> _words, unsigned long i);
 	std::map<std::string, std::string> _channelsAndPasswords;
 	std::vector<std::string> _words;
+	std::vector<std::string> _targetsToKick;
 	std::string _prefix; //  std::string prefix = ":" + clientNick + "!" + clientUser + "@" + clientHost;
 	std::string _command;
 	std::string _target;

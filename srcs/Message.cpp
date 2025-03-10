@@ -1,7 +1,6 @@
 
 #include "Message.hpp"
 
-
 Message::Message() : _prefix(""), _command(""), _target(""), _parameter(""), _suffix("") {}
 
 Message::Message(std::string buffer)
@@ -48,15 +47,6 @@ void	Message::parsePRIVMSG_PART_TOPIC(void)
 	_target = (_words.size() > 2 && !_words[2].empty()) ? _words[2] : "";
 	handleMultipleWordArgs(_parameter, 3);
 }
-
-
-/*
-JOIN #1,#2,#3 password1,,password3		#1 and #3 have passwords
-JOIN #1,#2,#3 password1,password2,		#1 and #2 have passwords
-JOIN #1,#2,#3 ,password2,				#2 has a password
-
-for N channels joined, if any requires a password, N-1 commas are needed for passwords
-*/
 
 unsigned int Message::countCommas(std::string channels)
 {
@@ -110,10 +100,18 @@ void Message::parseMode(void)
 	_suffix = (_words.size() > 4 && !_words[4].empty()) ? _words[4] : "";
 }
 
-void	Message::parseKICK(void) // TO BE CONTINUED
+void	Message::parseKICK(void)
 {
 	_target = (_words.size() > 2 && !_words[2].empty()) ? _words[2] : "";
 	_parameter = (_words.size() > 3 && !_words[3].empty()) ? _words[3] : "";
+
+	// std::string target;
+	// std::istringstream issTargets(_words[3]);
+	// while (issTargets)
+	// {
+	// 	std::getline(issTargets, target, ',');
+	// 	_targetsToKick.push_back(target);
+	// }
 	handleMultipleWordArgs(_suffix, 4);
 }
 

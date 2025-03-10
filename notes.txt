@@ -19,6 +19,8 @@
 						<operator> has kicked user2 from <channel> (reasonForKick)
 						<operator> has kicked user3 from <channel> (reasonForKick)
 
+-
+
 - BONUS:
 	Transfer files
 	CHESS!!

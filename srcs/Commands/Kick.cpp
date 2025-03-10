@@ -31,10 +31,12 @@ void Command::Kick(Message& message, Client &source, Server &server)
 	if (targetNick.empty() == true)
 		throw ProtocolError(ERR_NEEDMOREPARAMS, message.getCommand(), source.getNick());
 
+	// for (size_t i = 0; i < Message::_targetsToKick.size(); ++i) {
+	// 	std
 	searchTargetClient(message, *channel, source);
 }
 
-void searchTargetClient(Message &message, Channel &channel, Client &source)
+void searchTargetClient(Message &message, Channel &channel, Client &source) // ADD TARGETNICK TO PARAMS AND INCREMENT IT FOR EACH KICKEE
 {
 	std::string	response;
 	std::string	reasonForKick = "Inappropriate behaviour";
