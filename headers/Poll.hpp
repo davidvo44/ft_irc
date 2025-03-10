@@ -14,6 +14,7 @@ class Poll
 		void Start();
 		std::vector<pollfd> & getPollfd();
 		Server & getServer();
+		void DisconnectClientPoll(int i);
 
 	private:
 

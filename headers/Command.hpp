@@ -27,7 +27,6 @@ class Command
 		static void Nick(Message& message, Client &sender, Server &server);
 		static void Part(Message& message, Client &sender, Server &server);
 		static void PrivateMessage(Message &message, Client &sender, Server &server);
-		static void QuitClient(int fd, Poll &poll, size_t i);
 		static void WhoCommand(int FdCl, Client &client, Message &message, Server &server);
 		static void Topic(Message& message, Client &sender, Server &server);
 		static void getTopic(Message& message, Client &sender, Channel &chan);
@@ -38,6 +37,7 @@ class Command
 		static void ChessCommand(Server &server, Client &sender, Message &message);
 		static void PassCommand(Server &server, Client &sender, Message &message);
 		static void UserCommand(Client &sender, Message &message, Server &server);
+		static void QuitClientfromPoll(int fd, Server &server);
 };
 
 #endif

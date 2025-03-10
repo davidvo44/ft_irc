@@ -29,17 +29,23 @@ void Poll::Start()
 		{
 			if (_fds[i].revents & POLLIN)
 			{
-				std::cout << "\n\n" << "NEW COMMAND:\n";
+				std::cout << "\n\n" << "    NEW COMMAND:\n";
 				char buffer[1024] = {0};
 				int valread = recv(_fds[i].fd, buffer, sizeof(buffer), MSG_DONTWAIT | MSG_NOSIGNAL);
 				if (valread <= 0)
 				{
-					Command::QuitClient(_fds[i].fd, *this, i);
+					Command::QuitClientfromPoll(_fds[i].fd, *_server);
+					DisconnectClientPoll(i);
 					continue;
 				}
 				buffer[valread] = '\0';
 				std::cout << "RECEIVED : < " << buffer;
 				Command::GetLineCommand(buffer, _fds[i].fd, *_server);
+				if (write(_fds[i].fd, "", 0) == -1)
+				{
+
+					DisconnectClientPoll(i);
+				}
     		}
 		}
 	}
@@ -64,6 +70,11 @@ void Poll::NewUser()
 	_fds.push_back(newfd);
 }
 
+void Poll::DisconnectClientPoll(int i)
+{
+	std::cout << "Client disconnected." << std::endl;
+	_fds.erase(_fds.begin() + i);
+}
 std::vector<pollfd> & Poll::getPollfd()
 {
 	return _fds;

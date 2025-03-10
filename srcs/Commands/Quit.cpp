@@ -1,6 +1,9 @@
 
 #include "Command.hpp"
 //:thierry!user@host QUIT :Bye !
+
+static void eraseClient(int fd, Server &server);
+
 void Command::QuitCommand(Server &server, Client &sender, Message &message)
 {
 	message.parseQUIT();
@@ -12,11 +15,35 @@ void Command::QuitCommand(Server &server, Client &sender, Message &message)
 		response += message.getParameter();
 	std::cout << "MESSAGE IS: " << response << std::endl;
 	Command::SendBySharedChannels(response, sender, server);
+	eraseClient(sender.getFd(), server);
 }
 
-void Command::QuitClient(int fd, Poll &poll, size_t i)
+void Command::QuitClientfromPoll(int fd, Server &server)
 {
-	std::cout << "Client disconnected." << std::endl;
+	Client *sender = server.getClients().findValue(fd);
+
+	std::string response = sender->getPrefix() + "QUIT :bye\n";
+	Command::SendBySharedChannels(response, *sender, server);
+	std::map<std::string, Channel*>::iterator it = server.getChannel().begin();
+	for (;it != server.getChannel().end(); it++)
+	{
+		if (it->second->getClient().findValue(fd))
+			it->second->getClient().erase(fd);
+	}
+	server.getClients().erase(fd);
 	close(fd);
-	poll.getPollfd().erase(poll.getPollfd().begin() + i);
+}
+
+static void eraseClient(int fd, Server &server)
+{
+	std::map<std::string, Channel*>::iterator it = server.getChannel().begin();
+	for (;it != server.getChannel().end(); it++)
+	{
+		if (it->second->getClient().findValue(fd))
+			it->second->getClient().erase(fd);
+	}
+	Client *clToDel = server.getClients().findValue(fd);
+	server.getClients().erase(fd);
+	delete clToDel;
+	close(fd);
 }
