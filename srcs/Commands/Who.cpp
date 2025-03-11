@@ -28,6 +28,6 @@ void Command::WhoCommand(int FdCl, Client &client, Message &message, Server &ser
         nickList += prefix + (*chan)[idx]->getNick() + " ";
         idx++;
     }
-	RplMessage::GetRply(RPL_NAMREPLY, FdCl, 3, client.getNick().c_str(), chan->getName().c_str(), nickList.c_str());
-	RplMessage::GetRply(RPL_ENDOFNAMES, FdCl, 2, client.getNick().c_str(), chan->getName().c_str());
+	response = RPL_NAMREPLY(client.getNick(), chan->getName(), "",nickList) + RPL_ENDOFNAMES(chan->getName());
+	send(FdCl, response.c_str(), response.length(), MSG_DONTWAIT | MSG_NOSIGNAL);
 }
