@@ -13,6 +13,11 @@ Server::Server()
 
 Server::Server(const char *argPort, const char *argPass)
 {
+	if (atoi(argPort) > 65365)
+	{
+		std::cout << "Port chosen is greater than 65365!" << std::endl;
+		return;
+	}
 	_Port = atoi(argPort);
 	_password = argPass;
 	memset(&_ServerAddr, 0, sizeof(_ServerAddr));
@@ -105,7 +110,7 @@ int Server::getFd()
 void Server::CheckNewClient(pollfd &tmp, std::string IpAdd)
 {
 	_Clients[tmp.fd] = new Client(tmp, IpAdd);
-	_Clients[tmp.fd]->getNick();
+	_Clients[tmp.fd]->getNick(); // WHY GETNICK()?
 }
 
 void Server::AcceptNewClient(int fd)

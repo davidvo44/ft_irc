@@ -5,18 +5,22 @@
 
 - Changer un bout de PRIVMSG into NOTICE pour les mp entre 2 clients
 
-- Handle le CTRL+D et ptit timer si on revient jamais pour pas bloquer le client
-	- Faire un buffer pour chaque client
-	- Se rensiegner sur la taille d'un buffer (512 - 2 pour les \r\n (et \0 ?))
+//- Handle le CTRL+D et ptit timer si on revient jamais pour pas bloquer le client
+//	- Faire un buffer pour chaque client
+//	- Se rensiegner sur la taille d'un buffer (512 - 2 pour les \r\n (et \0 ?))
+    |^|^|^|^|^|^|
+    C BON C FAIT
 
 - TYPING SPACE THEN ENTER IN A CHANNEL == SEGFAULT (gerer une commande vide en gros)
 
-- Envoyer message de JOIN seulement de le ou les channels concernes
+- Envoyer message de JOIN seulement dans le ou les channels concernes
 
 - add flags to WHO to see who is operator on channel
 
 - NETWORKING ISSUES (see subject)
 
 BONUS :
-- comment on transfere un fichier lol ?
+//- comment on transfere un fichier lol ?
+ |^|^|^|^|^|^|^|^|^|
+HEXCHAT LE FAIT DEJA
 - CHESS!!
