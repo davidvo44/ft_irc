@@ -37,35 +37,31 @@ void Poll::Start()
 
 void Poll::HandleClientInput(size_t clientIndex)
 {
-	std::string partial_data;
 	char buffer[1024];
+	ssize_t bytes_read = recv(_fds[clientIndex].fd, buffer, sizeof(buffer) - 1, MSG_DONTWAIT | MSG_NOSIGNAL);
 
-	while (true)
+	if (bytes_read < 0)
 	{
-		ssize_t bytes_read = recv(_fds[clientIndex].fd, buffer, sizeof(buffer) - 1, 0);
-		if (bytes_read < 0)
-		{
-			perror("recv failed");
-			break;
-		}
-		else if (bytes_read == 0)
-		{
-			DisconnectClient(clientIndex);
-			break;
-		}
-		buffer[bytes_read] = '\0';
-
-		partial_data.append(buffer);
-		ProcessCompleteLines(partial_data, clientIndex);
-
-		if (!IsClientConnected(clientIndex))
-			break;
+		perror("recv failed");
+		DisconnectClient(clientIndex);
+		return;
 	}
+	else if (bytes_read == 0)
+	{
+		DisconnectClient(clientIndex);
+		return;
+	}
+	buffer[bytes_read] = '\0';
+
+	_partial_data[clientIndex].append(buffer);
+	ProcessCompleteLines(clientIndex);
 }
 
-void Poll::ProcessCompleteLines(std::string& partial_data, size_t clientIndex)
+void Poll::ProcessCompleteLines(size_t clientIndex)
 {
+	std::string& partial_data = _partial_data[clientIndex];
 	size_t pos;
+
 	while ((pos = partial_data.find('\n')) != std::string::npos)
 	{
 		std::string line = partial_data.substr(0, pos);
@@ -80,6 +76,8 @@ void Poll::DisconnectClient(size_t clientIndex)
 {
 	Command::QuitClientfromPoll(_fds[clientIndex].fd, *_server);
 	std::cout << "Client disconnected." << std::endl;
+
+	_partial_data.erase(clientIndex);
 	_fds.erase(_fds.begin() + clientIndex);
 }
 

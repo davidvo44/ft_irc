@@ -22,9 +22,22 @@ void Channel::joinChannel(Client *client)
 	_Clients.insert(std::make_pair(client->getFd(), client));
 }
 
-void Channel::partChannel(Client client)
+void Channel::removeClient(MutantMap<int, Client*>& clients, int clientKey, std::string clientNick)
 {
-	std::cout << client.getNick() << " LEFT" << std::endl;
+	MutantMap<int, Client*>::iterator it = clients.find(clientKey);
+	if (it != clients.end())
+	{
+		delete it->second;
+		clients.erase(it);
+		std::cout << clientNick << " removed successfully." << std::endl;
+	}
+	else
+		std::cout << clientNick << " not found." << std::endl;
+}
+
+void Channel::partChannel(Client& client)
+{
+	std::cout << client.getNick() << " PART" << std::endl;
 	_Clients.erase(client.getFd());
 	std::vector<int>::iterator it = std::find(_operator.begin(), _operator.end(), client.getFd());
 	if (it != _operator.end())

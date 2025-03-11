@@ -17,7 +17,7 @@ public:
 	void addClient(Client *client);
 	void joinChannel(Client *client);
 
-	void partChannel(Client client);
+	void partChannel(Client& client);
 	void setTopic(const std::string topic);
 
 	void addMode(char ope);
@@ -33,6 +33,7 @@ public:
 	void setPassword(std::string pass);
 
 	MutantMap<int, Client *> &getClient();
+	void removeClient(MutantMap<int, Client*>& clients, int clientKey, std::string clientNick);
 
 	std::vector<int> &getOperator();
 

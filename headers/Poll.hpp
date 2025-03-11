@@ -15,13 +15,14 @@ class Poll
 		std::vector<pollfd> & getPollfd();
 		Server & getServer();
 		void HandleClientInput(size_t clientIndex);
-		void ProcessCompleteLines(std::string& partial_data, size_t clientIndex);
+		void ProcessCompleteLines(size_t clientIndex);
 		void DisconnectClient(size_t clientIndex);
 		bool IsClientConnected(size_t clientIndex);
 
 	private:
 
 		std::vector<pollfd> _fds;
+		std::map<size_t, std::string> _partial_data;
 		Server *_server;
 };
 

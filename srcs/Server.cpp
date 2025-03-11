@@ -158,7 +158,8 @@ void Server::freeCloseAll()
 	MutantMap<std::string, Channel *>::iterator itCh = _Channel.begin();
 	while (itCh != _Channel.end())
 	{
-		delete itCl->second;
+		if (itCh->second)
+			delete itCh->second;
 		itCh++;
 	}
 }

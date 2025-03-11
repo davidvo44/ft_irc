@@ -11,6 +11,9 @@ void Command::Kick(Message& message, Client &source, Server &server)
 	std::cout << "KICK cmd :" << std::endl;
 
 	message.parseKICK();
+	std::cout << "CMD : " << message.getCommand() << std::endl;
+	std::cout << "target : " << message.getTarget() << std::endl;
+	std::cout << "param : " << message.getParameter() << std::endl;
 
 	std::string allClientsToKick = message.getParameter();
 
@@ -33,11 +36,10 @@ void Command::Kick(Message& message, Client &source, Server &server)
 
 	std::string singleClientToKick;
 	std::istringstream issClientsToKick(allClientsToKick);
-	while (issClientsToKick)
+	while (std::getline(issClientsToKick, singleClientToKick, ','))
 	{
-		if (std::getline(issClientsToKick, singleClientToKick, ',').eof())
-			break;
-		searchTargetAndKick(message, *channel, source, singleClientToKick);
+		if (!singleClientToKick.empty())
+			searchTargetAndKick(message, *channel, source, singleClientToKick);
 	}
 }
 
@@ -45,24 +47,28 @@ void searchTargetAndKick(Message &message, Channel &channel, Client &source, std
 {
 	std::string	response;
 	std::string	reasonForKick = "Inappropriate behaviour";
+	std::string sourceNickPlusClientNick = source.getNick() + " " + clientToKick;
 	unsigned int i = 0;
 
+	Client* targetClient = NULL;
 	while (channel[i])
 	{
 		if (channel[i]->getNick() == clientToKick)
+		{
+			targetClient = channel[i];
 			break;
+		}
 		i++;
 	}
-
-	std::string sourceNickPlusClientNick = source.getNick() + " " + clientToKick;
-	if (!channel[i])
+	if (!targetClient)
 		throw ProtocolError(ERR_USERNOTINCHANNEL, message.getTarget(), sourceNickPlusClientNick);
 
 	reasonForKick = message.getSuffix();
 	response = source.getPrefix();
 	response += " KICK " + message.getTarget() + " " + clientToKick + " " + reasonForKick + "\r\n";
-	send(channel[i]->getFd(), response.c_str(), response.length(), MSG_DONTWAIT | MSG_NOSIGNAL);
-	channel.partChannel(*channel[i]);
+	send(targetClient->getFd(), response.c_str(), response.length(), MSG_DONTWAIT | MSG_NOSIGNAL);
+	// channel.partChannel(*targetClient);
+	channel.removeClient((channel.getClient()), targetClient->getFd(), clientToKick);
 
 	sendKickMessageToAllClientsOnChannel(channel, response);
 }
