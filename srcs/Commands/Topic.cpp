@@ -14,7 +14,7 @@ void Command::Topic(Message& message, Client &sender, Server &server)
 	Channel *chan = server.getChannel().findValue(message.getTarget());
 	if (message.getTarget() == "ft_irc")
 		throw ProtocolError(ERR_NEEDMOREPARAMS, message.getCommand(), sender.getNick());
-    if (!chan)
+	if (!chan)
 		throw ProtocolError(ERR_NOSUCHCHANNEL, message.getTarget(), sender.getNick());
 	if (!chan->getClient().findValue(sender.getFd()))
 		throw ProtocolError(ERR_NOTONCHANNEL, message.getTarget(), sender.getNick());

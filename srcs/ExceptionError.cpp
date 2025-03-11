@@ -19,7 +19,7 @@ void ProtocolError::GetError()
 {
 	std::string code;
 	std::stringstream ss;
-    ss << _code;
+	ss << _code;
 	code = ss.str() + " " + _user + " " + _s;
 
 	switch (_code)

@@ -6,7 +6,7 @@ Message::Message() : _prefix(""), _command(""), _target(""), _parameter(""), _su
 Message::Message(std::string buffer)
 {
 	std::istringstream iss(buffer);
-    std::string subStr;
+	std::string subStr;
 	while (iss >> subStr)
 		_words.push_back(subStr);
 	std::vector<std::string>::iterator it = _words.begin();
@@ -17,7 +17,7 @@ Message::Message(std::string buffer)
 	if (_words.size() >= 4 && _words[3] == ":!CHESS")
 		_command = "CHESS";
 	else
-    _command = (_words.size() > 1 && !_words[1].empty()) ? _words[1] : "";
+	_command = (_words.size() > 1 && !_words[1].empty()) ? _words[1] : "";
 }
 
 void	Message::handleMultipleWordArgs(std::string& argName, unsigned int vectorIndex)
@@ -34,12 +34,12 @@ void	Message::handleMultipleWordArgs(std::string& argName, unsigned int vectorIn
 
 void	Message::parseNICK_USER_PASS(void)
 {
-    _parameter = (_words.size() > 2 && !_words[2].empty()) ? _words[2] : "";
+	_parameter = (_words.size() > 2 && !_words[2].empty()) ? _words[2] : "";
 }
 
 void	Message::parseWHO(void)
 {
-    _target = (_words.size() > 2 && !_words[2].empty()) ? _words[2] : "";
+	_target = (_words.size() > 2 && !_words[2].empty()) ? _words[2] : "";
 }
 
 void	Message::parsePRIVMSG_PART_TOPIC(void)

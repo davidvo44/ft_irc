@@ -25,7 +25,7 @@ void Command::PassCommand(Server &server, Client &sender, Message &message)
 	// 	send(sender.getFd(), response.c_str(), response.length(), MSG_DONTWAIT | MSG_NOSIGNAL);
 	// 	std::string input;
 	// 	if (!std::getline(sender.getFd(), input))
-    //     	exit (0);
+	//	 	exit (0);
 	// 	if (message.getParameter() == server.getPassword())
 	// 	{
 	// 		sender.setLogStep(1);
