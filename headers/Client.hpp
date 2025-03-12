@@ -9,7 +9,7 @@ class Client
 {
 public:
 	Client();
-	Client(pollfd &tmp, std::string IpAddr);
+	Client(int fd, std::string IpAddr);
 
 	int getFd();
 	std::string getName();
@@ -24,7 +24,7 @@ public:
 	std::string getPrefix();
 
 private:
-	pollfd _pollfds;
+	int _fd;
 	std::string _username;
 	std::string _nick;
 	std::string _suffixword;
