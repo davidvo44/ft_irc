@@ -2,7 +2,7 @@
 #include "Command.hpp"
 #include "Channel.hpp"
 
-static void	addTargetToChannelClientList(Message& message, Client& source, Server &server, Channel &channel, std::string targetNick);
+static void addTargetToChannelClientList(Message &message, Client &source, Server &server, Channel &channel, std::string targetNick);
 
 void Command::Invite(Message &message, Client &source, Server &server)
 {
@@ -19,7 +19,7 @@ void Command::Invite(Message &message, Client &source, Server &server)
 	if (!channel)
 		throw ProtocolError(ERR_NOSUCHCHANNEL, message.getTarget(), source.getNick());
 
-	Client	*sourceClient = channel->getClient().findValue(source.getFd());
+	Client *sourceClient = channel->getClient().findValue(source.getFd());
 	if (!sourceClient)
 		throw ProtocolError(ERR_NOTONCHANNEL, message.getTarget(), source.getNick());
 
@@ -35,10 +35,9 @@ void Command::Invite(Message &message, Client &source, Server &server)
 	addTargetToChannelClientList(message, source, server, *channel, targetNick);
 }
 
-void	addTargetToChannelClientList( Message &message, Client& source, Server &server, Channel &channel, std::string targetNick)
+void addTargetToChannelClientList(Message &message, Client &source, Server &server, Channel &channel, std::string targetNick)
 {
 	std::string response;
-	(void) source;
 	for (unsigned int i = 0; server[i]; ++i)
 	{
 		if (server[i]->getNick() == targetNick)
@@ -46,8 +45,6 @@ void	addTargetToChannelClientList( Message &message, Client& source, Server &ser
 			channel.addToWhitelist(server[i]->getFd());
 			response = RPL_INVITING(source.getNick(), targetNick, message.getTarget());
 			send(server[i]->getFd(), response.c_str(), response.length(), MSG_DONTWAIT | MSG_NOSIGNAL);
-			// send((*channel)[idx]->getFd(), response.c_str(), response.length(), MSG_DONTWAIT | MSG_NOSIGNAL);
-			// RplMessage::GetRply(RPL_INVITING, server[i]->getFd(), 3, source.getNick().c_str(), targetNick.c_str(), message.getTarget().c_str());
 			break;
 		}
 	}

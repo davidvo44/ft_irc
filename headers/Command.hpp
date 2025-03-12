@@ -7,7 +7,6 @@
 #include "Poll.hpp"
 #include "Message.hpp"
 #include "ExceptionError.hpp"
-#include "RplMessage.hpp"
 #include "DefineList.hpp"
 
 #include <vector>

@@ -7,6 +7,8 @@ void Command::CheckCommand(std::string str, Server &server, int fd)
 	std::string array[] = {"JOIN", "USER", "NICK", "PASS", "PRIVMSG", "WHO", "PART", "TOPIC", "KICK", "INVITE", "MODE", "CAP", "QUIT", "CHESS"};
 	int index = 0;
 	Message message(str);
+	if (message.getCommand().empty() == true)
+		return;
 	while (index < 14)
 	{
 		if (message.getCommand().compare(array[index]) == 0)

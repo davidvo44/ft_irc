@@ -2,7 +2,6 @@
 #include "Server.hpp"
 #include "ExceptionError.hpp"
 #include <signal.h>
-#include "RplMessage.hpp"
 #include "DefineList.hpp"
 
 Server::Server()
@@ -27,13 +26,13 @@ Server::Server(const char *argPort, const char *argPass)
 	ServerInit();
 }
 
-Server* Server::getInstance(const char *argPort, const  char *argPass)
+Server *Server::getInstance(const char *argPort, const char *argPass)
 {
 	if (!_instance)
 		_instance = new Server(argPort, argPass);
 	return _instance;
 }
-Server* Server::getInstance()
+Server *Server::getInstance()
 {
 	if (!_instance)
 		_instance = new Server();
@@ -106,7 +105,6 @@ int Server::getFd()
 {
 	return _SerSocketFd;
 }
-
 void Server::CheckNewClient(int fd, std::string IpAdd)
 {
 	_Clients[fd] = new Client(fd, IpAdd);
@@ -117,7 +115,6 @@ void Server::AcceptNewClient(int fd, std::string IpAdd)
 	std::string response;
 	std::string nick;
 
-	_Clients[fd] = new Client(fd, IpAdd);
 	nick = _Clients[fd]->getNick();
 	response = RPL_WELCOME(nick) + RPL_YOURHOST(nick) + RPL_CREATED(nick) + RPL_MYINFO(nick);
 	send(fd, response.c_str(), response.length(), MSG_DONTWAIT | MSG_NOSIGNAL);
@@ -126,6 +123,7 @@ void Server::AcceptNewClient(int fd, std::string IpAdd)
 void Server::CloseFds()
 {
 }
+
 void Server::ClearClients(int fd)
 {
 	(void)fd;
@@ -152,7 +150,7 @@ void Server::freeCloseAll()
 	MutantMap<int, Client *>::iterator itCl = _Clients.begin();
 	while (itCl != _Clients.end())
 	{
-		close (itCl->second->getFd());
+		close(itCl->second->getFd());
 		delete itCl->second;
 		itCl++;
 	}

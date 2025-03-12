@@ -15,7 +15,7 @@ Client::Client(int fd, std::string IpAddr) : _fd(fd), _username("User"), _suffix
 	_nick = "NickUser" + ss.str();
 	std::cout << "Athentification...." << std::endl;
 	std::string response = "Authentification....\n";
-	send(fd, response.c_str(), response.length(), MSG_DONTWAIT | MSG_NOSIGNAL);
+	send(_fd, response.c_str(), response.length(), MSG_DONTWAIT | MSG_NOSIGNAL);
 }
 
 int Client::getFd()

@@ -13,6 +13,7 @@ class Poll
 		void NewUser();
 		void Start();
 		std::vector<pollfd> & getPollfd();
+		std::map<int, std::string> & getReadBuffer();
 		Server & getServer();
 		void HandleClientInput(size_t clientIndex);
 		void ProcessCompleteLines(size_t clientIndex);
@@ -21,8 +22,9 @@ class Poll
 
 	private:
 
+		void receiveMessage(int fd);
 		std::vector<pollfd> _fds;
-		std::map<size_t, std::string> _partial_data;
+		std::map<int, std::string> _read_buffer;
 		Server *_server;
 };
 

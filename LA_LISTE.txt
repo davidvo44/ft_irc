@@ -1,5 +1,5 @@
 - Identifier la ou ca peut foirer et envoyer le Garbage Collector
-	- Faire un garbage Collector
+	- Faire un garbage  (server stock tout ce qui est alloue)
 - Faire une command EXIT pour stopper le programme proprement
 - Les leaks mdr
 

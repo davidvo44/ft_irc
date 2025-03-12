@@ -7,7 +7,7 @@ static int CheckChar(char c, Message &message, Client &sender, Channel &channel)
 static void setOpe(Client &sender, Channel &channel, char sign, Message &message);
 static void setPass(Channel &channel, char sign, Message &message);
 
-void Command::checkMode(Message& message, Client &sender, Server &server)
+void Command::checkMode(Message &message, Client &sender, Server &server)
 {
 	if (sender.getLogStep() != 3)
 		throw ProtocolError(ERR_NOTREGISTERED, sender.getNick(), sender.getNick());
@@ -48,8 +48,7 @@ static void getMode(Client &sender, Channel &channel)
 	}
 	response = RPL_CHANNELMODEIS(sender.getNick(), channel.getName(), reply);
 	send(sender.getFd(), response.c_str(), response.length(), MSG_DONTWAIT | MSG_NOSIGNAL);
-	// if (reply != "+")
-	// 	RplMessage::GetRply(RPL_CHANNELMODEIS, sender.getFd(), 3, sender.getNick().c_str(), channel.getName().c_str(), reply.c_str());
+	// RplMessage::GetRply(RPL_CHANNELMODEIS, sender.getFd(), 3, sender.getNick().c_str(), channel.getName().c_str(), reply.c_str());
 }
 
 static Channel *parseModeBuffer(Message &message, Client &sender, Server &server)
@@ -61,8 +60,8 @@ static Channel *parseModeBuffer(Message &message, Client &sender, Server &server
 		throw ProtocolError(ERR_NOSUCHCHANNEL, message.getTarget(), sender.getNick());
 	if (channel->isOperator(sender.getFd()) == false)
 		throw ProtocolError(ERR_CHANOPRIVSNEEDED, message.getTarget(), sender.getNick());
-	if (message.getParameter()[0] == '+' && message.getParameter().find('o') != std::string::npos && \
-	message.getParameter().find('k') != std::string::npos)
+	if (message.getParameter()[0] == '+' && message.getParameter().find('o') != std::string::npos &&
+		message.getParameter().find('k') != std::string::npos)
 	{
 		std::string str = "+ok";
 		throw ProtocolError(ERR_UNKNOWNMODE, str, sender.getNick());
@@ -84,7 +83,7 @@ static int CheckChar(char c, Message &message, Client &sender, Channel &channel)
 		setPass(channel, message.getParameter()[0], message);
 	if (ichar == 4)
 	{
-		setOpe(sender, channel ,message.getParameter()[0], message);
+		setOpe(sender, channel, message.getParameter()[0], message);
 		return 1;
 	}
 	if (ichar == 5)

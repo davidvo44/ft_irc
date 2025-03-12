@@ -1,6 +1,6 @@
 
 #include "Command.hpp"
-//:thierry!user@host QUIT :Bye !
+//: thierry!user@host QUIT :Bye !
 
 static void eraseClient(int fd, Server &server);
 
@@ -29,8 +29,8 @@ void Command::QuitClientfromPoll(int fd, Server &server)
 
 static void eraseClient(int fd, Server &server)
 {
-	std::map<std::string, Channel*>::iterator it = server.getChannel().begin();
-	for (;it != server.getChannel().end(); it++)
+	std::map<std::string, Channel *>::iterator it = server.getChannel().begin();
+	for (; it != server.getChannel().end(); it++)
 	{
 		if (it->second->getClient().findValue(fd))
 			it->second->partChannel(*(it->second->getClient().findValue(fd)));

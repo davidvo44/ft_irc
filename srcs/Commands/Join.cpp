@@ -2,7 +2,6 @@
 #include "Command.hpp"
 #include "MutantMap.hpp"
 
-
 static void checkmodechann(Client client, Channel &channel, Message message);
 static void write_channel(Client &client, Message &message, Server &server);
 
@@ -52,4 +51,14 @@ static void write_channel(Client &client, Message &message, Server &server)
 		send(fdcl, response.c_str(), response.length(), MSG_DONTWAIT | MSG_NOSIGNAL);
 		idx++;
 	}
+}
+
+static void getTopicJoin(const std::string target, Client &sender, Channel &chan)
+{
+	std::string response;
+	if (chan.getTopic().empty() == true)
+		response = RPL_NOTOPIC(sender.getNick(), target);
+	else
+		response = RPL_TOPIC(sender.getNick(), target, chan.getTopic());
+	send(sender.getFd(), response.c_str(), response.length(), MSG_DONTWAIT | MSG_NOSIGNAL);
 }
