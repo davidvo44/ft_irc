@@ -24,3 +24,6 @@ BONUS :
  |^|^|^|^|^|^|^|^|^|
 HEXCHAT LE FAIT DEJA
 - CHESS!!
+	-Manger pion diagonale
+	-Reine ne peut pas deplace ligne droite
+	-Roi ne peut pas manger (diag?)
