@@ -24,11 +24,14 @@ class Poll
 		void NewUser();
 		void Start();
 		std::vector<pollfd> & getPollfd();
+		std::map<int, std::string> & getReadBuffer();
 		Server & getServer();
 
 	private:
 
+		void receiveMessage(int fd, int i);
 		std::vector<pollfd> _fds;
+		std::map<int, std::string> _read_buffer;
 		Server *_server;
 };
 

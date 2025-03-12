@@ -28,4 +28,5 @@ void Command::QuitClient(int fd, Poll &poll, size_t i)
 	std::cout << "Client disconnected." << std::endl;
 	close(fd);
 	poll.getPollfd().erase(poll.getPollfd().begin() + i);
+	poll.getReadBuffer().erase(fd);
 }

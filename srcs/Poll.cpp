@@ -27,6 +27,29 @@ Poll::Poll(Server *server) : _server(server)
 	_fds.push_back(tmp);
 }
 
+void	Poll::receiveMessage(int fd, int i)
+{
+	std::string message;
+	char buffer[1024] = {0};
+	int valread = recv(fd, buffer, sizeof(buffer), MSG_DONTWAIT);
+
+	if (valread <= 0)
+	{
+		Command::QuitClient(fd, *this, i);
+		return;
+	}
+	_read_buffer[fd] += buffer;
+	while (_read_buffer[fd].find("\n") != std::string::npos)
+	{
+		message = _read_buffer[fd].substr(0, _read_buffer[fd].find("\n"));
+		_read_buffer[fd] = _read_buffer[fd].substr(_read_buffer[fd].find("\n") + 1);
+		if (message.length() > 512)
+			return;
+		std::cout << "RECEIVED : < " << message << " > from FD: " << fd << std::endl;
+		Command::GetLineCommand((char *)message.c_str(), fd, *_server);
+	}
+}
+
 void Poll::Start()
 {
 	while (1)
@@ -41,16 +64,7 @@ void Poll::Start()
 			if (_fds[i].revents & POLLIN)
 			{
 				std::cout << "\n\n" << "NEW COMMAND:\n";
-				char buffer[1024] = {0};
-				int valread = recv(_fds[i].fd, buffer, sizeof(buffer), MSG_DONTWAIT);
-				if (valread <= 0)
-				{
-					Command::QuitClient(_fds[i].fd, *this, i);
-					continue;
-				}
-				buffer[valread] = '\0';
-				std::cout << "RECEIVED : < " << buffer << " > from FD: " << _fds[i].fd << std::endl;
-				Command::GetLineCommand(buffer, _fds[i].fd, *_server);
+				receiveMessage(_fds[i].fd, i);
     		}
 		}
 	}
@@ -73,11 +87,17 @@ void Poll::NewUser()
 	newfd.revents = 0;
 	_server->AcceptNewClient(newfd, inet_ntoa(tmp.sin_addr));
 	_fds.push_back(newfd);
+	_read_buffer.insert(std::make_pair(newfd.fd, ""));
 }
 
 std::vector<pollfd> & Poll::getPollfd()
 {
 	return _fds;
+}
+
+std::map<int, std::string> & Poll::getReadBuffer()
+{
+	return _read_buffer;
 }
 
 Server & Poll::getServer()
