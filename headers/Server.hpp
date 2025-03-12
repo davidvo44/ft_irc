@@ -22,7 +22,7 @@ public:
 	MutantMap<std::string, Channel *> &getChannel();
 	sockaddr_in getServerAddr();
 	void ServerInit();
-	void CheckNewClient(pollfd &tmp, std::string IpAdd);
+	void CheckNewClient(int fd, std::string IpAdd);
 	void AcceptNewClient(int fd);
 	void CloseFds();
 	void ClearClients(int fd);

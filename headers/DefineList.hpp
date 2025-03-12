@@ -6,10 +6,10 @@
 #define	ERR_UNKNOWNCOMMAND 421
 
 //			WELCOME			//
-#define RPL_WELCOME(target) (":irc.com 001 " + target + " :Welcome to ft_irc " + target + "!!!" + "\r\n")
-#define RPL_YOURHOST(target) (":irc.com 002 " + target + " :Your host is irc.com, running version ft_irc" + "\r\n")
-#define RPL_CREATED(target) (":irc.com 003 " + target + " :This server was created today" + "\r\n")
-#define RPL_MYINFO(target) (":irc.com 004 " + target + " :irc.com ft_irc io tkl" + "\r\n")
+#define RPL_WELCOME(sender) (":irc.com 001 " + sender + " :Welcome to ft_irc " + sender + "!!!" + "\r\n")
+#define RPL_YOURHOST(sender) (":irc.com 002 " + sender + " :Your host is irc.com, running version ft_irc" + "\r\n")
+#define RPL_CREATED(sender) (":irc.com 003 " + sender + " :This server was created today" + "\r\n")
+#define RPL_MYINFO(sender) (":irc.com 004 " + sender + " :irc.com ft_irc io tkl" + "\r\n")
 
 //			JOIN			//
 #define	ERR_NEEDMOREPARAMS 461
@@ -56,7 +56,7 @@
 //			WHO				//
 #define	RPL_WHOREPLY 352
 #define	RPL_ENDOFWHO 315
-#define	RPL_NAMREPLY(target, channel, nick, flag) (":irc.com 353 " + target + " = " + channel + " :" + flag + nick + "\r\n")
+#define	RPL_NAMREPLY(sender, channel, nick, flag) (":irc.com 353 " + sender + " = " + channel + " :" + flag + nick + "\r\n")
 #define	RPL_ENDOFNAMES(channel) (":irc.com 366 " + channel + " :End of NAMES list" + "\r\n")
 
 
@@ -71,8 +71,8 @@
 #define	ERR_NOSUCHCHANNEL 403
 #define	ERR_NOTONCHANNEL 442
 #define	ERR_CHANOPRIVSNEEDED 482
-#define	RPL_NOTOPIC(target, channel) (":irc.com 331 " + target + " " + channel + " :No topic is set" + "\r\n")
-#define	RPL_TOPIC(target, channel, topic) (":irc.com 332 " + target + " " + channel + " :" + topic + "\r\n")
+#define	RPL_NOTOPIC(sender, channel) (":irc.com 331 " + sender + " " + channel + " :No topic is set" + "\r\n")
+#define	RPL_TOPIC(sender, channel, topic) (":irc.com 332 " + sender + " " + channel + " :" + topic + "\r\n")
 #define	RPL_TOPICWHOTIME 333
 
 
@@ -101,7 +101,7 @@
 #define	ERR_UMODEUNKNOWNFLAG 501
 //			CHANNEL MODE	//
 #define	ERR_NOSUCHCHANNEL 403
-#define	RPL_CHANNELMODEIS(target, channel, mode) (":irc.com 324 " + target + " " + channel + " " + mode + "\r\n")
+#define	RPL_CHANNELMODEIS(sender, channel, mode) (":irc.com 324 " + sender + " " + channel + " " + mode + "\r\n")
 #define	RPL_CREATIONTIME 329
 #define	ERR_UNKNOWNMODE 472
 #define	ERR_CHANOPRIVSNEEDED 482

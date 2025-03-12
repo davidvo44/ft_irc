@@ -80,7 +80,7 @@ void Poll::NewUser()
 	newfd.events = POLLIN;
 	newfd.fd = fdNewClient;
 	newfd.revents = 0;
-	_server->AcceptNewClient(newfd.fd);
+	_server->CheckNewClient(fdNewClient, inet_ntoa(servAddr.sin_addr));
 	_fds.push_back(newfd);
 	_read_buffer.insert(std::make_pair(newfd.fd, ""));
 }

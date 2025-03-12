@@ -105,6 +105,10 @@ int Server::getFd()
 {
 	return _SerSocketFd;
 }
+void Server::CheckNewClient(int fd, std::string IpAdd)
+{
+	_Clients[fd] = new Client(fd, IpAdd);
+}
 
 void Server::AcceptNewClient(int fd)
 {
