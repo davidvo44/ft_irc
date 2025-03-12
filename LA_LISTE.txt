@@ -12,6 +12,8 @@
     C BON C FAIT
 
 - TYPING SPACE THEN ENTER IN A CHANNEL == SEGFAULT (gerer une commande vide en gros)
+|^|^|^|^|
+ ITS DONE
 
 - Envoyer message de JOIN seulement dans le ou les channels concernes
 

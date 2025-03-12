@@ -31,7 +31,6 @@ OBJECTS = $(patsubst %.cpp,$(OBJECT_DIR)%.o,\
 		srcs/Commands/Pass.cpp \
 		srcs/Commands/User.cpp \
 		srcs/Commands/SendClientSharedChannels.cpp \
-		srcs/RplMessage.cpp \
 		srcs/Commands/Chess.cpp \
 		srcs/Bot.cpp \
 		srcs/Chess/PieceCondition.cpp \

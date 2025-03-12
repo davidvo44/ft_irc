@@ -22,13 +22,13 @@ void Channel::joinChannel(Client *client)
 	_Clients.insert(std::make_pair(client->getFd(), client));
 }
 
-void Channel::removeClient(MutantMap<int, Client*>& clients, int clientKey, std::string clientNick)
+void Channel::removeClient(MutantMap<int, Client*>& clients, int clientFd, std::string clientNick)
 {
-	MutantMap<int, Client*>::iterator it = clients.find(clientKey);
+	MutantMap<int, Client*>::iterator it = clients.find(clientFd);
 	if (it != clients.end())
 	{
-		delete it->second;
-		clients.erase(it);
+		// delete it->second;
+		clients.erase(clientFd);
 		std::cout << clientNick << " removed successfully." << std::endl;
 	}
 	else

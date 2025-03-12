@@ -11,5 +11,5 @@ void Command::UserCommand(Client &sender, Message &message, Server &server)
 		throw ProtocolError(ERR_NEEDMOREPARAMS, message.getTarget(), sender.getNick());
 	sender.setName(message.getParameter());
 	sender.setLogStep(3);
-	server.AcceptNewClient(sender.getFd());
+	server.AcceptNewClient(sender.getFd(), sender.getIpAddr());
 }

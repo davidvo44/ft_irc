@@ -23,7 +23,7 @@ public:
 	sockaddr_in getServerAddr();
 	void ServerInit();
 	void CheckNewClient(pollfd &tmp, std::string IpAdd);
-	void AcceptNewClient(int fd);
+	void AcceptNewClient(pollfd &tmp, std::string IpAdd);
 	void CloseFds();
 	void ClearClients(int fd);
 	Channel *CreateChannel(Client *client, std::string ChName);
