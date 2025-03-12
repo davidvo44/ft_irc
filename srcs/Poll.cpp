@@ -104,7 +104,7 @@ void Poll::NewUser()
 	newfd.events = POLLIN;
 	newfd.fd = fdNewClient;
 	newfd.revents = 0;
-	_server->CheckNewClient(newfd, inet_ntoa(servAddr.sin_addr));
+	_server->CheckNewClient(newfd.fd, inet_ntoa(servAddr.sin_addr));
 	_fds.push_back(newfd);
 }
 

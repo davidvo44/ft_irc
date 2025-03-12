@@ -107,21 +107,20 @@ int Server::getFd()
 	return _SerSocketFd;
 }
 
-void Server::CheckNewClient(pollfd &tmp, std::string IpAdd)
+void Server::CheckNewClient(int fd, std::string IpAdd)
 {
-	_Clients[tmp.fd] = new Client(tmp, IpAdd);
-	_Clients[tmp.fd]->getNick(); // WHY GETNICK()?
+	_Clients[fd] = new Client(fd, IpAdd);
 }
 
-void Server::AcceptNewClient(pollfd &tmp, std::string IpAdd)
+void Server::AcceptNewClient(int fd, std::string IpAdd)
 {
 	std::string response;
 	std::string nick;
 
-	_Clients[tmp.fd] = new Client(tmp, IpAdd);
-	nick = _Clients[tmp.fd]->getNick();
+	_Clients[fd] = new Client(fd, IpAdd);
+	nick = _Clients[fd]->getNick();
 	response = RPL_WELCOME(nick) + RPL_YOURHOST(nick) + RPL_CREATED(nick) + RPL_MYINFO(nick);
-	send(tmp.fd, response.c_str(), response.length(), MSG_DONTWAIT | MSG_NOSIGNAL);
+	send(fd, response.c_str(), response.length(), MSG_DONTWAIT | MSG_NOSIGNAL);
 }
 
 void Server::CloseFds()

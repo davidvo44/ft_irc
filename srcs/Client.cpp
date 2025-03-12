@@ -7,20 +7,20 @@ Client::Client() : _username("User"), _nick("NickUser"), _suffixword("0"), _IpAd
 	std::cout << "Athentification...." << std::endl;
 }
 
-Client::Client(pollfd &tmp, std::string IpAddr) : _pollfds(tmp), _username("User"), _suffixword("0"), _IpAddr(IpAddr), _logStep(0)
+Client::Client(int fd, std::string IpAddr) : _fd(fd), _username("User"), _suffixword("0"), _IpAddr(IpAddr), _logStep(0)
 {
 	std::string code;
 	std::stringstream ss;
-	ss << tmp.fd;
+	ss << fd;
 	_nick = "NickUser" + ss.str();
 	std::cout << "Athentification...." << std::endl;
 	std::string response = "Authentification....\n";
-	send(_pollfds.fd, response.c_str(), response.length(), MSG_DONTWAIT | MSG_NOSIGNAL);
+	send(fd, response.c_str(), response.length(), MSG_DONTWAIT | MSG_NOSIGNAL);
 }
 
 int Client::getFd()
 {
-	return _pollfds.fd;
+	return _fd;
 }
 
 std::string Client::getName()
