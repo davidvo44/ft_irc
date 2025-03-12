@@ -3,15 +3,12 @@
 
 bool Bot::WhitePawnCondition(int x, int y, int destx, int desty)
 {
-	if (x == 1)
+	if (x == 1 && destx == 3)
 	{
-		if (destx == 3)
-		{
-			if (desty == y)
-				if (CollisionCondition(2, y) == 0 || CollisionCondition(3, y) == 0)
-					return 1;
-			return 0;
-		}
+		if (desty == y)
+			if (CollisionCondition(2, y) == 0 || CollisionCondition(3, y) == 0)
+				return 1;
+		return 0;
 	}
 	if (x + 1 != destx)
 		return 0;
@@ -35,6 +32,7 @@ bool Bot::BlackPawnCondition(int x, int y, int destx, int desty)
 				return 1;
 		return 0;
 	}
+	std::cout << "Pawn distance is: " << std::abs(y - desty) << std::endl;
 	if (x - 1 != destx)
 		return 0;
 	if (std::abs(y - desty) > 1)
@@ -99,29 +97,21 @@ bool Bot::KnightCondition(int x, int y, int destx, int desty)
 
 bool Bot::BishopCondition(int x, int y, int destx, int desty)
 {
-	std::cout << "BISHOP:" << x << "," << y << ". To:" << destx << "," << desty << "\n";
 	int input = y - x;
 	if (destx + input == desty)
 	{
 		if (destx - x > 0)
 		{
-			std::cout << "croissant type:" << input << "\n";
 			for (int i = x + 1; i != destx; i++)
-			{
 				if (CollisionCondition(i, i + input) == 1)
 					return 0;
-			}
 		}
 		if (destx - x < 0)
 		{
-			std::cout << "decroissant type:" << input << "\n";
 			for (int i = x - 1; i != destx; i--)
 			{
 				if (CollisionCondition(i, i + input) == 1)
-				{
-					std::cout << "colision at:" << i << ", " << i + input << std::endl;
 					return 0;
-				}
 			}
 		}
 		return 1;
@@ -152,28 +142,19 @@ bool Bot::BishopCondition(int x, int y, int destx, int desty)
 
 bool Bot::QueenCondition(int x, int y, int destx, int desty)
 {
-	if (x != destx && y != desty)
-	{
-		if (BishopCondition(x, y, destx, desty) == 0)
-			return 0;
+	if (BishopCondition(x, y, destx, desty) == 1)
 		return 1;
-	}
-	if (TowerCondition(x, y, destx, desty) == 0)
-		return 0;
-	return 1;
+	if (TowerCondition(x, y, destx, desty) == 1)
+		return 1;
+	return 0;
 }
 
 bool Bot::KingCondition(int x, int y, int destx, int desty)
 {
-	if ((std::abs(y - desty) != 1 && std::abs(x - destx) != 1) || std::abs(y - desty) > 1 || std::abs(x - destx) > 1)
+	if (std::abs(y - desty) > 1 || std::abs(x - destx) > 1)
 		return 0;
+	std::cout << "King diag\n";
 	_whiteSpe[7].x = destx;
 	_whiteSpe[7].y = desty;
-	if (isChess(destx, desty) == 1)
-	{
-		_whiteSpe[7].x = x;
-		_whiteSpe[7].y = y;
-		return 0;
-	}
 	return 1;
 }

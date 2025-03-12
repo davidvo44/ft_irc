@@ -148,7 +148,7 @@ bool Bot::checkSpecialPieceMove(Message &message, int i)
 	else if (i == 6)
 	{
 		std::cout << "queen\n";
-		if (BishopCondition(x, y, destx, desty) == 0)
+		if (QueenCondition(x, y, destx, desty) == 0)
 			return false;
 	}
 	else

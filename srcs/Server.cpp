@@ -159,6 +159,7 @@ void Server::freeCloseAll()
 	{
 		if (itCh->second)
 			delete itCh->second;
+		std::cout << "Chan found\n";
 		itCh++;
 	}
 }

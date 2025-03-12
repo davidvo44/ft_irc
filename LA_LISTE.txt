@@ -27,3 +27,10 @@ HEXCHAT LE FAIT DEJA
 	-Manger pion diagonale
 	-Reine ne peut pas deplace ligne droite
 	-Roi ne peut pas manger (diag?)
+
+	PASS oo
+	NICK dd
+	USER dss
+	JOIN #ee
+	PRIVMSG #ee :!CHESS join
+	

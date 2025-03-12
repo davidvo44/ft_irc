@@ -10,7 +10,10 @@ Channel::Channel(std::string name, Client *client) : _username(name), _mode(0)
 	_bot = new Bot(_username, client->getPrefix());
 }
 
-Channel::~Channel() {}
+Channel::~Channel()
+{
+	delete _bot;
+}
 
 void Channel::addClient(Client *client)
 {
