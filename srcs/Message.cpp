@@ -10,6 +10,8 @@ Message::Message(std::string buffer)
 	while (iss >> subStr)
 		_words.push_back(subStr);
 	std::vector<std::string>::iterator it = _words.begin();
+	if (_words.empty() == true)
+		return;
 	if (_words[0][0] != ':')
 		_words.insert(it, "");
 	else
