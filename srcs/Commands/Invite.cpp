@@ -37,12 +37,14 @@ void Command::Invite(Message &message, Client &source, Server &server)
 
 void	addTargetToChannelClientList( Message &message, Client& source, Server &server, Channel &channel, std::string targetNick)
 {
+	std::string response;
 	for (unsigned int i = 0; server[i]; ++i)
 	{
 		if (server[i]->getNick() == targetNick)
 		{
 			channel.addToWhitelist(server[i]->getFd());
-			RplMessage::GetRply(RPL_INVITING, server[i]->getFd(), 3, source.getNick().c_str(), targetNick.c_str(), message.getTarget().c_str());
+			response = RPL_INVITING(source.getNick(), targetNick, message.getTarget());
+			send(server[i]->getFd(), response.c_str(), response.length(), MSG_DONTWAIT | MSG_NOSIGNAL);
 			break;
 		}
 	}

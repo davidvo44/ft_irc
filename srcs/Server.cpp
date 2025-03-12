@@ -2,7 +2,6 @@
 #include "Server.hpp"
 #include "ExceptionError.hpp"
 #include <signal.h>
-#include "RplMessage.hpp"
 #include "DefineList.hpp"
 
 Server::Server()
@@ -109,17 +108,18 @@ int Server::getFd()
 
 void Server::CheckNewClient(pollfd &tmp, std::string IpAdd)
 {
-	_Clients[tmp.fd] = new Client(tmp, IpAdd);
-	_Clients[tmp.fd]->getNick(); // WHY GETNICK()?
-}
+	std::string response;
+	std::string nick;
 
-void Server::AcceptNewClient(int fd)
-{
-	RplMessage::GetRply(RPL_WELCOME, fd, 3, _Clients[fd]->getNick().c_str(), _Clients[fd]->getName().c_str(), \
-	_Clients[fd]->getIpAddr().c_str());
-	RplMessage::GetRply(RPL_YOURHOST, fd, 0, "");
-	RplMessage::GetRply(RPL_CREATED, fd, 0, "");
-	RplMessage::GetRply(RPL_MYINFO, fd, 0, "");
+	_Clients[tmp.fd] = new Client(tmp, IpAdd);
+	nick = _Clients[tmp.fd]->getNick();
+	response = RPL_WELCOME(nick) + RPL_YOURHOST(nick) + RPL_CREATED(nick) + RPL_MYINFO(nick);
+	send(tmp.fd, response.c_str(), response.length(), MSG_DONTWAIT | MSG_NOSIGNAL);
+	//RplMessage::GetRply(RPL_WELCOME, tmp.fd, 3, _Clients[tmp.fd]->getNick().c_str(), _Clients[tmp.fd]->getName().c_str(),
+	//_Clients[tmp.fd]->getIpAddr().c_str());
+	// RplMessage::GetRply(RPL_YOURHOST, tmp.fd, 0, "");
+	// RplMessage::GetRply(RPL_CREATED, tmp.fd, 0, "");
+	// RplMessage::GetRply(RPL_MYINFO, tmp.fd, 0, "");
 }
 
 void Server::CloseFds()

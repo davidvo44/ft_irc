@@ -73,9 +73,10 @@ static void write_channel(Client &client, const std::string target, Server &serv
 
 static void getTopicJoin(const std::string target, Client &sender, Channel &chan)
 {
+	std::string response;
 	if (chan.getTopic().empty() == true)
-		RplMessage::GetRply(RPL_NOTOPIC, sender.getFd(), 2, sender.getNick().c_str(), target.c_str());
+		response = RPL_NOTOPIC(sender.getNick(), target);
 	else
-		RplMessage::GetRply(RPL_TOPIC, sender.getFd(), 3, sender.getNick().c_str()\
-		, target.c_str(), chan.getTopic().c_str());
+		response = RPL_TOPIC(sender.getNick(), target, chan.getTopic());
+	send(sender.getFd(), response.c_str(), response.length(), MSG_DONTWAIT | MSG_NOSIGNAL);
 }

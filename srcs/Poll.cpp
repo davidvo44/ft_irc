@@ -16,6 +16,29 @@ Poll::Poll(Server *server) : _server(server)
 	_fds.push_back(tmp);
 }
 
+void	Poll::receiveMessage(int fd)
+{
+	std::string message;
+	char buffer[1024] = {0};
+	int valread = recv(fd, buffer, sizeof(buffer), MSG_DONTWAIT);
+
+	if (valread <= 0)
+	{
+		Command::QuitClientfromPoll(fd, *_server);
+		return;
+	}
+	_read_buffer[fd] += buffer;
+	while (_read_buffer[fd].find("\n") != std::string::npos)
+	{
+		message = _read_buffer[fd].substr(0, _read_buffer[fd].find("\n"));
+		_read_buffer[fd] = _read_buffer[fd].substr(_read_buffer[fd].find("\n") + 1);
+		if (message.length() > 512)
+			return;
+		std::cout << "RECEIVED : < " << message << " > from FD: " << fd << std::endl;
+		Command::GetLineCommand((char *)message.c_str(), fd, *_server);
+	}
+}
+
 void Poll::Start()
 {
 	while (true)
@@ -30,61 +53,14 @@ void Poll::Start()
 		for (size_t i = 1; i < _fds.size(); i++)
 		{
 			if (_fds[i].revents & POLLIN)
-				HandleClientInput(i);
+			{
+				std::cout << "\n\n" << "NEW COMMAND:\n";
+				receiveMessage(_fds[i].fd);
+    		}
 		}
 	}
 }
 
-void Poll::HandleClientInput(size_t clientIndex)
-{
-	char buffer[1024];
-	ssize_t bytes_read = recv(_fds[clientIndex].fd, buffer, sizeof(buffer) - 1, MSG_DONTWAIT | MSG_NOSIGNAL);
-
-	if (bytes_read < 0)
-	{
-		perror("recv failed");
-		DisconnectClient(clientIndex);
-		return;
-	}
-	else if (bytes_read == 0)
-	{
-		DisconnectClient(clientIndex);
-		return;
-	}
-	buffer[bytes_read] = '\0';
-
-	_partial_data[clientIndex].append(buffer);
-	ProcessCompleteLines(clientIndex);
-}
-
-void Poll::ProcessCompleteLines(size_t clientIndex)
-{
-	std::string& partial_data = _partial_data[clientIndex];
-	size_t pos;
-
-	while ((pos = partial_data.find('\n')) != std::string::npos)
-	{
-		std::string line = partial_data.substr(0, pos);
-		partial_data.erase(0, pos + 1);
-
-		std::cout << "RECEIVED: <" << line << ">\n";
-		Command::GetLineCommand((char *)line.c_str(), _fds[clientIndex].fd, *_server);
-	}
-}
-
-void Poll::DisconnectClient(size_t clientIndex)
-{
-	Command::QuitClientfromPoll(_fds[clientIndex].fd, *_server);
-	std::cout << "Client disconnected." << std::endl;
-
-	_partial_data.erase(clientIndex);
-	_fds.erase(_fds.begin() + clientIndex);
-}
-
-bool Poll::IsClientConnected(size_t clientIndex)
-{
-	return write(_fds[clientIndex].fd, "", 0) != -1;
-}
 
 void Poll::NewUser()
 {
@@ -106,11 +82,17 @@ void Poll::NewUser()
 	newfd.revents = 0;
 	_server->CheckNewClient(newfd, inet_ntoa(servAddr.sin_addr));
 	_fds.push_back(newfd);
+	_read_buffer.insert(std::make_pair(newfd.fd, ""));
 }
 
 std::vector<pollfd> & Poll::getPollfd()
 {
 	return _fds;
+}
+
+std::map<int, std::string> & Poll::getReadBuffer()
+{
+	return _read_buffer;
 }
 
 Server & Poll::getServer()
