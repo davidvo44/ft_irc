@@ -1,3 +1,5 @@
+THIS IS THE OLD BAD MAIN
+
 - Identifier la ou ca peut foirer et envoyer le Garbage Collector
 	- Faire un garbage -> la classe server dispose de tout ce qui est alloue.
 - Faire une command EXIT pour stopper le programme proprement -> A voir, ctrl+c marche bien, Sinon, faire cmd SHUTDOWN??
