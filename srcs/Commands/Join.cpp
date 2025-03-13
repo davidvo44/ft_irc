@@ -4,8 +4,8 @@
 
 static void checkmodechann(Client &client, Channel &channel, const std::string password);
 static void write_channel(Client &client, const std::string target, Server &server);
-static void parseJoinCmd(const std::string target, const std::string password, Client &client, Server &server);
-static void getTopicJoin(const std::string target, Client &sender, Channel &chan);
+static void parseJoinCmd(const std::string target, const std::string password, Message &message, Client &client, Server &server);
+// static void getTopicJoin(const std::string target, Client &sender, Channel &chan);
 
 void Command::joinChannel(Client &client, Message& message, Server &server)
 {
@@ -18,12 +18,12 @@ void Command::joinChannel(Client &client, Message& message, Server &server)
 	while (it != messageJoin->end())
 	{
 		if (it->first.empty() == false)
-			parseJoinCmd(it->first, it->second, client, server);
+			parseJoinCmd(it->first, it->second, message, client, server);
 		it++;
 	}
 }
 
-static void parseJoinCmd(const std::string target, const std::string password, Client &client, Server &server)
+static void parseJoinCmd(const std::string target, const std::string password, Message &message, Client &client, Server &server)
 {
 	if (target.find_first_of("#&") != 0 || target.find_first_of(" ,") != std::string::npos)
 		throw ProtocolError(ERR_BADCHANMASK, target, client.getNick());
@@ -41,7 +41,8 @@ static void parseJoinCmd(const std::string target, const std::string password, C
 		channel = server.getChannel().findValue(target);
 	}
 	write_channel(client, target, server);
-	getTopicJoin(target, client, *channel);
+	Command::getTopic(message, client, *channel);
+	// getTopicJoin(target, client, *channel);
 }
 
 static void checkmodechann(Client &client, Channel &channel, const std::string password)
@@ -71,12 +72,11 @@ static void write_channel(Client &client, const std::string target, Server &serv
 	}
 }
 
-static void getTopicJoin(const std::string target, Client &sender, Channel &chan)
-{
-	std::string response;
-	if (chan.getTopic().empty() == true)
-		response = RPL_NOTOPIC(sender.getNick(), target);
-	else
-		response = RPL_TOPIC(sender.getNick(), target, chan.getTopic());
-	send(sender.getFd(), response.c_str(), response.length(), MSG_DONTWAIT | MSG_NOSIGNAL);
-}
+// static void getTopicJoin(const std::string target, Client &sender, Channel &chan)
+// {
+// 	if (chan.getTopic().empty() == true)
+// 		RplMessage::GetRply(RPL_NOTOPIC, sender.getFd(), 2, sender.getNick().c_str(), target.c_str());
+// 	else
+// 		RplMessage::GetRply(RPL_TOPIC, sender.getFd(), 3, sender.getNick().c_str()\
+// 		, target.c_str(), chan.getTopic().c_str());
+// }

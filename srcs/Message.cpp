@@ -8,7 +8,7 @@ Message::Message(std::string buffer)
 	std::istringstream iss(buffer);
 	std::string subStr;
 	while (iss >> subStr)
-		_words.push_back(subStr);
+	_words.push_back(subStr);
 	std::vector<std::string>::iterator it = _words.begin();
 	if (_words.empty() == true)
 		return;

@@ -48,7 +48,8 @@ static void getMode(Client &sender, Channel &channel)
 	}
 	response = RPL_CHANNELMODEIS(sender.getNick(), channel.getName(), reply);
 	send(sender.getFd(), response.c_str(), response.length(), MSG_DONTWAIT | MSG_NOSIGNAL);
-	// RplMessage::GetRply(RPL_CHANNELMODEIS, sender.getFd(), 3, sender.getNick().c_str(), channel.getName().c_str(), reply.c_str());
+	// if (reply != "+")
+	// 	RplMessage::GetRply(RPL_CHANNELMODEIS, sender.getFd(), 3, sender.getNick().c_str(), channel.getName().c_str(), reply.c_str());
 }
 
 static Channel *parseModeBuffer(Message &message, Client &sender, Server &server)

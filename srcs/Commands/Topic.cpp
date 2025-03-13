@@ -22,7 +22,7 @@ void Command::Topic(Message& message, Client &sender, Server &server)
 		setTopic(sender, *chan, message);
 }
 
-void Command::getTopic(Message& message, Client &sender, Channel &chan)
+void Command::getTopic(Message &message, Client &sender, Channel &chan)
 {
 	std::string response;
 

@@ -33,7 +33,7 @@ void PrivmsgUser(Message &message, Client &sender, Server &server)
 
 	while (server[idx] != NULL)
 	{
-		if (server[idx]->getName() == message.getTarget())
+		if (server[idx]->getNick() == message.getTarget())
 			break;
 		idx++;
 	}
