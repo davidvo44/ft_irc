@@ -1,15 +1,17 @@
 - Identifier la ou ca peut foirer et envoyer le Garbage Collector
-	- Faire un garbage  (server stock tout ce qui est alloue)
-- Faire une command EXIT pour stopper le programme proprement
-- Les leaks mdr
+	- Faire un garbage -> la classe server dispose de tout ce qui est alloue.
+- Faire une command EXIT pour stopper le programme proprement -> A voir, ctrl+c marche bien, Sinon, faire cmd SHUTDOWN??
+- Les leaks mdr -> Seem ok
 
-- Changer un bout de PRIVMSG into NOTICE pour les mp entre 2 clients
+- Changer un bout de PRIVMSG into NOTICE pour les mp entre 2 clients (A verifier)
 
 //- Handle le CTRL+D et ptit timer si on revient jamais pour pas bloquer le client
 //	- Faire un buffer pour chaque client
 //	- Se rensiegner sur la taille d'un buffer (512 - 2 pour les \r\n (et \0 ?))
     |^|^|^|^|^|^|
     C BON C FAIT
+
+- Mode +l <nbr> a mettre en place
 
 - TYPING SPACE THEN ENTER IN A CHANNEL == SEGFAULT (gerer une commande vide en gros)
 
@@ -23,14 +25,10 @@ BONUS :
 //- comment on transfere un fichier lol ?
  |^|^|^|^|^|^|^|^|^|
 HEXCHAT LE FAIT DEJA
+
+
+
 - CHESS!!
 	-Manger pion diagonale
 	-Reine ne peut pas deplace ligne droite
 	-Roi ne peut pas manger (diag?)
-
-	PASS oo
-	NICK dd
-	USER dss
-	JOIN #ee
-	PRIVMSG #ee :!CHESS join
-	
