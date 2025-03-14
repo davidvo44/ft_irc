@@ -127,12 +127,6 @@ void Message::parseCHESS(void)
 	_suffix = (_words.size() > 5 && !_words[5].empty()) ? _words[5] : "";
 }
 
-/* 	std::cout << "suffix : " << _suffix << std::endl;
-	std::cout << "CMD : " << _command << std::endl;
-	std::cout << "target : " << _target << std::endl;
-	std::cout << "param : " << _parameter<< std::endl;
- */
-
 void Message::msgchess(std::vector<std::string> _words, unsigned long i)
 {
 	i++;

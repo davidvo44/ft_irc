@@ -30,7 +30,6 @@ void Channel::removeClient(MutantMap<int, Client*>& clients, int clientFd, std::
 	MutantMap<int, Client*>::iterator it = clients.find(clientFd);
 	if (it != clients.end())
 	{
-		// delete it->second;
 		clients.erase(clientFd);
 		std::cout << clientNick << " removed successfully." << std::endl;
 	}

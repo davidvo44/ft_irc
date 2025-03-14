@@ -28,11 +28,11 @@ void	Poll::receiveMessage(int fd)
 		Command::QuitClientfromPoll(fd, *_server);
 		return;
 	}
-	if (valread == 1)
-	{
-		std::cout << "1111\n";
-		return;
-	}
+	// if (valread == 1)
+	// {
+	// 	std::cout << "1111\n";
+	// 	return;
+	// }
 	_read_buffer[fd] += buffer;
 	while (_read_buffer[fd].find("\n") != std::string::npos)
 	{
