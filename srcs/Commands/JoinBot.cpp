@@ -1,3 +1,4 @@
+
 #include "Command.hpp"
 
 static void JoinBot(Server &server, Client &sender, Message &message)

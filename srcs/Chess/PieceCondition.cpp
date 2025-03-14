@@ -3,6 +3,8 @@
 
 bool Bot::WhitePawnCondition(int x, int y, int destx, int desty)
 {
+	if (x < 0)
+		return 0;
 	if (x == 1 && destx == 3)
 	{
 		if (desty == y)
@@ -25,6 +27,8 @@ bool Bot::WhitePawnCondition(int x, int y, int destx, int desty)
 
 bool Bot::BlackPawnCondition(int x, int y, int destx, int desty)
 {
+	if (x < 0)
+		return 0;
 	if (x == 6 && destx == 4)
 	{
 		if (desty == y)
@@ -48,6 +52,8 @@ bool Bot::BlackPawnCondition(int x, int y, int destx, int desty)
 
 bool Bot::TowerCondition(int x, int y, int destx, int desty)
 {
+	if (x < 0)
+		return 0;
 	if (x != destx && y != desty)
 		return 0;
 	if (destx - x > 0)
@@ -87,6 +93,8 @@ bool Bot::TowerCondition(int x, int y, int destx, int desty)
 
 bool Bot::KnightCondition(int x, int y, int destx, int desty)
 {
+	if (x < 0)
+		return 0;
 	if (std::abs(x - destx) == 1 && std::abs(y - desty) == 2)
 		return 1;
 	if (std::abs(x - destx) == 2 && std::abs(y - desty) == 1)
@@ -97,6 +105,8 @@ bool Bot::KnightCondition(int x, int y, int destx, int desty)
 
 bool Bot::BishopCondition(int x, int y, int destx, int desty)
 {
+	if (x < 0)
+		return 0;
 	int input = y - x;
 	if (destx + input == desty)
 	{
@@ -142,6 +152,8 @@ bool Bot::BishopCondition(int x, int y, int destx, int desty)
 
 bool Bot::QueenCondition(int x, int y, int destx, int desty)
 {
+	if (x < 0)
+		return 0;
 	if (BishopCondition(x, y, destx, desty) == 1)
 		return 1;
 	if (TowerCondition(x, y, destx, desty) == 1)
@@ -151,6 +163,8 @@ bool Bot::QueenCondition(int x, int y, int destx, int desty)
 
 bool Bot::KingCondition(int x, int y, int destx, int desty)
 {
+	if (x < 0)
+		return 0;
 	if (std::abs(y - desty) > 1 || std::abs(x - destx) > 1)
 		return 0;
 	return 1;

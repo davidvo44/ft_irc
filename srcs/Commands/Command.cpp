@@ -62,7 +62,7 @@ void Command::CheckCommand(std::string str, Server &server, int fd)
 			Command::ChessCommand(server, *client, message);
 			break;
 		case 14:
-			Command::JoinBot(server, *client, message);
+			break;
 		default:
 			throw ProtocolError(ERR_UNKNOWNCOMMAND, str, client->getNick());
 		}
