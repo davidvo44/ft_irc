@@ -161,3 +161,13 @@ void Server::freeCloseAll()
 		itCh++;
 	}
 }
+
+bool Server::getLogBot()
+{
+	return _logBot;
+}
+
+void Server::setLogBot(bool value)
+{
+	_logBot = value;
+}

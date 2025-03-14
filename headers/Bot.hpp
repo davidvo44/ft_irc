@@ -45,6 +45,7 @@ public:
 	bool checkSpecialPieceMove(Message &message, int i);
 	bool checkPawnPieceMove(int fd, Message &message);
 private:
+	std::string _name;
 	int _turn;
 	bool _start;
 	int _whitefds;

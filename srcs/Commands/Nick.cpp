@@ -20,10 +20,10 @@ void Command::Nick(Message& message, Client &sender, Server &server)
 			throw ProtocolError(ERR_NICKNAMEINUSE, message.getParameter(), sender.getNick());
 		idx++;
 	}
+	sender.setNick(message.getParameter());
 	response = sender.getPrefix() + "NICK " + message.getParameter() + "\n";
 	SendBySharedChannels(response, sender, server);
 	send(sender.getFd(), response.c_str(), response.length(), MSG_DONTWAIT | MSG_NOSIGNAL);
-	sender.setNick(message.getParameter());
 	if (sender.getLogStep()== 1)
 		sender.setLogStep(2);
 }

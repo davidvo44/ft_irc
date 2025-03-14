@@ -10,7 +10,7 @@
 Poll::Poll(Server *server) : _server(server)
 {
 	pollfd tmp;
-	tmp.events = POLLIN;
+	tmp.events = POLLIN | POLLHUP;
 	tmp.fd = server->getFd();
 	tmp.revents = 0;
 	_fds.push_back(tmp);
@@ -71,6 +71,10 @@ void Poll::Start()
 				receiveMessage(_fds[i].fd);
 				if (write(_fds[i].fd, "", 0) == -1)
 					DeleteClientPoll(i);
+    		}
+			if (_fds[i].revents & POLLHUP)
+			{
+				std::cout << "\n\n" << "POLLUP:\n";
     		}
 		}
 	}

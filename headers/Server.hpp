@@ -18,6 +18,8 @@ public:
 	int getFd();
 	Client getIdxClients(int idx);
 	std::string getPassword();
+	bool getLogBot();
+	void setLogBot(bool value);
 	MutantMap<int, Client *> &getClients();
 	MutantMap<std::string, Channel *> &getChannel();
 	sockaddr_in getServerAddr();
@@ -38,6 +40,7 @@ private:
 	MutantMap<std::string, Channel *> _Channel;
 	struct sockaddr_in _ServerAddr;
 	static Server* _instance;
+	bool _logBot;
 };
 
 #include "Client.hpp"

@@ -8,7 +8,7 @@ Bot::Bot()
 	StartGame();
 }
 
-Bot::Bot(std::string chan, std::string prefix) : _start(false), _whitefds(0), _blackfds(0), _chan(chan)
+Bot::Bot(std::string chan, std::string prefix) : _start(false), _whitefds(0), _blackfds(0), _chan(chan), _name("Chessbot")
 {
 	(void)prefix;
 	_prefix = ":Chess!Chess@127.0.0.1 ";

@@ -4,7 +4,7 @@
 
 void Command::CheckCommand(std::string str, Server &server, int fd)
 {
-	std::string array[] = {"JOIN", "USER", "NICK", "PASS", "PRIVMSG", "WHO", "PART", "TOPIC", "KICK", "INVITE", "MODE", "CAP", "QUIT", "CHESS"};
+	std::string array[] = {"JOIN", "USER", "NICK", "PASS", "PRIVMSG", "WHO", "PART", "TOPIC", "KICK", "INVITE", "MODE", "CAP", "QUIT", "CHESS", "download"};
 	int index = 0;
 	Message message(str);
 	if (message.getCommand().empty() == true)
@@ -61,6 +61,8 @@ void Command::CheckCommand(std::string str, Server &server, int fd)
 		case 13:
 			Command::ChessCommand(server, *client, message);
 			break;
+		case 14:
+			Command::JoinBot(server, *client, message);
 		default:
 			throw ProtocolError(ERR_UNKNOWNCOMMAND, str, client->getNick());
 		}

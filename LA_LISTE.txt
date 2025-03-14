@@ -32,3 +32,5 @@ HEXCHAT LE FAIT DEJA
 
 - CHESS!!
 	-Faut des beta testeur
+
+JOIN oo
