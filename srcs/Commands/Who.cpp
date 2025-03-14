@@ -15,6 +15,8 @@ void Command::WhoCommand(int FdCl, Client &client, Message &message, Server &ser
 	Channel *chan = server.getChannel().findValue(message.getTarget());
 	if (!chan)
 		throw ProtocolError(ERR_NOSUCHCHANNEL, message.getCommand(), client.getNick());
+	if (!(*chan).getClient().findValue(client.getFd()))
+		throw ProtocolError(ERR_USERNOTINCHANNEL, message.getTarget(), client.getNick());
 	while ((*chan)[idx])
 	{
 		std::string prefix;

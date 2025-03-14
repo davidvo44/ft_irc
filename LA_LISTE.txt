@@ -1,34 +1,16 @@
-- Identifier la ou ca peut foirer et envoyer le Garbage Collector
-	- Faire un garbage -> la classe server dispose de tout ce qui est alloue.
-- Faire une command EXIT pour stopper le programme proprement -> A voir, ctrl+c marche bien, Sinon, faire cmd SHUTDOWN??
-- Les leaks mdr -> Seem ok
+- Remove std::cout
 
-- Changer un bout de PRIVMSG into NOTICE pour les mp entre 2 clients (A verifier)
+- print out when someone leaves server
 
-//- Handle le CTRL+D et ptit timer si on revient jamais pour pas bloquer le client
-//	- Faire un buffer pour chaque client
-//	- Se rensiegner sur la taille d'un buffer (512 - 2 pour les \r\n (et \0 ?))
-    |^|^|^|^|^|^|
-    C BON C FAIT
+- Remove removeClient in KICK and Channel (using partChannel instead)
 
-- Mode +l <nbr> a mettre en place -> Done
-
-- TYPING SPACE THEN ENTER IN A CHANNEL == SEGFAULT (gerer une commande vide en gros)
-|^|^|^|^|
- ITS DONE
-
-- Envoyer message de JOIN seulement dans le ou les channels concernes ->Done, a verifier
-
-- add flags to WHO to see who is operator on channel -> Done
-
-- NETWORKING ISSUES (see subject)
-
-BONUS :
-//- comment on transfere un fichier lol ?
- |^|^|^|^|^|^|^|^|^|
-HEXCHAT LE FAIT DEJA
-
-
+FAIRE BCP DE TESTS
 
 - CHESS!!
 	-Faut des beta testeur
+	- Bishop (white) H5+ CHECK
+		Knight (black) G6
+		Bishop (white) G6+ CHECK
+		Pawn (black) G6 (CHECK for both black and white)
+		white has to move king to get out of CHECK state
+		BECAUSE black Knight is dead, thus in G-1 position, so CHECKing white king lol

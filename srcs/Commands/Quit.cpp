@@ -1,6 +1,5 @@
 
 #include "Command.hpp"
-//: thierry!user@host QUIT :Bye !
 
 static void eraseClient(int fd, Server &server);
 
