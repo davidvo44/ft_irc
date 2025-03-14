@@ -19,7 +19,7 @@
 
 - Envoyer message de JOIN seulement dans le ou les channels concernes ->Done, a verifier
 
-- add flags to WHO to see who is operator on channel
+- add flags to WHO to see who is operator on channel -> Done
 
 - NETWORKING ISSUES (see subject)
 
@@ -31,13 +31,4 @@ HEXCHAT LE FAIT DEJA
 
 
 - CHESS!!
-	-Manger pion diagonale
-	-Reine ne peut pas deplace ligne droite
-	-Roi ne peut pas manger (diag?)
-
-
-PASS oo
-NICK dd
-USER dvv
-JOIN #op
-PRIVMSG #op :!CHESS join
+	-Faut des beta testeur
