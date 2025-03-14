@@ -19,6 +19,7 @@ class Poll
 		void ProcessCompleteLines(size_t clientIndex);
 		void DisconnectClient(size_t clientIndex);
 		bool IsClientConnected(size_t clientIndex);
+		void DeleteClientPoll(int fd);
 
 	private:
 

@@ -6,6 +6,7 @@ static Channel *parseModeBuffer(Message &message, Client &sender, Server &server
 static int CheckChar(char c, Message &message, Client &sender, Channel &channel);
 static void setOpe(Client &sender, Channel &channel, char sign, Message &message);
 static void setPass(Channel &channel, char sign, Message &message);
+static void setLimit(Channel &channel, char sign, Message &message, Client &sender);
 
 void Command::checkMode(Message& message, Client &sender, Server &server)
 {
@@ -63,10 +64,7 @@ static Channel *parseModeBuffer(Message &message, Client &sender, Server &server
 		throw ProtocolError(ERR_CHANOPRIVSNEEDED, message.getTarget(), sender.getNick());
 	if (message.getParameter()[0] == '+' && message.getParameter().find('o') != std::string::npos && \
 	message.getParameter().find('k') != std::string::npos)
-	{
-		std::string str = "+ok";
-		throw ProtocolError(ERR_UNKNOWNMODE, str, sender.getNick());
-	}
+		throw ProtocolError(ERR_UNKNOWNMODE, message.getParameter(), sender.getNick());
 	return (channel);
 }
 
@@ -82,6 +80,8 @@ static int CheckChar(char c, Message &message, Client &sender, Channel &channel)
 	}
 	if (ichar == 2)
 		setPass(channel, message.getParameter()[0], message);
+	if (ichar == 3)
+		setLimit(channel, message.getParameter()[0], message, sender);
 	if (ichar == 4)
 	{
 		setOpe(sender, channel ,message.getParameter()[0], message);
@@ -137,4 +137,12 @@ static void setPass(Channel &channel, char sign, Message &message)
 		return;
 	if (sign == '+')
 		channel.setPassword(message.getSuffix());
+}
+
+static void setLimit(Channel &channel, char sign, Message &message, Client &sender)
+{
+	if (message.getSuffix().empty() == true)
+		throw ProtocolError(ERR_NEEDMOREPARAMS, message.getCommand() + " " +message.getParameter(), sender.getNick());
+	if (sign == '+')
+		channel.setMaxclient(atoi(message.getSuffix().c_str()));
 }

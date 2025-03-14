@@ -67,7 +67,6 @@ void Server::ServerInit()
 	if (_SerSocketFd < 0)
 		throw ExceptionError("socket");
 	signal(SIGINT, signalHandler);
-
 	if (bind(_SerSocketFd, (struct sockaddr *)&_ServerAddr, sizeof(_ServerAddr)) < 0)
 	{
 		close(_SerSocketFd);
@@ -159,7 +158,6 @@ void Server::freeCloseAll()
 	{
 		if (itCh->second)
 			delete itCh->second;
-		std::cout << "Chan found\n";
 		itCh++;
 	}
 }

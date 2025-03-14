@@ -15,8 +15,22 @@ Bot::Bot(std::string chan, std::string prefix) : _start(false), _whitefds(0), _b
 	StartGame();
 }
 
+int Bot::getWhiteFd() const
+{
+	return (_whitefds);
+}
+
+int Bot::getBlackFd() const
+{
+	return (_blackfds);
+}
+
+
 void Bot::StartGame()
 {
+	_start = false;
+	_whitefds = 0;
+	_blackfds = 0;
 	for (int i = 0; i < 8; i++)
 	{
     	_whitePawn[i].x = 1;
@@ -172,11 +186,10 @@ void Bot::Ongame(int fd, Message &message)
 	else
 		send(_blackfds, response.c_str(), response.length(), MSG_DONTWAIT | MSG_NOSIGNAL);
 	response = prefixmsg + "CHESS!!\n";
-	std::cout << "check real Ischess\n";
-	// if (isChess(_whiteSpe[7].x, _whiteSpe[7].y) == 1)
-	// 	send(_whitefds, response.c_str(), response.length(), MSG_DONTWAIT | MSG_NOSIGNAL);
-	// if (isChess(_blackSpe[7].x, _blackSpe[7].y) == 1)
-	// 	send(_blackfds, response.c_str(), response.length(), MSG_DONTWAIT | MSG_NOSIGNAL);
+	if (isChess(_whiteSpe[7].x, _whiteSpe[7].y) == 1)
+		send(_whitefds, response.c_str(), response.length(), MSG_DONTWAIT | MSG_NOSIGNAL);
+	if (isChess(_blackSpe[7].x, _blackSpe[7].y) == 1)
+		send(_blackfds, response.c_str(), response.length(), MSG_DONTWAIT | MSG_NOSIGNAL);
 }
 
 bool Bot::CollisionCondition(int x, int y)

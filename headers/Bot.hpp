@@ -22,6 +22,9 @@ class Bot
 public:
 	Bot();
 	Bot(std::string chan, std::string prefx);
+
+	int getWhiteFd() const;
+	int getBlackFd() const;
 	void StartGame();
 	void PrintChess(int fd);
 	void JoinChess(int fd);

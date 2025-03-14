@@ -72,6 +72,9 @@ void ProtocolError::GetError()
 		case ERR_PASSWDMISMATCH:
 			_finalMessage = code + " :Password incorrect";
 			return;
+		case ERR_CHANNELISFULL:
+			_finalMessage = code + " :Cannot join channel (+l)";
+			return;
 		case ERR_UNKNOWNMODE:
 			_finalMessage = code + " :is unknown mode char to me";
 			return;

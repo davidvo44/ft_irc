@@ -31,6 +31,8 @@ public:
 	const std::string getTopic();
 	std::string getSuffixword();
 	void setPassword(std::string pass);
+	void setMaxclient(int nb);
+	int getMaxclient();
 
 	MutantMap<int, Client *> &getClient();
 	void removeClient(MutantMap<int, Client*>& clients, int clientKey, std::string clientNick);
@@ -53,6 +55,7 @@ private:
 	std::vector<int> _wlist;
 
 	int _mode;
+	int _maxclient;
 
 	Bot *_bot;
 };

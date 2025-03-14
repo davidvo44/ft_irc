@@ -11,13 +11,13 @@
     |^|^|^|^|^|^|
     C BON C FAIT
 
-- Mode +l <nbr> a mettre en place
+- Mode +l <nbr> a mettre en place -> Done
 
 - TYPING SPACE THEN ENTER IN A CHANNEL == SEGFAULT (gerer une commande vide en gros)
 |^|^|^|^|
  ITS DONE
 
-- Envoyer message de JOIN seulement dans le ou les channels concernes
+- Envoyer message de JOIN seulement dans le ou les channels concernes ->Done, a verifier
 
 - add flags to WHO to see who is operator on channel
 
@@ -34,3 +34,10 @@ HEXCHAT LE FAIT DEJA
 	-Manger pion diagonale
 	-Reine ne peut pas deplace ligne droite
 	-Roi ne peut pas manger (diag?)
+
+
+PASS oo
+NICK dd
+USER dvv
+JOIN #op
+PRIVMSG #op :!CHESS join

@@ -3,7 +3,7 @@
 #include "MutantMap.hpp"
 
 static void checkmodechann(Client &client, Channel &channel, const std::string password);
-static void write_channel(Client &client, const std::string target, Server &server);
+static void write_channel(Client &client, const std::string target, Channel &chan);
 static void parseJoinCmd(const std::string target, const std::string password, Message &message, Client &client, Server &server);
 // static void getTopicJoin(const std::string target, Client &sender, Channel &chan);
 
@@ -40,7 +40,7 @@ static void parseJoinCmd(const std::string target, const std::string password, M
 		server.getChannel()[target] = server.CreateChannel(&client, target);
 		channel = server.getChannel().findValue(target);
 	}
-	write_channel(client, target, server);
+	write_channel(client, target, *channel);
 	Command::getTopic(message, client, *channel);
 	// getTopicJoin(target, client, *channel);
 }
@@ -57,15 +57,20 @@ static void checkmodechann(Client &client, Channel &channel, const std::string p
 		if (password != channel.getSuffixword())
 			throw ProtocolError(ERR_BADCHANNELKEY, channel.getName(), client.getNick());
 	}
+	if (channel.viewMode('l') == true)
+	{
+		if ((int)channel.getClient().size() >= channel.getMaxclient())
+			throw ProtocolError(ERR_CHANNELISFULL, channel.getName(), client.getNick());
+	}
 }
 
-static void write_channel(Client &client, const std::string target, Server &server)
+static void write_channel(Client &client, const std::string target, Channel &chan)
 {
 	std::string response;
 	unsigned idx = 0;
-	while (server[idx])
+	while (chan[idx])
 	{
-		int fdcl = server[idx]->getFd();
+		int fdcl = chan[idx]->getFd();
 		response = client.getPrefix() + "JOIN " + target + "\n";
 		send(fdcl, response.c_str(), response.length(), MSG_DONTWAIT | MSG_NOSIGNAL);
 		idx++;

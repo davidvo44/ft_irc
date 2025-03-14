@@ -153,8 +153,5 @@ bool Bot::KingCondition(int x, int y, int destx, int desty)
 {
 	if (std::abs(y - desty) > 1 || std::abs(x - destx) > 1)
 		return 0;
-	std::cout << "King diag\n";
-	_whiteSpe[7].x = destx;
-	_whiteSpe[7].y = desty;
 	return 1;
 }

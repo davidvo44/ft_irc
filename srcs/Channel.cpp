@@ -181,3 +181,13 @@ Client *Channel::operator!=(unsigned index)
 {
 	return _Clients.GetValueIndex(index);
 }
+
+void Channel::setMaxclient(int nb)
+{
+	_maxclient = nb;
+}
+
+int Channel::getMaxclient()
+{
+	return _maxclient;
+}
