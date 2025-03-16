@@ -35,6 +35,8 @@ OBJECTS = $(patsubst %.cpp,$(OBJECT_DIR)%.o,\
 		srcs/Bot.cpp \
 		srcs/Chess/PieceCondition.cpp \
 		srcs/Chess/MovePiece.cpp \
+		srcs/Chess/ChessStart.cpp \
+		srcs/Chess/ChessMainStruc.cpp \
 		)
 
 OBJ_SUBDIRS = $(sort $(dir ${OBJECTS}))

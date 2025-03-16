@@ -39,10 +39,11 @@ private:
 	MutantMap<int, Client *> _Clients;
 	MutantMap<std::string, Channel *> _Channel;
 	struct sockaddr_in _ServerAddr;
-	static Server* _instance;
+	static Server* _instanceServ;
 	bool _logBot;
 };
 
+#include "Poll.hpp"
 #include "Client.hpp"
 #include "Channel.hpp"
 

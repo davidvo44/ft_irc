@@ -3,7 +3,8 @@
 #include "Server.hpp"
 #include "Poll.hpp"
 
-Server* Server::_instance = NULL;
+Server* Server::_instanceServ = NULL;
+Poll* Poll::_instancePoll = NULL;
 
 int main (int argc, char **argv)
 {
@@ -14,8 +15,9 @@ int main (int argc, char **argv)
 	}
 	TRY(
 	Server *server = Server::getInstance(argv[1], argv[2]);
-	Poll poll(server);
-	poll.Start();
+	Poll *poll = Poll::getInstance(server);
+	// Poll poll(server);
+	poll->Start();
 	return 0;
 	)
 }

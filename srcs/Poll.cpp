@@ -7,6 +7,10 @@
 #include <cstdlib>
 #include <unistd.h>
 
+Poll::Poll() : _server(NULL)
+{
+}
+
 Poll::Poll(Server *server) : _server(server)
 {
 	pollfd tmp;
@@ -28,11 +32,6 @@ void	Poll::receiveMessage(int fd)
 		Command::QuitClientfromPoll(fd, *_server);
 		return;
 	}
-	if (valread == 1)
-	{
-		std::cout << "1111\n";
-		return;
-	}
 	_read_buffer[fd] += buffer;
 	while (_read_buffer[fd].find("\n") != std::string::npos)
 	{
@@ -45,10 +44,17 @@ void	Poll::receiveMessage(int fd)
 	}
 }
 
-void Poll::DeleteClientPoll(int idx)
+void Poll::DeleteClientPoll(int fd)
 {
 	std::cout << "Client disconnected." << std::endl;
-	_fds.erase(_fds.begin() + idx);
+	for (size_t i = 1; i < _fds.size(); i++)
+	{
+		if (_fds[i].fd == fd)
+		{
+			_fds.erase(_fds.begin() + i);
+			break;
+		}
+	}
 }
 
 void Poll::Start()
@@ -69,8 +75,6 @@ void Poll::Start()
 			{
 				std::cout << "\n\n" << "NEW COMMAND:\n";
 				receiveMessage(_fds[i].fd);
-				if (write(_fds[i].fd, "", 0) == -1)
-					DeleteClientPoll(i);
     		}
 			if (_fds[i].revents & POLLHUP)
 			{
@@ -117,4 +121,17 @@ std::map<int, std::string> & Poll::getReadBuffer()
 Server & Poll::getServer()
 {
 	return *_server;
+}
+
+Poll* Poll::getInstance(Server *server)
+{
+	if (!_instancePoll)
+		_instancePoll = new Poll(server);
+	return _instancePoll;
+}
+Poll* Poll::getInstance()
+{
+	if (!_instancePoll)
+		_instancePoll = new Poll();
+	return _instancePoll;
 }

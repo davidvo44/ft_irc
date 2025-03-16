@@ -28,15 +28,15 @@ Server::Server(const char *argPort, const char *argPass)
 
 Server* Server::getInstance(const char *argPort, const  char *argPass)
 {
-	if (!_instance)
-		_instance = new Server(argPort, argPass);
-	return _instance;
+	if (!_instanceServ)
+		_instanceServ = new Server(argPort, argPass);
+	return _instanceServ;
 }
 Server* Server::getInstance()
 {
-	if (!_instance)
-		_instance = new Server();
-	return _instance;
+	if (!_instanceServ)
+		_instanceServ = new Server();
+	return _instanceServ;
 }
 
 static int serverSocket = -1;
@@ -50,6 +50,7 @@ static void signalHandler(int signum)
 			close(serverSocket);
 		Server::getInstance()->freeCloseAll();
 		delete Server::getInstance();
+		delete Poll::getInstance();
 		throw ExceptionError("SIGINT");
 	}
 }

@@ -1,6 +1,5 @@
 
 #include "Command.hpp"
-//: thierry!user@host QUIT :Bye !
 
 static void eraseClient(int fd, Server &server);
 
@@ -40,4 +39,5 @@ static void eraseClient(int fd, Server &server)
 	delete clToDel;
 	std::cout << "CLOSE " << fd << "\n";
 	close(fd);
+	Poll::getInstance()->DeleteClientPoll(fd);
 }

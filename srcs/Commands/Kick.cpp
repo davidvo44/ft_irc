@@ -11,9 +11,6 @@ void Command::Kick(Message& message, Client &source, Server &server)
 	std::cout << "KICK cmd :" << std::endl;
 
 	message.parseKICK();
-	std::cout << "CMD : " << message.getCommand() << std::endl;
-	std::cout << "target : " << message.getTarget() << std::endl;
-	std::cout << "param : " << message.getParameter() << std::endl;
 
 	std::string allClientsToKick = message.getParameter();
 
@@ -67,8 +64,8 @@ void searchTargetAndKick(Message &message, Channel &channel, Client &source, std
 	response = source.getPrefix();
 	response += " KICK " + message.getTarget() + " " + clientToKick + " " + reasonForKick + "\r\n";
 	send(targetClient->getFd(), response.c_str(), response.length(), MSG_DONTWAIT | MSG_NOSIGNAL);
-	// channel.partChannel(*targetClient);
-	channel.removeClient((channel.getClient()), targetClient->getFd(), clientToKick);
+	channel.partChannel(*targetClient);
+	// channel.removeClient((channel.getClient()), targetClient->getFd(), clientToKick);
 
 	sendKickMessageToAllClientsOnChannel(channel, response);
 }

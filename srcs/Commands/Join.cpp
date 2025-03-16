@@ -5,7 +5,6 @@
 static void checkmodechann(Client &client, Channel &channel, const std::string password);
 static void write_channel(Client &client, const std::string target, Channel &chan);
 static void parseJoinCmd(const std::string target, const std::string password, Message &message, Client &client, Server &server);
-// static void getTopicJoin(const std::string target, Client &sender, Channel &chan);
 
 void Command::joinChannel(Client &client, Message& message, Server &server)
 {
@@ -42,7 +41,6 @@ static void parseJoinCmd(const std::string target, const std::string password, M
 	}
 	write_channel(client, target, *channel);
 	Command::getTopic(message, client, *channel);
-	// getTopicJoin(target, client, *channel);
 }
 
 static void checkmodechann(Client &client, Channel &channel, const std::string password)
@@ -76,12 +74,3 @@ static void write_channel(Client &client, const std::string target, Channel &cha
 		idx++;
 	}
 }
-
-// static void getTopicJoin(const std::string target, Client &sender, Channel &chan)
-// {
-// 	if (chan.getTopic().empty() == true)
-// 		RplMessage::GetRply(RPL_NOTOPIC, sender.getFd(), 2, sender.getNick().c_str(), target.c_str());
-// 	else
-// 		RplMessage::GetRply(RPL_TOPIC, sender.getFd(), 3, sender.getNick().c_str()\
-// 		, target.c_str(), chan.getTopic().c_str());
-// }

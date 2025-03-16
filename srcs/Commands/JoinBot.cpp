@@ -16,4 +16,5 @@ static void JoinBot(Server &server, Client &sender, Message &message)
 	newfd.fd = fdNewClient;
 	newfd.revents = 0;
 	server.setLogBot(true);
+	Poll::getInstance()->getPollfd().push_back(newfd);
 }
