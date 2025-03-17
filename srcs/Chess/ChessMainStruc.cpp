@@ -1,7 +1,7 @@
 
-#include "Bot.hpp"
+#include "Chess.hpp"
 
-void Bot::Ongame(int fd, Message &message)
+void Chess::Ongame(int fd, Message &message)
 {
 	std::string prefixmsg = _prefix + "PRIVMSG " + _chan + " ";
 	std::string response;
@@ -39,7 +39,7 @@ void Bot::Ongame(int fd, Message &message)
 		send(_blackfds, response.c_str(), response.length(), MSG_DONTWAIT | MSG_NOSIGNAL);
 }
 
-bool Bot::CollisionCondition(int x, int y)
+bool Chess::CollisionCondition(int x, int y)
 {
 	for (int i = 0; i < 8; i++)
 	{
@@ -52,7 +52,7 @@ bool Bot::CollisionCondition(int x, int y)
 	return 0;
 }
 
-bool Bot::isChess(int x, int y)
+bool Chess::isChess(int x, int y)
 {
 	if (_blackSpe[7].x == x && _blackSpe[7].y == y)
 	{
@@ -85,7 +85,7 @@ bool Bot::isChess(int x, int y)
 	return 0;
 }
 
-void Bot::send_error(int fd)
+void Chess::send_error(int fd)
 {
 	std::string prefixmsg = _prefix + "PRIVMSG " + _chan + " ";
 	std::string response;

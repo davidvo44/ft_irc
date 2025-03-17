@@ -1,30 +1,29 @@
 
-#include "Bot.hpp"
+#include "Chess.hpp"
 
-Bot::Bot()
+Chess::Chess()
 {
 	StartGame();
 }
 
-Bot::Bot(std::string chan, std::string prefix) :_name("Chessbot"), _start(false), _whitefds(0), _blackfds(0), _chan(chan)
+Chess::Chess(std::string chan, std::string prefix) :_name("Chessbot"), _start(false), _whitefds(0), _blackfds(0), _chan(chan)
 {
 	(void)prefix;
 	_prefix = ":Chess!Chess@127.0.0.1 ";
 	StartGame();
 }
 
-int Bot::getWhiteFd() const
+int Chess::getWhiteFd() const
 {
 	return (_whitefds);
 }
 
-int Bot::getBlackFd() const
+int Chess::getBlackFd() const
 {
 	return (_blackfds);
 }
 
-
-void Bot::StartGame()
+void Chess::StartGame()
 {
 	_start = false;
 	_whitefds = 0;
@@ -52,7 +51,7 @@ void Bot::StartGame()
 	_whiteSpe[7].y = _blackSpe[7].y = 4;
 }
 
-void Bot::PrintChess(int fd)
+void Chess::PrintChess(int fd)
 {
 	std::string prefixmsg = _prefix + "PRIVMSG " + _chan + " ";
 	for (int i = 0; i < 8; i++)
@@ -121,7 +120,7 @@ void Bot::PrintChess(int fd)
     }
 }
 
-void Bot::JoinChess(int fds)
+void Chess::JoinChess(int fds)
 {
 	std::string prefixmsg = _prefix + "PRIVMSG " + _chan + " ";
 	std::string response;

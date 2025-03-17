@@ -7,12 +7,12 @@ Channel::Channel(std::string name, Client *client) : _username(name), _mode(0)
 {
 	_Clients.insert(std::make_pair(client->getFd(), client));
 	_operator.push_back(client->getFd());
-	_bot = new Bot(_username, client->getPrefix());
+	_chess = new Chess(_username, client->getPrefix());
 }
 
 Channel::~Channel()
 {
-	delete _bot;
+	delete _chess;
 }
 
 void Channel::addClient(Client *client)
@@ -63,9 +63,9 @@ const std::string Channel::getTopic()
 	return _targetpic;
 }
 
-Bot *Channel::getBot()
+Chess *Channel::getChess()
 {
-	return _bot;
+	return _chess;
 }
 
 void Channel::addMode(char ope)

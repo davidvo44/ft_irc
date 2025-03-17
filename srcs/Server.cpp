@@ -10,7 +10,7 @@ Server::Server()
 	ServerInit();
 }
 
-Server::Server(const char *argPort, const char *argPass)
+Server::Server(const char *argPort, const char *argPass) : _bot(NULL)
 {
 	if (atoi(argPort) > 65365)
 	{
@@ -24,6 +24,25 @@ Server::Server(const char *argPort, const char *argPass)
 	_ServerAddr.sin_addr.s_addr = INADDR_ANY;
 	_ServerAddr.sin_port = htons(_Port);
 	ServerInit();
+}
+
+Server::~Server()
+{
+	delete _bot;
+	MutantMap<int, Client *>::iterator itCl = _Clients.begin();
+	while (itCl != _Clients.end())
+	{
+		close (itCl->second->getFd());
+		delete itCl->second;
+		itCl++;
+	}
+	MutantMap<std::string, Channel *>::iterator itCh = _Channel.begin();
+	while (itCh != _Channel.end())
+	{
+		if (itCh->second)
+			delete itCh->second;
+		itCh++;
+	}
 }
 
 Server* Server::getInstance(const char *argPort, const  char *argPass)
@@ -48,7 +67,6 @@ static void signalHandler(int signum)
 		std::cout << "\nServer closed" << std::endl;
 		if (serverSocket != -1)
 			close(serverSocket);
-		Server::getInstance()->freeCloseAll();
 		delete Server::getInstance();
 		delete Poll::getInstance();
 		throw ExceptionError("SIGINT");
@@ -101,6 +119,17 @@ sockaddr_in Server::getServerAddr()
 {
 	return (_ServerAddr);
 }
+
+Bot *Server::getBot()
+{
+	return _bot;
+}
+
+void Server::setBot(Bot *bot)
+{
+	_bot = bot;
+}
+
 int Server::getFd()
 {
 	return _SerSocketFd;
@@ -143,24 +172,6 @@ Client *Server::operator[](unsigned index)
 std::string Server::getPassword()
 {
 	return _password;
-}
-
-void Server::freeCloseAll()
-{
-	MutantMap<int, Client *>::iterator itCl = _Clients.begin();
-	while (itCl != _Clients.end())
-	{
-		close (itCl->second->getFd());
-		delete itCl->second;
-		itCl++;
-	}
-	MutantMap<std::string, Channel *>::iterator itCh = _Channel.begin();
-	while (itCh != _Channel.end())
-	{
-		if (itCh->second)
-			delete itCh->second;
-		itCh++;
-	}
 }
 
 bool Server::getLogBot()

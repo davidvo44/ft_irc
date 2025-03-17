@@ -3,8 +3,9 @@
 #define CHANNEL_HPP
 
 #include "Server.hpp"
-#include "Bot.hpp"
+#include "Chess.hpp"
 #include <algorithm>
+#include "MutantMap.hpp"
 #include <vector>
 
 class Channel
@@ -39,7 +40,7 @@ public:
 
 	std::vector<int> &getOperator();
 
-	Bot *getBot();
+	Chess *getChess();
 
 	Client *operator[](unsigned index);
 	Client *operator!=(unsigned index);
@@ -57,7 +58,7 @@ private:
 	int _mode;
 	int _maxclient;
 
-	Bot *_bot;
+	Chess *_chess;
 };
 
 #endif

@@ -9,13 +9,14 @@ void Command::CheckCommand(std::string str, Server &server, int fd)
 	Message message(str);
 	if (message.getCommand().empty() == true)
 		return;
-	while (index < 14)
+	while (index < 15)
 	{
 		if (message.getCommand().compare(array[index]) == 0)
 			break;
 		index++;
 	}
 	Client *client = server.getClients().findValue(fd);
+	std::cout << "Step is:" << client->getLogStep() << "\n";
 	try
 	{
 		switch (index)
@@ -62,6 +63,7 @@ void Command::CheckCommand(std::string str, Server &server, int fd)
 			Command::ChessCommand(server, *client, message);
 			break;
 		case 14:
+			Command::JoinBot(server);
 			break;
 		default:
 			throw ProtocolError(ERR_UNKNOWNCOMMAND, str, client->getNick());

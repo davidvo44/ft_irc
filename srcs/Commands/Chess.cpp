@@ -12,27 +12,27 @@ void Command::ChessCommand(Server &server, Client &sender, Message &message)
 		throw ProtocolError(ERR_NOSUCHCHANNEL, message.getParameter(), sender.getNick());
 	if (message.getParameter().empty() == true)
 	{
-		chan->getBot()->PrintChess(sender.getFd());
+		chan->getChess()->PrintChess(sender.getFd());
 		return ;
 	}
 	if (message.getParameter() == "join")
 	{
-		chan->getBot()->JoinChess(sender.getFd());
+		chan->getChess()->JoinChess(sender.getFd());
 		return;
 	}
 	if (message.getParameter() == "leave")
 	{
-		chan->getBot()->StartGame();
+		chan->getChess()->StartGame();
 		return;
 	}
 	if (check_parse(sender.getFd(), message, *chan) == false)
 		return;
-	chan->getBot()->Ongame(sender.getFd(), message);
+	chan->getChess()->Ongame(sender.getFd(), message);
 }
 
 static bool check_parse(int fd, Message &message, Channel &chan)
 {
-	if (fd != chan.getBot()->getBlackFd() && fd != chan.getBot()->getWhiteFd())
+	if (fd != chan.getChess()->getBlackFd() && fd != chan.getChess()->getWhiteFd())
 		return sendError("You're not playing\n", fd, chan.getName());
 	if (message.getParameter().size() != 2 || message.getSuffix().size() != 2 )
 		return sendError("Wrong Position\n", fd, chan.getName());

@@ -1,7 +1,7 @@
 
-#include "Bot.hpp"
+#include "Chess.hpp"
 
-bool Bot::WhitePawnCondition(int x, int y, int destx, int desty)
+bool Chess::WhitePawnCondition(int x, int y, int destx, int desty)
 {
 	if (x < 0)
 		return 0;
@@ -25,7 +25,7 @@ bool Bot::WhitePawnCondition(int x, int y, int destx, int desty)
 	return 0;
 }
 
-bool Bot::BlackPawnCondition(int x, int y, int destx, int desty)
+bool Chess::BlackPawnCondition(int x, int y, int destx, int desty)
 {
 	if (x < 0)
 		return 0;
@@ -50,7 +50,7 @@ bool Bot::BlackPawnCondition(int x, int y, int destx, int desty)
 	return 0;
 }
 
-bool Bot::TowerCondition(int x, int y, int destx, int desty)
+bool Chess::TowerCondition(int x, int y, int destx, int desty)
 {
 	if (x < 0)
 		return 0;
@@ -91,7 +91,7 @@ bool Bot::TowerCondition(int x, int y, int destx, int desty)
 	return 1;
 }
 
-bool Bot::KnightCondition(int x, int y, int destx, int desty)
+bool Chess::KnightCondition(int x, int y, int destx, int desty)
 {
 	if (x < 0)
 		return 0;
@@ -103,7 +103,7 @@ bool Bot::KnightCondition(int x, int y, int destx, int desty)
 		return 0;
 }
 
-bool Bot::BishopCondition(int x, int y, int destx, int desty)
+bool Chess::BishopCondition(int x, int y, int destx, int desty)
 {
 	if (x < 0)
 		return 0;
@@ -150,7 +150,7 @@ bool Bot::BishopCondition(int x, int y, int destx, int desty)
 	return 0;
 }
 
-bool Bot::QueenCondition(int x, int y, int destx, int desty)
+bool Chess::QueenCondition(int x, int y, int destx, int desty)
 {
 	if (x < 0)
 		return 0;
@@ -161,7 +161,7 @@ bool Bot::QueenCondition(int x, int y, int destx, int desty)
 	return 0;
 }
 
-bool Bot::KingCondition(int x, int y, int destx, int desty)
+bool Chess::KingCondition(int x, int y, int destx, int desty)
 {
 	if (x < 0)
 		return 0;

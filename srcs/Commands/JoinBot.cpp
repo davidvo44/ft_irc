@@ -1,20 +1,18 @@
 
 #include "Command.hpp"
+#include "Bot.hpp"
 
-static void JoinBot(Server &server, Client &sender, Message &message)
+void Command::JoinBot(Server &server)
 {
-	sockaddr_in servAddr = server.getServerAddr();
-	socklen_t servAddrLen = sizeof(server.getServerAddr());
-	pollfd newfd;
-	int fdNewClient;
-
-	fdNewClient = accept(server.getFd(), (struct sockaddr *)&servAddr, &servAddrLen);
-	if (fdNewClient < 0)
-		throw ExceptionError("Accept Fail");
-	std::cout << "New client accepted : " << inet_ntoa(servAddr.sin_addr) << std::endl;
-	newfd.events = POLLIN;
-	newfd.fd = fdNewClient;
-	newfd.revents = 0;
+	std::cout << "Bot accepted : " << std::endl;
+	int sock[2];
+	if (socketpair(AF_UNIX, SOCK_STREAM, 0, sock) == -1)
+	{
+        throw("socket");
+    }
+	server.setBot(new Bot(sock[0], sock[1]));
+	// server.AcceptNewClient();
+	// Server::CheckNewClient(int fd, std::string IpAdd)
+	// _Clients[sock[1]] = new Client(fd, IpAdd);
 	server.setLogBot(true);
-	Poll::getInstance()->getPollfd().push_back(newfd);
 }

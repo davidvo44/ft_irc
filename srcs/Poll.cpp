@@ -70,7 +70,6 @@ void Poll::Start()
 
 		for (size_t i = 1; i < _fds.size(); i++)
 		{
-			std::cout << "search event for: " << _fds[i].fd << "\n";
 			if (_fds[i].revents & POLLIN)
 			{
 				std::cout << "\n\n" << "NEW COMMAND:\n";
