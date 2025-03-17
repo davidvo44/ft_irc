@@ -7,6 +7,8 @@ void Command::Nick(Message& message, Client &sender, Server &server)
 	std::string	response;
 	unsigned idx = 0;
 
+	if (sender.getLogStep() == 0 && server.getPassword().empty() == true)
+		sender.setLogStep(1);
 	if (sender.getLogStep()!= 1 && sender.getLogStep() != 3)
 		throw ProtocolError(ERR_ALREADYREGISTERED , sender.getNick(), sender.getNick());
 	if (message.getParameter().empty() == true)
