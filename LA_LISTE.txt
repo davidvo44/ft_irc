@@ -14,3 +14,6 @@ FAIRE BCP DE TESTS
 		Pawn (black) G6 (CHECK for both black and white)
 		white has to move king to get out of CHECK state
 		BECAUSE black Knight is dead, thus in G-1 position, so CHECKing white king lol
+
+-IRC trop lent si on spam de message
+-Mettre bon message d'etape
