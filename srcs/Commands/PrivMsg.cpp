@@ -6,6 +6,7 @@ void PrivmsgChan(Message &message, Client &sender, Channel &chan);
 
 void Command::PrivateMessage(Message &message, Client &sender, Server &server)
 {
+	
 	message.parsePRIVMSG_PART_TOPIC();
 
 	if (sender.getLogStep() != 3)
@@ -24,7 +25,11 @@ void Command::PrivateMessage(Message &message, Client &sender, Server &server)
 		throw ProtocolError(ERR_NOSUCHCHANNEL, message.getTarget(), sender.getNick());
 	if (chan->getClient().findValue(sender.getFd()) == NULL)
 		throw ProtocolError(ERR_CANNOTSENDTOCHAN, message.getTarget(), sender.getNick());
-	PrivmsgChan(message, sender, *chan);
+	if (message.getParameter().find("!CHESS") != std::string::npos && server.getBot() && \
+	chan->getClient().findValue(server.getBot()->getFd()))
+		ChessCommand(server, sender, message);
+	else
+		PrivmsgChan(message, sender, *chan);
 }
 
 void PrivmsgUser(Message &message, Client &sender, Server &server)

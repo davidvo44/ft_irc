@@ -10,7 +10,7 @@ Server::Server()
 	ServerInit();
 }
 
-Server::Server(const char *argPort, const char *argPass)
+Server::Server(const char *argPort, const char *argPass) : _bot(NULL)
 {
 	if (atoi(argPort) > 65365)
 	{
@@ -26,30 +26,35 @@ Server::Server(const char *argPort, const char *argPass)
 	ServerInit();
 }
 
+Server::~Server()
+{
+	for (MutantMap<int, Client *>::iterator itCl = _Clients.begin();itCl != _Clients.end(); itCl++)
+		delete itCl->second;
+	for (MutantMap<std::string, Channel *>::iterator itCh = _Channel.begin(); itCh != _Channel.end(); itCh++)
+		delete itCh->second;
+	close (_SerSocketFd);
+}
+
 Server* Server::getInstance(const char *argPort, const  char *argPass)
 {
-	if (!_instance)
-		_instance = new Server(argPort, argPass);
-	return _instance;
+	if (!_instanceServ)
+		_instanceServ = new Server(argPort, argPass);
+	return _instanceServ;
 }
 Server* Server::getInstance()
 {
-	if (!_instance)
-		_instance = new Server();
-	return _instance;
+	if (!_instanceServ)
+		_instanceServ = new Server();
+	return _instanceServ;
 }
 
-static int serverSocket = -1;
 
 static void signalHandler(int signum)
 {
 	if (signum == SIGINT)
 	{
 		std::cout << "\nServer closed" << std::endl;
-		if (serverSocket != -1)
-			close(serverSocket);
-		Server::getInstance()->freeCloseAll();
-		delete Server::getInstance();
+		delete Poll::getInstance();
 		throw ExceptionError("SIGINT");
 	}
 }
@@ -57,11 +62,10 @@ static void signalHandler(int signum)
 void Server::ServerInit()
 {
 	_SerSocketFd = socket(AF_INET, SOCK_STREAM, 0);
-	serverSocket = _SerSocketFd;
 	int opt = 1;
-	if (setsockopt(serverSocket, SOL_SOCKET, SO_REUSEADDR, &opt, sizeof(opt)) == -1)
+	if (setsockopt(_SerSocketFd, SOL_SOCKET, SO_REUSEADDR, &opt, sizeof(opt)) == -1)
 	{
-		close(serverSocket);
+		close(_SerSocketFd);
 		throw ExceptionError("setsockopt");
 	}
 	if (_SerSocketFd < 0)
@@ -100,6 +104,17 @@ sockaddr_in Server::getServerAddr()
 {
 	return (_ServerAddr);
 }
+
+Bot *Server::getBot()
+{
+	return _bot;
+}
+
+void Server::setBot(Bot *bot)
+{
+	_bot = bot;
+}
+
 int Server::getFd()
 {
 	return _SerSocketFd;
@@ -117,6 +132,16 @@ void Server::AcceptNewClient(int fd)
 	nick = _Clients[fd]->getNick();
 	response = RPL_WELCOME(nick) + RPL_YOURHOST(nick) + RPL_CREATED(nick) + RPL_MYINFO(nick);
 	send(fd, response.c_str(), response.length(), MSG_DONTWAIT | MSG_NOSIGNAL);
+}
+
+void Server::CheckNewBot(int sock[2])
+{
+	Bot *bot = new Bot(sock[0], sock[1]);
+	std::cout << "fd add at : " << sock[0] << sock[1]<< "\n";
+
+	_Clients[sock[0]] = bot;
+	_bot = bot;
+	bot->initBot();
 }
 
 void Server::CloseFds()
@@ -144,20 +169,4 @@ std::string Server::getPassword()
 	return _password;
 }
 
-void Server::freeCloseAll()
-{
-	MutantMap<int, Client *>::iterator itCl = _Clients.begin();
-	while (itCl != _Clients.end())
-	{
-		close (itCl->second->getFd());
-		delete itCl->second;
-		itCl++;
-	}
-	MutantMap<std::string, Channel *>::iterator itCh = _Channel.begin();
-	while (itCh != _Channel.end())
-	{
-		if (itCh->second)
-			delete itCh->second;
-		itCh++;
-	}
-}
+

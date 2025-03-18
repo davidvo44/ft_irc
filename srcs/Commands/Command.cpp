@@ -4,7 +4,7 @@
 
 void Command::CheckCommand(std::string str, Server &server, int fd)
 {
-	std::string array[] = {"JOIN", "USER", "NICK", "PASS", "PRIVMSG", "WHO", "PART", "TOPIC", "KICK", "INVITE", "MODE", "CAP", "QUIT", "CHESS"};
+	std::string array[] = {"JOIN", "USER", "NICK", "PASS", "PRIVMSG", "WHO", "PART", "TOPIC", "KICK", "INVITE", "MODE", "CAP", "QUIT", "getBot"};
 	int index = 0;
 	Message message(str);
 	if (message.getCommand().empty() == true)
@@ -16,6 +16,8 @@ void Command::CheckCommand(std::string str, Server &server, int fd)
 		index++;
 	}
 	Client *client = server.getClients().findValue(fd);
+	if (client == NULL)
+		return;
 	try
 	{
 		switch (index)
@@ -59,7 +61,7 @@ void Command::CheckCommand(std::string str, Server &server, int fd)
 			Command::QuitCommand(server, *client, message);
 			break;
 		case 13:
-			Command::ChessCommand(server, *client, message);
+			Command::JoinBot(server, *client);
 			break;
 		default:
 			throw ProtocolError(ERR_UNKNOWNCOMMAND, str, client->getNick());
@@ -101,4 +103,6 @@ void Command::GetLineCommand(char *buffer, int fd, Server &server)
 			break;
 		}
 	}
+	if (server.getBot())
+		server.getBot()->joinChan();
 }

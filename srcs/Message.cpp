@@ -16,9 +16,6 @@ Message::Message(std::string buffer)
 		_words.insert(it, "");
 	else
 		_prefix = (_words.size() > 0 && !_words[0].empty()) ? _words[0] : "";
-	if (_words.size() >= 4 && _words[3] == ":!CHESS")
-		_command = "CHESS";
-	else
 	_command = (_words.size() > 1 && !_words[1].empty()) ? _words[1] : "";
 }
 

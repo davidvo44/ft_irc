@@ -32,9 +32,12 @@ OBJECTS = $(patsubst %.cpp,$(OBJECT_DIR)%.o,\
 		srcs/Commands/User.cpp \
 		srcs/Commands/SendClientSharedChannels.cpp \
 		srcs/Commands/Chess.cpp \
+		srcs/Commands/JoinBot.cpp \
 		srcs/Bot.cpp \
 		srcs/Chess/PieceCondition.cpp \
 		srcs/Chess/MovePiece.cpp \
+		srcs/Chess/ChessStart.cpp \
+		srcs/Chess/ChessMainStruc.cpp \
 		)
 
 OBJ_SUBDIRS = $(sort $(dir ${OBJECTS}))

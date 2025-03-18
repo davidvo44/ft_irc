@@ -1,7 +1,7 @@
 
-#include "Bot.hpp"
+#include "Chess.hpp"
 
-void Bot::MovePiece(std::map<int, PiecePosition> &Pawn, std::map<int, PiecePosition> &Spe, Message &message)
+void Chess::MovePiece(std::map<int, PiecePosition> &Pawn, std::map<int, PiecePosition> &Spe, Message &message)
 {
 	int fd;
 	if (Pawn[0].x == _whitePawn[0].x && Pawn[0].y == _whitePawn[0].y)
@@ -59,7 +59,7 @@ void Bot::MovePiece(std::map<int, PiecePosition> &Pawn, std::map<int, PiecePosit
 	_turn++;
 }
 
-bool Bot::Check_Kill_n_Chess(PiecePosition &piece, int fd, int x, int y, int destx, int desty)
+bool Chess::Check_Kill_n_Chess(PiecePosition &piece, int fd, int x, int y, int destx, int desty)
 {
 	if (fd == _blackfds)
 	{
@@ -121,7 +121,7 @@ bool Bot::Check_Kill_n_Chess(PiecePosition &piece, int fd, int x, int y, int des
 	return 1;
 }
 
-bool Bot::checkSpecialPieceMove(Message &message, int i)
+bool Chess::checkSpecialPieceMove(Message &message, int i)
 {
 	int x = message.getParameter()[1] - '1';
 	int y = message.getParameter()[0] - 'A';
@@ -159,7 +159,7 @@ bool Bot::checkSpecialPieceMove(Message &message, int i)
 	return true;
 }
 
-bool Bot::checkPawnPieceMove(int fd, Message &message)
+bool Chess::checkPawnPieceMove(int fd, Message &message)
 {
 	int x = message.getParameter()[1] - '1';
 	int y = message.getParameter()[0] - 'A';

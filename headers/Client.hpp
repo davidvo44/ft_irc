@@ -3,14 +3,13 @@
 # define CLIENT_HPP
 
 #include "ft_irc.hpp"
-#include "Server.hpp"
 
 class Client
 {
 public:
 	Client();
 	Client(int fd, std::string IpAddr);
-
+	~Client();
 	int getFd();
 	std::string getName();
 	std::string getNick();
@@ -20,10 +19,10 @@ public:
 	void setNick(const std::string nick);
 	void setPassword(const std::string pass);
 	void setIpAddr(const std::string ipadd);
-	void setLogStep(unsigned int nbr); // 0, pass.
+	void setLogStep(unsigned int nbr);
 	std::string getPrefix();
 
-private:
+protected:
 	int _fd;
 	std::string _username;
 	std::string _nick;

@@ -18,6 +18,11 @@ Client::Client(int fd, std::string IpAddr) : _fd(fd), _username("User"), _suffix
 	send(_fd, response.c_str(), response.length(), MSG_DONTWAIT | MSG_NOSIGNAL);
 }
 
+Client::~Client()
+{
+	close (_fd);
+}
+
 int Client::getFd()
 {
 	return _fd;

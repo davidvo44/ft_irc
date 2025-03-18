@@ -9,7 +9,11 @@ class Poll
 {
 	public:
 
+		Poll();
 		Poll(Server *server);
+		~Poll();
+		static Poll* getInstance(Server *server);
+		static Poll* getInstance();
 		void NewUser();
 		void Start();
 		std::vector<pollfd> & getPollfd();
@@ -27,6 +31,7 @@ class Poll
 		std::vector<pollfd> _fds;
 		std::map<int, std::string> _read_buffer;
 		Server *_server;
+		static Poll* _instancePoll;
 };
 
 #endif
