@@ -20,8 +20,6 @@ public:
 	int getFd();
 	Client getIdxClients(int idx);
 	std::string getPassword();
-	bool getLogBot();
-	void setLogBot(bool value);
 	Bot *getBot();
 	void setBot(Bot *bot);
 	MutantMap<int, Client *> &getClients();
@@ -29,6 +27,7 @@ public:
 	sockaddr_in getServerAddr();
 	void ServerInit();
 	void CheckNewClient(int fd, std::string IpAdd);
+	void CheckNewBot(int sock[2]);
 	void AcceptNewClient(int fd);
 	void CloseFds();
 	void ClearClients(int fd);
@@ -43,7 +42,6 @@ private:
 	MutantMap<std::string, Channel *> _Channel;
 	struct sockaddr_in _ServerAddr;
 	static Server* _instanceServ;
-	bool _logBot;
 	Bot *_bot;
 };
 

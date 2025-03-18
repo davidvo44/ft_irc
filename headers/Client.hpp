@@ -9,7 +9,7 @@ class Client
 public:
 	Client();
 	Client(int fd, std::string IpAddr);
-
+	~Client();
 	int getFd();
 	std::string getName();
 	std::string getNick();

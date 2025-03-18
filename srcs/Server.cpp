@@ -28,21 +28,11 @@ Server::Server(const char *argPort, const char *argPass) : _bot(NULL)
 
 Server::~Server()
 {
-	delete _bot;
-	MutantMap<int, Client *>::iterator itCl = _Clients.begin();
-	while (itCl != _Clients.end())
-	{
-		close (itCl->second->getFd());
+	for (MutantMap<int, Client *>::iterator itCl = _Clients.begin();itCl != _Clients.end(); itCl++)
 		delete itCl->second;
-		itCl++;
-	}
-	MutantMap<std::string, Channel *>::iterator itCh = _Channel.begin();
-	while (itCh != _Channel.end())
-	{
-		if (itCh->second)
-			delete itCh->second;
-		itCh++;
-	}
+	for (MutantMap<std::string, Channel *>::iterator itCh = _Channel.begin(); itCh != _Channel.end(); itCh++)
+		delete itCh->second;
+	close (_SerSocketFd);
 }
 
 Server* Server::getInstance(const char *argPort, const  char *argPass)
@@ -58,16 +48,12 @@ Server* Server::getInstance()
 	return _instanceServ;
 }
 
-static int serverSocket = -1;
 
 static void signalHandler(int signum)
 {
 	if (signum == SIGINT)
 	{
 		std::cout << "\nServer closed" << std::endl;
-		if (serverSocket != -1)
-			close(serverSocket);
-		delete Server::getInstance();
 		delete Poll::getInstance();
 		throw ExceptionError("SIGINT");
 	}
@@ -76,11 +62,10 @@ static void signalHandler(int signum)
 void Server::ServerInit()
 {
 	_SerSocketFd = socket(AF_INET, SOCK_STREAM, 0);
-	serverSocket = _SerSocketFd;
 	int opt = 1;
-	if (setsockopt(serverSocket, SOL_SOCKET, SO_REUSEADDR, &opt, sizeof(opt)) == -1)
+	if (setsockopt(_SerSocketFd, SOL_SOCKET, SO_REUSEADDR, &opt, sizeof(opt)) == -1)
 	{
-		close(serverSocket);
+		close(_SerSocketFd);
 		throw ExceptionError("setsockopt");
 	}
 	if (_SerSocketFd < 0)
@@ -149,6 +134,16 @@ void Server::AcceptNewClient(int fd)
 	send(fd, response.c_str(), response.length(), MSG_DONTWAIT | MSG_NOSIGNAL);
 }
 
+void Server::CheckNewBot(int sock[2])
+{
+	Bot *bot = new Bot(sock[0], sock[1]);
+	std::cout << "fd add at : " << sock[0] << sock[1]<< "\n";
+
+	_Clients[sock[0]] = bot;
+	_bot = bot;
+	bot->initBot();
+}
+
 void Server::CloseFds()
 {
 }
@@ -174,12 +169,4 @@ std::string Server::getPassword()
 	return _password;
 }
 
-bool Server::getLogBot()
-{
-	return _logBot;
-}
 
-void Server::setLogBot(bool value)
-{
-	_logBot = value;
-}

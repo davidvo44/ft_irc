@@ -20,6 +20,11 @@ Poll::Poll(Server *server) : _server(server)
 	_fds.push_back(tmp);
 }
 
+Poll::~Poll()
+{
+	delete _server;
+}
+
 void	Poll::receiveMessage(int fd)
 {
 	std::string message;

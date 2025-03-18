@@ -14,8 +14,9 @@ public:
 	~Bot();
 	void sendServ();
 	void createChess(Channel &chan);
-private:
+	void joinChan();
 	void initBot();
+private:
 	std::string _name;
 	int _sock[2];
 	pollfd _fds;

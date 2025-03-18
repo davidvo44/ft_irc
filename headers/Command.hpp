@@ -37,7 +37,7 @@ class Command
 		static void PassCommand(Server &server, Client &sender, Message &message);
 		static void UserCommand(Client &sender, Message &message, Server &server);
 		static void QuitClientfromPoll(int fd, Server &server);
-		static void JoinBot(Server &server);
+		static void JoinBot(Server &server, Client &client);
 };
 
 #endif

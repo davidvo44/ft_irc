@@ -11,6 +11,7 @@ class Poll
 
 		Poll();
 		Poll(Server *server);
+		~Poll();
 		static Poll* getInstance(Server *server);
 		static Poll* getInstance();
 		void NewUser();
