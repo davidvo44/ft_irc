@@ -36,7 +36,6 @@ public:
 	int getMaxclient();
 
 	MutantMap<int, Client *> &getClient();
-	void removeClient(MutantMap<int, Client*>& clients, int clientKey, std::string clientNick);
 
 	std::vector<int> &getOperator();
 

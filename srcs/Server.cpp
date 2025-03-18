@@ -137,7 +137,6 @@ void Server::AcceptNewClient(int fd)
 void Server::CheckNewBot(int sock[2])
 {
 	Bot *bot = new Bot(sock[0], sock[1]);
-	std::cout << "fd add at : " << sock[0] << sock[1]<< "\n";
 
 	_Clients[sock[0]] = bot;
 	_bot = bot;

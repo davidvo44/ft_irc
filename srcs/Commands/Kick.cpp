@@ -65,7 +65,6 @@ void searchTargetAndKick(Message &message, Channel &channel, Client &source, std
 	response += " KICK " + message.getTarget() + " " + clientToKick + " " + reasonForKick + "\r\n";
 	send(targetClient->getFd(), response.c_str(), response.length(), MSG_DONTWAIT | MSG_NOSIGNAL);
 	channel.partChannel(*targetClient);
-	// channel.removeClient((channel.getClient()), targetClient->getFd(), clientToKick);
 
 	sendKickMessageToAllClientsOnChannel(channel, response);
 }

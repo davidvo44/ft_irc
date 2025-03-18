@@ -7,6 +7,9 @@
 #include <cstdlib>
 #include <unistd.h>
 
+#define RED     "\033[31m"
+#define RESET   "\033[0m"
+
 Poll::Poll() : _server(NULL)
 {
 }
@@ -14,7 +17,7 @@ Poll::Poll() : _server(NULL)
 Poll::Poll(Server *server) : _server(server)
 {
 	pollfd tmp;
-	tmp.events = POLLIN | POLLHUP;
+	tmp.events = POLLIN;
 	tmp.fd = server->getFd();
 	tmp.revents = 0;
 	_fds.push_back(tmp);
@@ -30,7 +33,6 @@ void	Poll::receiveMessage(int fd)
 	std::string message;
 	char buffer[1024] = {0};
 	int valread = recv(fd, buffer, sizeof(buffer), MSG_DONTWAIT);
-	std::cout << "getrecv: " << valread << "\n";
 	if (valread <= 0)
 	{
 		std::cout << "client quit\n";
@@ -44,7 +46,7 @@ void	Poll::receiveMessage(int fd)
 		_read_buffer[fd] = _read_buffer[fd].substr(_read_buffer[fd].find("\n") + 1);
 		if (message.length() > 512)
 			return;
-		std::cout << "RECEIVED : < " << message << " > from FD: " << fd << std::endl;
+		std::cout << RED << message << RESET << std::endl;
 		Command::GetLineCommand((char *)message.c_str(), fd, *_server);
 	}
 }
@@ -76,14 +78,7 @@ void Poll::Start()
 		for (size_t i = 1; i < _fds.size(); i++)
 		{
 			if (_fds[i].revents & POLLIN)
-			{
-				std::cout << "\n\n" << "NEW COMMAND:\n";
 				receiveMessage(_fds[i].fd);
-    		}
-			if (_fds[i].revents & POLLHUP)
-			{
-				std::cout << "\n\n" << "POLLUP:\n";
-    		}
 		}
 	}
 }
@@ -98,11 +93,7 @@ void Poll::NewUser()
 
 	fdNewClient = accept(_server->getFd(), (struct sockaddr *)&servAddr, &servAddrLen);
 	if (fdNewClient < 0)
-	{
-		// close(fdNewClient);
-		// close(_server->getFd());
 		throw ExceptionError("Accept Fail");
-	}
 	std::cout << "New client accepted : " << inet_ntoa(servAddr.sin_addr) << std::endl;
 	newfd.events = POLLIN;
 	newfd.fd = fdNewClient;

@@ -36,7 +36,6 @@ bool Chess::BlackPawnCondition(int x, int y, int destx, int desty)
 				return 1;
 		return 0;
 	}
-	std::cout << "Pawn distance is: " << std::abs(y - desty) << std::endl;
 	if (x - 1 != destx)
 		return 0;
 	if (std::abs(y - desty) > 1)

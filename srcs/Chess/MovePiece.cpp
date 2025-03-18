@@ -129,25 +129,21 @@ bool Chess::checkSpecialPieceMove(Message &message, int i)
 	int desty = message.getSuffix()[0] - 'A';
 	if (i < 2)
 	{
-		std::cout << "tower\n";
 		if (TowerCondition(x, y, destx, desty) == 0)
 			return false;
 	}
 	else if (i < 4)
 	{
-		std::cout << "knight\n";
 		if (KnightCondition(x, y, destx, desty) == 0)
 			return false;
 	}
 	else if (i < 6)
 	{
-		std::cout << "bishop\n";
 		if (BishopCondition(x, y, destx, desty) == 0)
 			return false;
 	}
 	else if (i == 6)
 	{
-		std::cout << "queen\n";
 		if (QueenCondition(x, y, destx, desty) == 0)
 			return false;
 	}
@@ -165,7 +161,6 @@ bool Chess::checkPawnPieceMove(int fd, Message &message)
 	int y = message.getParameter()[0] - 'A';
 	int destx = message.getSuffix()[1] - '1';
 	int desty = message.getSuffix()[0] - 'A';
-	std::cout << "Pawn deteccted\n";
 	if (fd == _whitefds)
 	{
 		if (WhitePawnCondition(x, y, destx, desty) == 0)

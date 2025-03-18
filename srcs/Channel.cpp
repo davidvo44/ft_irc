@@ -25,21 +25,9 @@ void Channel::joinChannel(Client *client)
 	_Clients.insert(std::make_pair(client->getFd(), client));
 }
 
-void Channel::removeClient(MutantMap<int, Client*>& clients, int clientFd, std::string clientNick)
-{
-	MutantMap<int, Client*>::iterator it = clients.find(clientFd);
-	if (it != clients.end())
-	{
-		clients.erase(clientFd);
-		std::cout << clientNick << " removed successfully." << std::endl;
-	}
-	else
-		std::cout << clientNick << " not found." << std::endl;
-}
-
 void Channel::partChannel(Client& client)
 {
-	std::cout << client.getNick() << " PART" << std::endl;
+	std::cout << client.getNick() << " PART from " << _username  << std::endl;
 	_Clients.erase(client.getFd());
 	std::vector<int>::iterator it = std::find(_operator.begin(), _operator.end(), client.getFd());
 	if (it != _operator.end())
@@ -80,7 +68,6 @@ void Channel::addMode(char ope)
 	}
 	int mask = (1 << bit_position);
 	_mode = _mode | mask;
-	std::cout << _mode << std::endl;
 }
 
 void Channel::deleteMode(char ope)

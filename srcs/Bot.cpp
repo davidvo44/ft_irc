@@ -14,11 +14,6 @@ Bot::~Bot()
 	close (_sock[1]);
 }
 
-void Bot::sendServ()
-{
-	
-}
-
 void Bot::createChess(Channel &chan)
 {
 	(void)chan;

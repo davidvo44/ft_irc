@@ -9,7 +9,6 @@ void Command::Part(Message& message, Client &sender, Server &server)
 		throw ProtocolError(ERR_NOTREGISTERED, sender.getNick(), sender.getNick());
 	std::string	response;
 	unsigned idx = 0;
-	std::cout << "PART cmd :" << std::endl;
 	Channel *channel = server.getChannel().findValue(message.getTarget());
 	if (!channel)
 		throw ProtocolError(ERR_NOSUCHCHANNEL, message.getTarget(), sender.getNick());

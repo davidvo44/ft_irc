@@ -11,6 +11,6 @@ void Command::UserCommand(Client &sender, Message &message, Server &server)
 		throw ProtocolError(ERR_NEEDMOREPARAMS, message.getTarget(), sender.getNick());
 	sender.setName(message.getParameter());
 	sender.setLogStep(3);
-	std::cout << "Log done for : " << sender.getName() << "\n";
 	server.AcceptNewClient(sender.getFd());
+	std::cout << "Login succesfull for : " << sender.getNick() << std::endl;
 }

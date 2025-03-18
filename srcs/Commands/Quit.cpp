@@ -12,7 +12,6 @@ void Command::QuitCommand(Server &server, Client &sender, Message &message)
 		response += "bye\n";
 	else
 		response += message.getParameter();
-	std::cout << "MESSAGE IS: " << response << std::endl;
 	Command::SendBySharedChannels(response, sender, server);
 	eraseClient(sender.getFd(), server);
 }

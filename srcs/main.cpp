@@ -16,7 +16,6 @@ int main (int argc, char **argv)
 	TRY(
 	Server *server = Server::getInstance(argv[1], argv[2]);
 	Poll *poll = Poll::getInstance(server);
-	// Poll poll(server);
 	poll->Start();
 	return 0;
 	)

@@ -12,7 +12,6 @@ class Bot : public Client
 public:
 	Bot(int out, int in);
 	~Bot();
-	void sendServ();
 	void createChess(Channel &chan);
 	void joinChan();
 	void initBot();

@@ -6,8 +6,6 @@ static void	addTargetToChannelClientList(Message& message, Client& source, Serve
 
 void Command::Invite(Message &message, Client &source, Server &server)
 {
-	std::cout << "INVITE cmd :" << std::endl;
-
 	message.parseINVITE();
 
 	std::string targetNick = message.getParameter();

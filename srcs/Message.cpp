@@ -57,7 +57,6 @@ unsigned int Message::countCommas(std::string channels)
 		index = channels.find(",", index);
 		channelCount++;
 	}
-	 std::cout << "COUNT : " << channelCount << std::endl;
 	return channelCount;
 }
 
