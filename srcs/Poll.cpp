@@ -45,7 +45,10 @@ void	Poll::receiveMessage(int fd)
 		message = _read_buffer[fd].substr(0, _read_buffer[fd].find("\n"));
 		_read_buffer[fd] = _read_buffer[fd].substr(_read_buffer[fd].find("\n") + 1);
 		if (message.length() > 512)
+		{
+			_read_buffer[fd].clear();
 			return;
+		}
 		std::cout << RED << message << RESET << std::endl;
 		Command::GetLineCommand((char *)message.c_str(), fd, *_server);
 	}
