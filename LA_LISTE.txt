@@ -4,6 +4,10 @@
 
 - Remove removeClient in KICK and Channel (using partChannel instead)
 
+- fctnl(fd, F_SETFL, O_NONBLOCK);
+	WHERE ARE UUUU ptdr
+
+
 FAIRE BCP DE TESTS
 
 - CHESS!!

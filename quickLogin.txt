@@ -1,0 +1,29 @@
+
+- BONUS:
+	Transfer files
+	CHESS!!
+
+PASS ok
+NICK op
+USER operator
+JOIN #oui
+
+PASS ok
+NICK tej
+USER virezMoi
+JOIN #oui
+
+PASS ok
+NICK tej2
+USER kickMe
+JOIN #oui
+
+PASS ok
+NICK spec
+USER tateur
+JOIN #oui
+
+PASS ok
+NICK nick
+USER hola
+JOIN #oui
