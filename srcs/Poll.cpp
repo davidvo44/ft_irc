@@ -58,6 +58,9 @@ void Poll::DeleteClientPoll(int fd)
 	{
 		if (_fds[i].fd == fd)
 		{
+			std::map<int, std::string>::iterator buffer_it = _read_buffer.find(fd);
+			if (buffer_it != _read_buffer.end())
+				_read_buffer.erase(buffer_it);
 			_fds.erase(_fds.begin() + i);
 			break;
 		}
