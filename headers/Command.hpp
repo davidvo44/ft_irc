@@ -38,6 +38,7 @@ class Command
 		static void UserCommand(Client &sender, Message &message, Server &server);
 		static void QuitClientfromPoll(int fd, Server &server);
 		static void JoinBot(Server &server, Client &client);
+		static void ft_send(int fdSender, int fdDest, std::string response);
 };
 
 #endif

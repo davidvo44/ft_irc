@@ -16,7 +16,7 @@ void Command::Part(Message& message, Client &sender, Server &server)
 		throw ProtocolError(ERR_NOTONCHANNEL, message.getTarget(), sender.getNick());
 	while ((*channel)[idx])
 	{
-		response = sender.getPrefix() + " PART " + message.getTarget() + " " + message.getParameter() + "\n";
+		response = sender.getPrefix() + " PART " + message.getTarget() + " " + message.getParameter() + "\r\n";
 		send((*channel)[idx]->getFd(), response.c_str(), response.length(), MSG_DONTWAIT | MSG_NOSIGNAL);
 		idx++;
 	}

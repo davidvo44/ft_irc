@@ -78,7 +78,7 @@ void Command::CatchErrors(Client *client, const std::exception &e)
 	int fdcl = client->getFd();
 	std::string response;
 
-	response = client->getPrefix() + " " + e.what() + "\n";
+	response = client->getPrefix() + " " + e.what() + "\r\n";
 	send(fdcl, response.c_str(), response.length(), MSG_DONTWAIT | MSG_NOSIGNAL);
 }
 
@@ -105,4 +105,17 @@ void Command::GetLineCommand(char *buffer, int fd, Server &server)
 	}
 	if (server.getBot())
 		server.getBot()->joinChan();
+}
+
+void Command::ft_send(int fdSender, int fdDest, std::string response)
+{
+	std::string errormsg = "Cannot send message\r\n";
+	if (send(fdDest, response.c_str(), response.length(), MSG_DONTWAIT | MSG_NOSIGNAL) == -1)
+	{
+		if (fdSender != fdDest)
+			if (send(fdDest, response.c_str(), response.length(), MSG_DONTWAIT | MSG_NOSIGNAL) != -1)
+				return;
+		delete Poll::getInstance();
+		exit(1);
+	}
 }

@@ -29,7 +29,6 @@ public:
 	void CheckNewClient(int fd, std::string IpAdd);
 	void CheckNewBot(int sock[2]);
 	void AcceptNewClient(int fd);
-	void CloseFds();
 	void ClearClients(int fd);
 	Channel *CreateChannel(Client *client, std::string ChName);
 	Client * operator[](unsigned index);

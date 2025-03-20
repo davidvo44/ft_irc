@@ -12,12 +12,16 @@ Server::Server()
 
 Server::Server(const char *argPort, const char *argPass) : _bot(NULL)
 {
-	if (atoi(argPort) > 65365)
-	{
-		std::cout << "Port chosen is greater than 65365!" << std::endl;
-		return;
-	}
-	_Port = atoi(argPort);
+	std::string port = argPort;
+	std::stringstream stream(port);
+	int portIntFormat;
+
+	stream >> portIntFormat;
+	if (stream.fail())
+		throw ExceptionError("Port overflow: You've managed to make it overflow with");
+	if (portIntFormat > 65365 || portIntFormat < 2048)
+		throw ExceptionError("Port chosen is greater than 65365 or lower than 2048: If you choose another port you will achieve");
+	_Port = portIntFormat;
 	_password = argPass;
 	memset(&_ServerAddr, 0, sizeof(_ServerAddr));
 	_ServerAddr.sin_family = AF_INET;
@@ -76,7 +80,6 @@ void Server::ServerInit()
 		close(_SerSocketFd);
 		throw ExceptionError("bind");
 	}
-
 	if (listen(_SerSocketFd, 128) < 0)
 	{
 		close(_SerSocketFd);
@@ -143,10 +146,6 @@ void Server::CheckNewBot(int sock[2])
 	bot->initBot();
 }
 
-void Server::CloseFds()
-{
-}
-
 void Server::ClearClients(int fd)
 {
 	(void)fd;
@@ -167,5 +166,3 @@ std::string Server::getPassword()
 {
 	return _password;
 }
-
-

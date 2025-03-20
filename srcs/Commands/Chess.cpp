@@ -33,15 +33,15 @@ void Command::ChessCommand(Server &server, Client &sender, Message &message)
 static bool check_parse(int fd, Message &message, Channel &chan)
 {
 	if (fd != chan.getChess()->getBlackFd() && fd != chan.getChess()->getWhiteFd())
-		return sendError("You're not playing\n", fd, chan.getName());
+		return sendError("You're not playing\r\n", fd, chan.getName());
 	if (message.getParameter().size() != 2 || message.getSuffix().size() != 2 )
-		return sendError("Wrong Position\n", fd, chan.getName());
+		return sendError("Wrong Position\r\n", fd, chan.getName());
 	if (message.getParameter()[0] < 'A' || message.getParameter()[0] > 'H' || \
 	message.getSuffix()[0] < 'A' || message.getSuffix()[0] > 'H')
-		return sendError("Wrong Position\n", fd, chan.getName());
+		return sendError("Wrong Position\r\n", fd, chan.getName());
 	if (message.getParameter()[0] < 'A' || message.getParameter()[0] > 'H' || \
 	message.getSuffix()[0] < 'A' || message.getSuffix()[0] > 'H')
-		return sendError("Wrong Position\n", fd, chan.getName());
+		return sendError("Wrong Position\r\n", fd, chan.getName());
 	return true;
 }
 

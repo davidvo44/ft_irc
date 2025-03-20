@@ -9,7 +9,7 @@ void Command::QuitCommand(Server &server, Client &sender, Message &message)
 
 	std::string response = sender.getPrefix() + "QUIT :";
 	if (message.getParameter().empty() == true)
-		response += "bye\n";
+		response += "bye\r\n";
 	else
 		response += message.getParameter();
 	Command::SendBySharedChannels(response, sender, server);
@@ -20,7 +20,7 @@ void Command::QuitClientfromPoll(int fd, Server &server)
 {
 	Client *sender = server.getClients().findValue(fd);
 
-	std::string response = sender->getPrefix() + "QUIT :bye\n";
+	std::string response = sender->getPrefix() + "QUIT :bye\r\n";
 	Command::SendBySharedChannels(response, *sender, server);
 	eraseClient(fd, server);
 }
@@ -36,7 +36,7 @@ static void eraseClient(int fd, Server &server)
 	Client *clToDel = server.getClients().findValue(fd);
 	server.getClients().erase(fd);
 	delete clToDel;
-	std::cout << "CLOSE " << fd << "\n";
+	std::cout << "CLOSE " << fd << "\r\n";
 	close(fd);
 	Poll::getInstance()->DeleteClientPoll(fd);
 }

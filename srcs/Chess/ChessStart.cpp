@@ -100,7 +100,7 @@ void Chess::PrintChess(int fd)
 				board[_blackSpe[i].x][_blackSpe[i].y] = "♚";
 		}
 	}
-	std::string response = prefixmsg + "\n";
+	std::string response = prefixmsg + "\r\n";
 	send(fd, response.c_str(), response.length(), MSG_DONTWAIT | MSG_NOSIGNAL);
 	response = prefixmsg + "   A ┃ B ┃ C ┃ D ┃ E ┃ F ┃ G ┃ H\n";
 	send(fd, response.c_str(), response.length(), MSG_DONTWAIT | MSG_NOSIGNAL);
@@ -113,7 +113,7 @@ void Chess::PrintChess(int fd)
 		response = oss.str() + "┃ ";
         for (int j = 0; j < 8; j++)
             response += board[i][j] + " ┃ ";
-        response = prefixmsg + response + "\n";
+        response = prefixmsg + response + "\r\n";
 		send(fd, response.c_str(), response.length(), MSG_DONTWAIT | MSG_NOSIGNAL);
 		response = prefixmsg + "━╋━━━╋━━━╋━━━╋━━━╋━━━╋━━━╋━━━╋━━━┫\n";
 		send(fd, response.c_str(), response.length(), MSG_DONTWAIT | MSG_NOSIGNAL);
@@ -133,14 +133,14 @@ void Chess::JoinChess(int fds)
 	if (_whitefds == 0)
 	{
 		_whitefds = fds;
-		response = prefixmsg + "Joining White piece, looking for player...\n";
+		response = prefixmsg + "Joining White piece, looking for player...\r\n";
 		send(fds, response.c_str(), response.length(), MSG_DONTWAIT | MSG_NOSIGNAL);
 		return;
 	}
-	response = prefixmsg + "Joining Black piece\n";
+	response = prefixmsg + "Joining Black piece\r\n";
 	send(fds, response.c_str(), response.length(), MSG_DONTWAIT | MSG_NOSIGNAL);
 	_blackfds = fds;
-	response = prefixmsg + "Game Start!!!\n";
+	response = prefixmsg + "Game Start!!!\r\n";
 	send(_whitefds, response.c_str(), response.length(), MSG_DONTWAIT | MSG_NOSIGNAL);
 	PrintChess(_whitefds);
 	send(_blackfds, response.c_str(), response.length(), MSG_DONTWAIT | MSG_NOSIGNAL);

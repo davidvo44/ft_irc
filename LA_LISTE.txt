@@ -19,5 +19,8 @@ FAIRE BCP DE TESTS
 		white has to move king to get out of CHECK state
 		BECAUSE black Knight is dead, thus in G-1 position, so CHECKing white king lol
 
--IRC trop lent si on spam de message
--Mettre bon message d'etape
+./ircserv 1222222222222222222222 listen sur -1
+bind: Permission denied devrait return 1
+./ircserv -12 listen sur port negatif
+./ircserv a devrait pas marcher
+SECURISER ATOI (NE PAS L UTILISER SVPPPP)

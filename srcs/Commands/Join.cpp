@@ -69,7 +69,7 @@ static void write_channel(Client &client, const std::string target, Channel &cha
 	while (chan[idx])
 	{
 		int fdcl = chan[idx]->getFd();
-		response = client.getPrefix() + "JOIN " + target + "\n";
+		response = client.getPrefix() + "JOIN " + target + "\r\n";
 		send(fdcl, response.c_str(), response.length(), MSG_DONTWAIT | MSG_NOSIGNAL);
 		idx++;
 	}

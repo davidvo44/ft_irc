@@ -7,19 +7,19 @@ void Chess::Ongame(int fd, Message &message)
 	std::string response;
 	if (_turn % 2 == 0 && fd != _whitefds)
 	{
-		response = prefixmsg + "Not your turn!!!\n";
+		response = prefixmsg + "Not your turn!!!\r\n";
 		send(fd, response.c_str(), response.length(), MSG_DONTWAIT | MSG_NOSIGNAL);
 		return;
 	}
 	if (_turn % 2 == 1 && fd != _blackfds)
 	{
-		response = prefixmsg + "Not your turn!!!\n";
+		response = prefixmsg + "Not your turn!!!\r\n";
 		send(fd, response.c_str(), response.length(), MSG_DONTWAIT | MSG_NOSIGNAL);
 		return;
 	}
 	if (message.getParameter().empty() == true || message.getSuffix().empty() == true)
 	{
-		response = prefixmsg + "Need more parameter!!!\n";
+		response = prefixmsg + "Need more parameter!!!\r\n";
 		send(fd, response.c_str(), response.length(), MSG_DONTWAIT | MSG_NOSIGNAL);
 		return;
 	}
@@ -27,12 +27,12 @@ void Chess::Ongame(int fd, Message &message)
 		MovePiece(_whitePawn, _whiteSpe, message);
 	else
 		MovePiece(_blackPawn, _blackSpe, message);
-	response = prefixmsg + "Your turn\n";
+	response = prefixmsg + "Your turn\r\n";
 	if (_turn % 2 == 0)
 		send(_whitefds, response.c_str(), response.length(), MSG_DONTWAIT | MSG_NOSIGNAL);
 	else
 		send(_blackfds, response.c_str(), response.length(), MSG_DONTWAIT | MSG_NOSIGNAL);
-	response = prefixmsg + "CHESS!!\n";
+	response = prefixmsg + "CHESS!!\r\n";
 	if (isChess(_whiteSpe[7].x, _whiteSpe[7].y) == 1)
 		send(_whitefds, response.c_str(), response.length(), MSG_DONTWAIT | MSG_NOSIGNAL);
 	if (isChess(_blackSpe[7].x, _blackSpe[7].y) == 1)
@@ -89,6 +89,6 @@ void Chess::send_error(int fd)
 {
 	std::string prefixmsg = _prefix + "PRIVMSG " + _chan + " ";
 	std::string response;
-	response = prefixmsg + "Invalid Move\n";
+	response = prefixmsg + "Invalid Move\r\n";
 			send(fd, response.c_str(), response.length(), MSG_DONTWAIT | MSG_NOSIGNAL);
 }

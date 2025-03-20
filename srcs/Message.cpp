@@ -64,7 +64,7 @@ std::map<std::string, std::string>*	Message::parseJOIN(void)
 {
 	std::string channel;
 	std::string password;
-	if (_words.size() < 2)
+	if (_words.size() <= 2)
 		return NULL;
 	if (_words.size() > 3 && !_words[3].empty())
 	{

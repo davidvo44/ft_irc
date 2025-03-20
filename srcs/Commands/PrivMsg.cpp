@@ -45,7 +45,7 @@ void PrivmsgUser(Message &message, Client &sender, Server &server)
 	if (server[idx] == NULL)
 		throw ProtocolError(ERR_NOSUCHNICK, message.getTarget(), sender.getNick());
 	std::string response;
-	response = sender.getPrefix() + "PRIVMSG " + message.getTarget() + " " + message.getParameter() + "\n";
+	response = sender.getPrefix() + "PRIVMSG " + message.getTarget() + " " + message.getParameter() + "\r\n";
 	send(server[idx]->getFd(), response.c_str(), response.length(), MSG_DONTWAIT | MSG_NOSIGNAL);
 }
 
@@ -60,7 +60,7 @@ void PrivmsgChan(Message &message, Client &sender, Channel &chan)
 			idx++;
 			continue;
 		}
-		response = sender.getPrefix() + "PRIVMSG " + message.getTarget() + " " + message.getParameter() + "\n";
+		response = sender.getPrefix() + "PRIVMSG " + message.getTarget() + " " + message.getParameter() + "\r\n";
 		send(chan[idx]->getFd(), response.c_str(), response.length(), MSG_DONTWAIT | MSG_NOSIGNAL);
 		idx++;
 	}

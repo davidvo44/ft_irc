@@ -113,7 +113,10 @@ static void setOpe(Client &sender, Channel &channel, char sign, Message &message
 	if (!channel[idx])
 		throw ProtocolError(ERR_NOSUCHNICK, message.getSuffix(), sender.getNick());
 	if (sign == '+')
+	{
 		channel.getOperator().push_back(channel[idx]->getFd());
+		response = RPL_YOUROPER(channel[idx]->getName());
+	}
 	else
 	{
 		std::vector<int>::iterator it = std::find(channel.getOperator().begin(), channel.getOperator().end(), channel[idx]->getFd());
