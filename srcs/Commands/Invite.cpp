@@ -9,10 +9,19 @@ void Command::Invite(Message &message, Client &source, Server &server)
 	message.parseINVITE();
 
 	std::string targetNick = message.getParameter();
+	int idx = 0;
 
 	if (source.getLogStep() != 3)
 		throw ProtocolError(ERR_NOTREGISTERED, source.getNick(), source.getNick());
-
+	
+	while (server[idx] != NULL)
+	{
+		if (server[idx]->getNick() == targetNick)
+			break;
+		idx++;
+	}
+	if (server[idx] == NULL)
+		throw ProtocolError(ERR_NOSUCHNICK, message.getTarget(), source.getNick());
 	Channel *channel = server.getChannel().findValue(message.getTarget());
 	if (!channel)
 		throw ProtocolError(ERR_NOSUCHCHANNEL, message.getTarget(), source.getNick());
@@ -42,6 +51,8 @@ void	addTargetToChannelClientList( Message &message, Client& source, Server &ser
 		{
 			channel.addToWhitelist(server[i]->getFd());
 			response = RPL_INVITING(source.getNick(), targetNick, message.getTarget());
+			send(source.getFd(), response.c_str(), response.length(), MSG_DONTWAIT | MSG_NOSIGNAL);
+			response = INVITE(source.getNick(), channel.getName());
 			send(server[i]->getFd(), response.c_str(), response.length(), MSG_DONTWAIT | MSG_NOSIGNAL);
 			break;
 		}

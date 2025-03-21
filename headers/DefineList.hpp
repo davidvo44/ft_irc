@@ -86,6 +86,7 @@
 
 //			INVITE			//
 #define	RPL_INVITING(sender, channel, target) (":irc.com 341 " + sender + " " + channel + " " + target + "\r\n")
+#define INVITE(source, channel) ("INVITE " + source + " " + channel + "\r\n")
 #define	ERR_NEEDMOREPARAMS 461
 #define	ERR_NOSUCHCHANNEL 403
 #define	ERR_NOTONCHANNEL 442
