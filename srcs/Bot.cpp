@@ -25,8 +25,8 @@ void Bot::initBot()
     _fds.events = POLLIN;
 	_fds.revents = 0;
 	Poll::getInstance()->getPollfd().push_back(_fds);
-	std::string log = "PASS " + Server::getInstance()->getPassword() + "\n";
-	log += "NICK ChessBot\nUSER ChessBot\n";
+	std::string log = "PASS " + Server::getInstance()->getPassword() + "\r\n";
+	log += "NICK ChessBot\r\nUSER ChessBot\r\n";
 	send(_sock[1], log.c_str(), log.length(), MSG_DONTWAIT | MSG_NOSIGNAL);
 }
 
