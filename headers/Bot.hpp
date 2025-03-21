@@ -15,6 +15,7 @@ public:
 	void createChess(Channel &chan);
 	void joinChan();
 	void initBot();
+	int getFdIn();
 private:
 	std::string _name;
 	int _sock[2];

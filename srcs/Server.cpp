@@ -32,6 +32,8 @@ Server::Server(const char *argPort, const char *argPass) : _bot(NULL)
 
 Server::~Server()
 {
+	if (_bot)
+		close (_bot->getFdIn());
 	for (MutantMap<int, Client *>::iterator itCl = _Clients.begin();itCl != _Clients.end(); itCl++)
 		delete itCl->second;
 	for (MutantMap<std::string, Channel *>::iterator itCh = _Channel.begin(); itCh != _Channel.end(); itCh++)

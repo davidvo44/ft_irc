@@ -4,7 +4,7 @@
 
 - Remove removeClient in KICK and Channel (using partChannel instead)
 
-- fctnl(fd, F_SETFL, O_NONBLOCK);
+- fctnl(fd, F_SETFL, O_NONBLOCK);    Pour MacOS seulement
 	WHERE ARE UUUU ptdr
 
 
@@ -24,3 +24,13 @@ bind: Permission denied devrait return 1
 ./ircserv -12 listen sur port negatif
 ./ircserv a devrait pas marcher
 SECURISER ATOI (NE PAS L UTILISER SVPPPP)
+
+
+
+
+
+void HandleClientInput(size_t clientIndex);
+void ProcessCompleteLines(size_t clientIndex);
+void DisconnectClient(size_t clientIndex);
+bool IsClientConnected(size_t clientIndex);
+		ces fonctions ne sont pas utilise.

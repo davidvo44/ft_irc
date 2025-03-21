@@ -47,3 +47,8 @@ void Bot::joinChan()
 		}
 	}
 }
+
+int Bot::getFdIn()
+{
+	return _sock[1];
+}
