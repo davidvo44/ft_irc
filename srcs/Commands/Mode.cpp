@@ -63,8 +63,9 @@ static Channel *parseModeBuffer(Message &message, Client &sender, Server &server
 		throw ProtocolError(ERR_NOSUCHCHANNEL, message.getTarget(), sender.getNick());
 	if (channel->isOperator(sender.getFd()) == false)
 		throw ProtocolError(ERR_CHANOPRIVSNEEDED, message.getTarget(), sender.getNick());
-	if (message.getParameter()[0] == '+' && message.getParameter().find('o') != std::string::npos && \
-	message.getParameter().find('k') != std::string::npos)
+	if (message.getParameter()[0] == '-' || (message.getParameter().find_first_of("okl") == std::string::npos))
+		return (channel);
+	if ((message.getParameter().find_first_of("okl", message.getParameter().find_first_of("okl") + 1) != std::string::npos))
 		throw ProtocolError(ERR_UNKNOWNMODE, message.getParameter(), sender.getNick());
 	return (channel);
 }
