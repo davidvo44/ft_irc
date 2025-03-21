@@ -106,6 +106,7 @@
 #define	ERR_UNKNOWNMODE 472
 #define	ERR_CHANOPRIVSNEEDED 482
 #define RPL_YOUROPER(target) ("381 " + target +" :You are now an IRC operator" + "\r\n")
+#define ERR_INVALIDMODEPARAM 696
 
 
 //			CAP				//

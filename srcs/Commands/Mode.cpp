@@ -47,6 +47,9 @@ static void getMode(Client &sender, Channel &channel)
 		}
 		i++;
 	}
+	std::cout << reply.size() << std::endl;
+	if (reply.size() == 1)
+		reply = "";
 	response = RPL_CHANNELMODEIS(sender.getNick(), channel.getName(), reply);
 	send(sender.getFd(), response.c_str(), response.length(), MSG_DONTWAIT | MSG_NOSIGNAL);
 }
@@ -142,8 +145,16 @@ static void setPass(Channel &channel, char sign, Message &message)
 
 static void setLimit(Channel &channel, char sign, Message &message, Client &sender)
 {
+	std::string max = message.getSuffix();
+	std::stringstream stream(max);
+	int maxIntFormat;
+
+	if (sign == '-')
+		return;
 	if (message.getSuffix().empty() == true)
 		throw ProtocolError(ERR_NEEDMOREPARAMS, message.getCommand() + " " +message.getParameter(), sender.getNick());
-	if (sign == '+')
-		channel.setMaxclient(atoi(message.getSuffix().c_str()));
+	stream >> maxIntFormat;
+	if (stream.fail() || maxIntFormat < 1)
+		throw ProtocolError(ERR_INVALIDMODEPARAM, message.getCommand() + " " +message.getParameter(), sender.getNick());
+	channel.setMaxclient(maxIntFormat);
 }
