@@ -9,6 +9,8 @@ void Command::Part(Message& message, Client &sender, Server &server)
 		throw ProtocolError(ERR_NOTREGISTERED, sender.getNick(), sender.getNick());
 	std::string	response;
 	unsigned idx = 0;
+	if (message.getTarget().empty())
+		throw ProtocolError(ERR_NEEDMOREPARAMS, message.getCommand(), sender.getNick());
 	Channel *channel = server.getChannel().findValue(message.getTarget());
 	if (!channel)
 		throw ProtocolError(ERR_NOSUCHCHANNEL, message.getTarget(), sender.getNick());

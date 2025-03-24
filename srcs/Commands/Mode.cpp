@@ -127,7 +127,7 @@ static void setOpe(Client &sender, Channel &channel, char sign, Message &message
 		else
 			return;
 	}
-	response = sender.getPrefix() + " MODE " + channel.getName() + " " + sign + "o " + message.getSuffix();
+	response = sender.getPrefix() + " MODE " + channel.getName() + " " + sign + "o " + message.getSuffix() + "\r\n";
 	idx = 0;
 	while (channel[idx])
 	{
@@ -153,9 +153,9 @@ static void setLimit(Channel &channel, char sign, Message &message, Client &send
 	if (sign == '-')
 		return;
 	if (message.getSuffix().empty() == true)
-		throw ProtocolError(ERR_NEEDMOREPARAMS, message.getCommand() + " " +message.getParameter(), sender.getNick());
+		throw ProtocolError(ERR_NEEDMOREPARAMS, message.getCommand() + " " + message.getParameter(), sender.getNick());
 	stream >> maxIntFormat;
 	if (stream.fail() || maxIntFormat < 1)
-		throw ProtocolError(ERR_INVALIDMODEPARAM, message.getCommand() + " " +message.getParameter(), sender.getNick());
+		throw ProtocolError(ERR_INVALIDMODEPARAM, message.getTarget() + " " + message.getParameter() + " " + message.getSuffix(), sender.getNick());
 	channel.setMaxclient(maxIntFormat);
 }

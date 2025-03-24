@@ -19,8 +19,8 @@ void Command::Nick(Message& message, Client &sender, Server &server)
 		throw ProtocolError(ERR_ALREADYREGISTERED , sender.getNick(), sender.getNick());
 	if (message.getParameter().empty() == true)
 		throw ProtocolError(ERR_NONICKNAMEGIVEN, message.getParameter(), sender.getNick());
-	if (message.getParameter().find('#') == 0 ||  message.getParameter().find('&') == 0 || message.getParameter().find(';') == 0 || \
-	message.getParameter().find(" ") != std::string::npos)
+	if (message.getParameter().find('#') == 0 ||  message.getParameter().find('&') == 0 || message.getParameter().find(':') == 0 || \
+	message.getParameter().find(" ") != std::string::npos || message.getParameter().find("@") != std::string::npos)
 		throw ProtocolError(ERR_ERRONEUSNICKNAME, message.getParameter(), sender.getNick());
 	while (server[idx])
 	{

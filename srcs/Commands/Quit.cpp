@@ -11,7 +11,7 @@ void Command::QuitCommand(Server &server, Client &sender, Message &message)
 	if (message.getParameter().empty() == true)
 		response += "bye\r\n";
 	else
-		response += message.getParameter();
+		response += message.getParameter() + "\r\n";
 	Command::SendBySharedChannels(response, sender, server);
 	eraseClient(sender.getFd(), server);
 }

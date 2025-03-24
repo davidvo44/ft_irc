@@ -47,6 +47,8 @@ void	Poll::receiveMessage(int fd)
 		if (message.length() > 512)
 		{
 			_read_buffer[fd].clear();
+			message = "ERROR :Too many characters mate, go write a book maybe?..\r\n";
+			send(fd, message.c_str(), message.length(), MSG_DONTWAIT | MSG_NOSIGNAL);
 			return;
 		}
 		std::cout << RED << message << RESET << std::endl;

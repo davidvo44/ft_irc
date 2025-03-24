@@ -90,6 +90,8 @@ void ProtocolError::GetError()
 		case ERR_CHANOPRIVSNEEDED:
 			_finalMessage = code + " :You're not channel operator";
 			return;
+		case ERR_INVALIDMODEPARAM:
+			_finalMessage = code + " :Wrong parameter";
 	}
 	_finalMessage = "Unknown Code";
 }

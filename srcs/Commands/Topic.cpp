@@ -10,7 +10,7 @@ void Command::Topic(Message& message, Client &sender, Server &server)
 		throw ProtocolError(ERR_NOTREGISTERED, sender.getNick(), sender.getNick());
 
 	Channel *chan = server.getChannel().findValue(message.getTarget());
-	if (message.getTarget() == "ft_irc" && message.getTarget().empty())
+	if (message.getTarget() == "ft_irc" || message.getTarget().empty())
 		throw ProtocolError(ERR_NEEDMOREPARAMS, message.getCommand(), sender.getNick());
 	if (!chan)
 		throw ProtocolError(ERR_NOSUCHCHANNEL, message.getTarget(), sender.getNick());

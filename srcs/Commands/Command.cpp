@@ -67,7 +67,7 @@ void Command::CheckCommand(std::string str, Server &server, int fd)
 			throw ProtocolError(ERR_UNKNOWNCOMMAND, str, client->getNick());
 		}
 	}
-	catch (const std::exception &e)
+	catch (const ProtocolError &e)
 	{
 		Command::CatchErrors(client, e);
 	}
