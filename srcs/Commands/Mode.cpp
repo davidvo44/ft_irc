@@ -96,7 +96,7 @@ static int CheckChar(char c, Message &message, Client &sender, Channel &channel)
 	}
 	if (message.getParameter()[0] == '+' && ichar == 2)
 	{
-		std::cout << "PASS IS:" << message.getSuffix() << std::endl;
+		std::cout << "Password for : " << channel.getName() << " set\r\n";
 		channel.setPassword(message.getSuffix());
 	}
 	return 0;

@@ -10,6 +10,7 @@ Bot::Bot(int fdOut, int fdIn) : Client(fdOut, "localhost")
 
 Bot::~Bot()
 {
+	std::cout << "DESTRUCTOR CALLED\n";
 	close(_sock[0]);
 	close (_sock[1]);
 }

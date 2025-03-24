@@ -9,7 +9,13 @@ void Command::Nick(Message& message, Client &sender, Server &server)
 
 	if (sender.getLogStep() == 0 && server.getPassword().empty() == true)
 		sender.setLogStep(1);
-	if (sender.getLogStep()!= 1 && sender.getLogStep() != 3)
+	if (sender.getLogStep()== 0)
+	{
+		std::string response = "ERROR :You need to send PASS before NICK\r\n";
+		send(sender.getFd(), response.c_str(), response.length(), MSG_DONTWAIT | MSG_NOSIGNAL);
+		return;
+	}
+	if (sender.getLogStep()== 2)
 		throw ProtocolError(ERR_ALREADYREGISTERED , sender.getNick(), sender.getNick());
 	if (message.getParameter().empty() == true)
 		throw ProtocolError(ERR_NONICKNAMEGIVEN, message.getParameter(), sender.getNick());

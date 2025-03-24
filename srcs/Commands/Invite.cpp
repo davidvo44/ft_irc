@@ -21,7 +21,7 @@ void Command::Invite(Message &message, Client &source, Server &server)
 		idx++;
 	}
 	if (server[idx] == NULL)
-		throw ProtocolError(ERR_NOSUCHNICK, message.getTarget(), source.getNick());
+		throw ProtocolError(ERR_NOSUCHNICK, targetNick, source.getNick());
 	Channel *channel = server.getChannel().findValue(message.getTarget());
 	if (!channel)
 		throw ProtocolError(ERR_NOSUCHCHANNEL, message.getTarget(), source.getNick());

@@ -35,8 +35,6 @@ static void eraseClient(int fd, Server &server)
 	}
 	Client *clToDel = server.getClients().findValue(fd);
 	server.getClients().erase(fd);
-	delete clToDel;
-	std::cout << "CLOSE " << fd << "\r\n";
-	close(fd);
 	Poll::getInstance()->DeleteClientPoll(fd);
+	delete clToDel;
 }
